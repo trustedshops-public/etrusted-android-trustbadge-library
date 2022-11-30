@@ -48,7 +48,7 @@ class TrustbadgeRepository {
     }
 
     private fun parseBody(body: String): TrustbadgeData {
-        val responseJson = JSONObject(body)
+        val responseJson = JSONObject(body).getJSONObject("response")
         val dataJson = responseJson.getJSONObject("data")
         val shopJson = dataJson.getJSONObject("shop")
         val trustMarkJson = shopJson.getJSONObject("trustMark")
