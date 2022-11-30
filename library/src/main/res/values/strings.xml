@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tbadge_seal_description">Trustbadge Seal</string>
+    <string name="tbadge_ic_store_description">Shop information</string>
+
+    <string name="tbadge_t_score_excellent">Excellent</string>
+    <string name="tbadge_t_score_trail_shop_reviews">shop reviews</string>
+
+</resources>
