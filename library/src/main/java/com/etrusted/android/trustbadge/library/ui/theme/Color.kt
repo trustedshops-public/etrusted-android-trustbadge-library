@@ -28,13 +28,23 @@ package com.etrusted.android.trustbadge.library.ui.theme
 import androidx.compose.ui.graphics.Color
 
 val White = Color(0xFFFFFFFF)
+val Black = Color(0xFF000000)
 val TsBlue700 = Color(0xFF005AA0)
 val TsGrey50 = Color(0xFFEFEFEF)
 val TsGrey100 = Color(0xFFE5E5E5)
 val TsGrey600 = Color(0xFF666666)
+val TsGrey800 = Color(0xFF333333)
 val TsPineapple500 = Color(0xFFFFDC0F)
+
+val TsTextBaseDay = Black
+val TsTextBaseNight = White
+
 val TsBgDay = Color(0xFFF8F8F8)
 val TsBgNight = Color(0xFF1F1A24)
+
+val TsBadgeBgDay = White
+val TsBadgeBgNight = Black
+
 val TsPineappleDay = TsPineapple500
 val TsPineappleNight = TsPineapple500
 
@@ -46,6 +56,9 @@ val TsNeutralsGrey100Night = White
 
 val TsNeutralsGrey600Day = TsGrey600
 val TsNeutralsGrey600Night = White
+
+val TsNeutralsGrey800Day = TsGrey800
+val TsNeutralsGrey800Night = White
 
 val TsBlueActionDay = TsBlue700
 val TsBlueActionNight = TsBlue700

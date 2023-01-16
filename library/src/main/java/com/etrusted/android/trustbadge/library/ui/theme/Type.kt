@@ -23,8 +23,11 @@
  * SOFTWARE.
  */
 
+@file:Suppress("unused")
+
 package com.etrusted.android.trustbadge.library.ui.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
@@ -33,6 +36,33 @@ import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.sp
+
+val Typography.mobileBase: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontWeight = FontWeight(700),
+        fontSize = 14.sp,
+        lineHeight = 18.sp,
+        color = MaterialTheme.colorScheme.TsTextBase,
+    )
+
+val Typography.mobileBodySmall: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontWeight = FontWeight(400),
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        color = MaterialTheme.colorScheme.TsNeutralsGrey600,
+    )
+
+val Typography.mobileBodySmallBold: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontWeight = FontWeight(700),
+        fontSize = 12.sp,
+        lineHeight = 16.sp,
+        color = MaterialTheme.colorScheme.TsNeutralsGrey600,
+    )
 
 val Typography.mobileCaption: TextStyle
     @Composable

@@ -71,6 +71,11 @@ fun TrustbadgeTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Compos
     )
 }
 
+val ColorScheme.TsTextBase: Color
+    @Composable
+    get() = if (isLightCustom) TsTextBaseDay
+    else TsTextBaseNight
+
 val ColorScheme.TsBlueAction: Color
     @Composable
     get() = if (isLightCustom) TsBlueActionDay
@@ -80,6 +85,11 @@ val ColorScheme.TsPineapple: Color
     @Composable
     get() = if (this.isLightCustom) TsPineappleDay
     else TsPineappleNight
+
+val ColorScheme.TsBadgeBg: Color
+    @Composable
+    get() = if (this.isLightCustom) TsBadgeBgDay
+    else TsBadgeBgNight
 
 val ColorScheme.TsNeutralsGrey50: Color
     @Composable
@@ -95,3 +105,8 @@ val ColorScheme.TsNeutralsGrey600: Color
     @Composable
     get() = if (isLightCustom) TsNeutralsGrey600Day
     else TsNeutralsGrey600Night
+
+val ColorScheme.TsNeutralsGrey800: Color
+    @Composable
+    get() = if (isLightCustom) TsNeutralsGrey800Day
+    else TsNeutralsGrey800Night
