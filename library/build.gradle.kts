@@ -3,6 +3,22 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+abstract class TrustbadgeGradlePlugin: Plugin<Project> {
+
+    override fun apply(project: Project) {
+        project.task("produceConfiguration") {
+            doLast {
+                project.copy {
+                    from("${project.rootDir}/app/trustbadge-config.json")
+                    into("${project.buildDir}/generated/res/values")
+                }
+            }
+        }
+    }
+}
+
+apply<TrustbadgeGradlePlugin>()
+
 android {
     namespace = "com.etrusted.android.trustbadge.library"
     compileSdk = 33
