@@ -1,21 +1,41 @@
 package com.etrusted.android.trustbadge.library.ui.common
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
 
+
 @Composable
-fun ImageSeal(
+internal fun ImageCircleGeneric(
+    modifier: Modifier = Modifier,
+    drawableId: Int,
+    contentDescription: String,
+) {
+    Box(modifier = modifier.padding(4.dp)) {
+        Box(
+            modifier = Modifier.size(58.dp)
+        ) {
+            Image(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Center),
+                painter = painterResource(id = drawableId),
+                contentDescription = contentDescription
+            )
+        }
+    }
+}
+
+@Composable
+fun ImageCircleSeal(
     modifier: Modifier = Modifier,
 ) {
     Image(
@@ -26,29 +46,91 @@ fun ImageSeal(
 }
 
 @Composable
-fun ImageStore(
+fun ImageCircleStore(
     modifier: Modifier = Modifier,
 ) {
-    Box(
-        modifier = modifier
-            .border(0.5.dp, shape = CircleShape, color = Color.LightGray)
-            .size(58.dp)
-    ) {
-        Image(
-            modifier = Modifier.fillMaxSize()
-                .align(Alignment.Center)
-                .padding(5.dp),
-            painter = painterResource(id = R.drawable.ic_store),
-            contentDescription = stringResource(id = R.string.tbadge_ic_store_description)
-        )
-    }
+    ImageCircleGeneric(
+        modifier = modifier,
+        drawableId = R.drawable.ic_store,
+        contentDescription = stringResource(id = R.string.tbadge_ic_store_description)
+    )
+}
+
+@Composable
+fun ImageCircleBuyerProtection(
+    modifier: Modifier = Modifier,
+) {
+    ImageCircleGeneric(
+        modifier = modifier,
+        drawableId = R.drawable.ic_buyer_protection,
+        contentDescription = stringResource(id = R.string.tbadge_ic_buyer_protection_description)
+    )
+}
+
+@Composable
+fun ImageCircleFakeShop(
+    modifier: Modifier = Modifier,
+) {
+    ImageCircleGeneric(
+        modifier = modifier,
+        drawableId = R.drawable.delete_me_fake_shop_icon,
+        contentDescription = stringResource(id = R.string.tbadge_ic_store_description)
+    )
+}
+
+@Composable
+fun ImageCircleFakeProduct(
+    modifier: Modifier = Modifier,
+) {
+    ImageCircleGeneric(
+        modifier = modifier,
+        drawableId = R.drawable.delete_me_fake_product_icon,
+        contentDescription = stringResource(id = R.string.tbadge_ic_product_description)
+    )
+}
+
+@Composable
+fun ImageScrHome(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        modifier = modifier.fillMaxSize(),
+        painter = painterResource(id = R.drawable.preview_home),
+        contentScale = ContentScale.Crop,
+        contentDescription = null
+    )
+}
+
+@Composable
+fun ImageScrProduct(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        modifier = modifier.fillMaxSize(),
+        painter = painterResource(id = R.drawable.preview_product),
+        contentScale = ContentScale.Crop,
+        contentDescription = null
+    )
+}
+
+@Composable
+fun ImageScrCheckout(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        modifier = modifier.fillMaxSize(),
+        painter = painterResource(id = R.drawable.preview_checkout),
+        contentScale = ContentScale.Crop,
+        contentDescription = null
+    )
 }
 
 @Preview
 @Composable
 fun PreviewImageSeal() {
     Column {
-        ImageSeal()
-        ImageStore()
+        ImageCircleSeal()
+        ImageCircleStore()
+        ImageCircleBuyerProtection()
     }
 }
