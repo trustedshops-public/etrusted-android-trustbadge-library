@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 16.11.2022.
+ * Created by Ali Kabiri on 30.11.2022.
  * Copyright (c) 2022 Trusted Shops GmbH
  *
  * MIT License
@@ -23,34 +23,27 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadgeexample
+package com.etrusted.android.trustbadgeexample.ui.common.navbar
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.etrusted.android.trustbadge.library.TrustbadgeLibrary
-import com.etrusted.android.trustbadgeexample.ui.ExampleApp
-import com.etrusted.android.trustbadgeexample.ui.theme.TrustbadgeExampleTheme
+import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
+import com.etrusted.android.trustbadgeexample.ui.common.HalfYellowBg
 
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        TrustbadgeLibrary.configure(this)
-        setContent {
-            TrustbadgeExampleTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    ExampleApp()
-                }
-            }
-        }
+@Composable
+internal fun BottomNavBar(navController: NavHostController) {
+    Box(
+        modifier = Modifier.height(84.dp)
+    ) {
+        HalfYellowBg(modifier = Modifier.fillMaxWidth())
+        BottomNavigationRounded(
+            modifier = Modifier.align(Alignment.TopCenter),
+            navController = navController,
+        )
     }
 }
-
