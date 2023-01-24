@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <!-- Configuration strings The values are provided during build time using gradle plugin -->
-    <string name="client_id" translatable="false"/>
-    <string name="client_secret" translatable="false" />
-
     <string name="tbadge_seal_description">Trustbadge Seal</string>
     <string name="tbadge_ic_store_description">Shop information</string>
     <string name="tbadge_ic_product_description">Product information</string>
