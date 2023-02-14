@@ -7,51 +7,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
-class TrustbadgeGradlePlugin: Plugin<Project> {
-
-    private val propFileName = "trustbadge.properties"
-    private val jsonFileName = "trustbadge-config.json"
-    private val keyClientId = "client_id"
-    private val keyClientSecret = "client_secret"
-
-    private fun decodeJsonAndProduceConfigFile(
-        inputPath: String,
-        outputPath: String,
-    ) {
-
-        println("decoding json")
-        val jsonContent = File(inputPath).readText()
-        val jsonObject = JSONObject(jsonContent)
-
-        val clientId = jsonObject.get(keyClientId)
-        val clientSecret = jsonObject.get(keyClientSecret)
-
-        println("generating $propFileName file")
-        val propContent = "$keyClientId=$clientId\n$keyClientSecret=$clientSecret"
-        val outputFile = File(outputPath)
-        outputFile.createNewFile()
-        outputFile.writeText(propContent)
-    }
-
-    override fun apply(project: Project) {
-        project.tasks.register("produceConfig") {
-            doLast {
-                project.copy {
-                    from("${project.rootDir}/$jsonFileName")
-                    into("${project.projectDir}")
-                }
-                decodeJsonAndProduceConfigFile(
-                    inputPath = "${project.projectDir}/$jsonFileName",
-                    outputPath = "${project.projectDir}/$propFileName"
-                )
-            }
-        }
-    }
-}
-
-apply<TrustbadgeGradlePlugin>()
-tasks.findByName("produceConfig")?.finalizedBy(tasks.assemble)
-
 android {
     namespace = "com.etrusted.android.trustbadge.library"
     compileSdk = 33
@@ -116,21 +71,25 @@ android {
 
 internal val coreKtxVersion: String by project
 internal val activityVersion: String by project
+internal val lifecycleViewModelComposeVersion: String by project
 internal val composeVersion: String by project
 internal val composeM3Version: String by project
 internal val testJunitVersion: String by project
+internal val testGoogleTruthVersion: String by project
 internal val androidTestJunitVersion: String by project
 internal val androidTestEspressoVersion: String by project
 dependencies {
 
     implementation("androidx.core:core-ktx:$coreKtxVersion")
     implementation("androidx.activity:activity-compose:$activityVersion")
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleViewModelComposeVersion")
     implementation("androidx.compose.material3:material3:$composeM3Version")
+    implementation("androidx.compose.ui:ui:$composeVersion")
+    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
+    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
     testImplementation("junit:junit:$testJunitVersion")
+    androidTestImplementation("com.google.truth:truth:$testGoogleTruthVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidTestJunitVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$androidTestEspressoVersion")
 }
