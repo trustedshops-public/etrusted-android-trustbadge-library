@@ -56,6 +56,7 @@ fun HomeScreen() {
             modifier = Modifier.align(Alignment.BottomStart),
             badgeContext = TrustbadgeContext.SHOP_GRADE,
             tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+            channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
         )
     }
 
