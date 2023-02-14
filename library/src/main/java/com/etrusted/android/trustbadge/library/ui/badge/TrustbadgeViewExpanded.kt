@@ -44,7 +44,9 @@ import com.etrusted.android.trustbadge.library.ui.theme.*
 @Composable
 internal fun RowScope.ExpandedView(
     modifier: Modifier,
-    state: TrustbadgeState, badgeContext: TrustbadgeContext
+    state: TrustbadgeState,
+    badgeContext: TrustbadgeContext,
+    rating: Float?,
 ) {
 
     val excellentShopRevs = buildAnnotatedString {
@@ -90,11 +92,11 @@ internal fun RowScope.ExpandedView(
                     Text(modifier = Modifier.align(Alignment.CenterHorizontally),
                         text = starTitle)
                     Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                        RatingBar(rating = 4.4f)
+                        RatingBar(rating = rating ?: 0f)
                         Text(text = buildAnnotatedString {
                             withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle()
                                 .copy(color = MaterialTheme.colorScheme.TsNeutralsGrey800)) {
-                                append("4.80")
+                                append(rating?.toString() ?: "..." )
                             }
                             withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle()
                                 .copy(color = MaterialTheme.colorScheme.TsNeutralsGrey600)) {

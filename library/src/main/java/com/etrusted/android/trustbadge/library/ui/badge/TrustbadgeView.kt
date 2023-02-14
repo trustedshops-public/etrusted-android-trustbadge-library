@@ -25,7 +25,6 @@
 
 package com.etrusted.android.trustbadge.library.ui.badge
 
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.BorderStroke
@@ -36,23 +35,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ElevatedButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.etrusted.android.trustbadge.library.R
-import com.etrusted.android.trustbadge.library.repository.TrustbadgeRepository
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.SHOP_GRADE
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import com.etrusted.android.trustbadge.library.ui.theme.TsBadgeBg
 import com.etrusted.android.trustbadge.library.ui.theme.TsNeutralsGrey50
 import kotlinx.coroutines.delay
-
-private const val TAG = "TrustbadgeView"
 
 @Composable
 fun Trustbadge(
@@ -60,7 +56,10 @@ fun Trustbadge(
     state: TrustbadgeState = rememberTrustbadgeState(),
     badgeContext: TrustbadgeContext = SHOP_GRADE,
     tsid: String,
+    channelId: String,
 ) {
+    val viewModel: TrustbadgeViewModel = viewModel()
+    val trustbadgeData by viewModel.trustbadgeData.collectAsState()
 
     AnimatedVisibility(
         modifier = modifier,
@@ -81,9 +80,9 @@ fun Trustbadge(
             )
         ) {
             ExpandedView(
-                modifier = Modifier
-                    .align(Alignment.CenterVertically),
-                state = state, badgeContext = badgeContext)
+                modifier = Modifier.align(Alignment.CenterVertically),
+                state = state, badgeContext = badgeContext,
+                rating = trustbadgeData?.shop?.rating)
         }
 
         ElevatedButton(
@@ -97,20 +96,11 @@ fun Trustbadge(
         ) {
 
             RoundedView(state, badgeContext)
-
-            // delete this
-            Text(text = stringResource(id = R.string.client_id))
         }
     }
 
     LaunchedEffect(null) {
-        val repo = TrustbadgeRepository()
-        val resp = repo.getTrustbadgeData(tsid = tsid)
-        if (resp.isSuccess) {
-            Log.d(TAG, "name: ${resp.getOrNull()?.shop?.tsid}")
-        } else {
-            Log.d(TAG, "error: ${resp.exceptionOrNull()?.message}")
-        }
+        viewModel.fetchTrustbadgeData(tsid, channelId)
     }
 
     LaunchedEffect(null) {
@@ -125,6 +115,9 @@ fun Trustbadge(
 @Composable
 fun PreviewTrustbadge() {
     TrustbadgeTheme {
-        Trustbadge(tsid = "X330A2E7D449E31E467D2F53A55DDD070")
+        Trustbadge(
+            tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+            channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b",
+        )
     }
 }
