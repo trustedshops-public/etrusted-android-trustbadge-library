@@ -25,6 +25,7 @@
 
 package com.etrusted.android.trustbadge.library.model
 
+import org.json.JSONObject
 import java.util.Date
 import kotlin.math.abs
 
@@ -35,18 +36,38 @@ internal data class AuthenticationToken(
     val tokenType: String,
     val scope: String,
     val notBeforePolicy: Int,
+    val latestAuthenticationTimestamp: Date,
 
 ) {
-    private val latestAuthenticationTimestamp: Date
-        get() {
-            return Date()
-        }
 
-    val isTokenExpired: Boolean
+    internal val isTokenExpired: Boolean
         get() {
             val now = Date()
             // find the time absolute distance between now and latest authentication timestamp
             val timeElapsed = abs(latestAuthenticationTimestamp.time - now.time)
             return timeElapsed >= expiresIn
         }
+
+    internal companion object {
+        private const val KEY_ACCESS_TOKEN = "access_token"
+        private const val KEY_EXPIRES_IN = "expires_in"
+        private const val KEY_REFRESH_EXPIRES_IN = "refresh_expires_in"
+        private const val KEY_TOKEN_TYPE = "token_type"
+        private const val KEY_SCOPE = "scope"
+        private const val KEY_NOT_BEFORE_POLICY = "not-before-policy"
+
+        internal fun fromJson(body: String): AuthenticationToken {
+            val bodyJson = JSONObject(body)
+
+            return AuthenticationToken(
+                accessToken = bodyJson.getString(KEY_ACCESS_TOKEN),
+                expiresIn = bodyJson.getInt(KEY_EXPIRES_IN),
+                refreshExpiresIn = bodyJson.getInt(KEY_REFRESH_EXPIRES_IN),
+                tokenType = bodyJson.getString(KEY_TOKEN_TYPE),
+                scope = bodyJson.getString(KEY_SCOPE),
+                notBeforePolicy = bodyJson.getInt(KEY_NOT_BEFORE_POLICY),
+                latestAuthenticationTimestamp = Date(),
+            )
+        }
+    }
 }
