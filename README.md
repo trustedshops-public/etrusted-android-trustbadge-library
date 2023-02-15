@@ -1,9 +1,9 @@
 etrusted-android-trustbadge-library
 ===
+
 [![trustedshops-public](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library.svg?style=shield)](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library)
 [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/trustedshops-public/etrusted-android-trustbadge-library/blob/main/LICENSE)
 [![codecov](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library/branch/main/graph/badge.svg?token=CnT4ETYgkH)](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library)
-
 
 > This project is currently work in progress and used only be a few
 > customers. APIs might not be stable yet and might change without
