@@ -1,5 +1,4 @@
-etrusted-android-trustbadge-library
-===
+# etrusted-android-trustbadge-library
 
 [![trustedshops-public](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library.svg?style=shield)](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library)
 [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/trustedshops-public/etrusted-android-trustbadge-library/blob/main/LICENSE)
@@ -27,20 +26,20 @@ In the future, the widget will also show the the shop reviews.
 
 ## Usage
 **Requirements:**
-- Access to [eTrustd Control Center](app.etrusted.com)
+- Access to [eTrusted Control Center](https://app.etrusted.com)
 - Your `channelId` and `TSID`
 For more info about how to get `channelId` and `TSID` read the [Getting the `channelId` and `TSID`]() sections (last section in this document).
 
 You can add the Trustbadge widget to your Android project in 5 steps:
 
-1. 📝 Get your `client_id` and `client_secret`
-2. 🛠️ Copy the configuration file
-3. 🐘 Implement the dependency
-4. ⚙️ Configure the library
-5. 🚀 Show the widget
+1. [📝 Get your `client_id` and `client_secret`](#1-📝-get-your-client_id-and-client_secret)
+2. [🛠️ Copy the configuration file](#2-🛠️-copy-the-configuration-file)
+3. [🐘 Implement the dependency](#3-🐘-implement-the-dependency)
+4. [⚙️ Configure the library](#4-⚙️-configure-the-library)
+5. [🚀 Show the widget](#5-🚀-show-the-widget)
 
 ### 1. 📝 Get your `client_id` and `client_secret`
-- Navigate to [eTrustd Control Center](app.etrusted.com) on your browser
+- Navigate to [eTrustd Control Center](https://app.etrusted.com) on your browser
 - Navigate to `Settings > SSO Clients MAnagement`
 - Click on `Create new client` and follow the steps to get a set of `client_id` and `client_secret`.
 - Note them down as you will need it in the next step.
@@ -143,7 +142,7 @@ override fun onCreateView(
 For more information about Compose interoperability with the legacy system, please refer to [Android official docs for Interoperability APIs](https://developer.android.com/jetpack/compose/interop/interop-apis).
 
 ---
-Your eTrusted `account` might contain more than one `channel`. The `Trustbadge` function requires a `channelId` to dtermine which channel it should choose to load the information from your `account`.
+Your eTrusted `account` might contain more than one `channel`. The `Trustbadge` function requires a `channelId` to determine which channel it should choose to load the information from your `account`.
 Please read the section [Getting `channelId` and `TSID`]() for more information about how to get that information.
 
 The `Trustbadge` function requires a `badgeContext` to determine either showing the Trust Mark or the Shop Grade widget.
@@ -153,7 +152,7 @@ You can simply pass either of the following options to set your desired `badgeCo
 - TBD
 
 ## Getting `channelId` and `TSID`
-- You can find your `channelId` by navigating to your desired channel on [eTrustd Control Center](app.etrusted.com) in your browser. You can simply copy the `channelId` from the address bar (starts with `chl-`) for your desired channel as shown in the example image:
+- You can find your `channelId` by navigating to your desired channel on [eTrustd Control Center](https://app.etrusted.com) in your browser. You can simply copy the `channelId` from the address bar (starts with `chl-`) for your desired channel as shown in the example image:
 <img width="500" src="https://user-images.githubusercontent.com/27926337/215760110-6d00a5ec-3b0c-4458-a867-acf75d6afa8b.png">
 - If you don't have a `TSID` (usually shared during the onboarding process with Trusted Shops), You can get your `TSID` by contacting Trsuted Shop via email: members@trustedshops.com
 
