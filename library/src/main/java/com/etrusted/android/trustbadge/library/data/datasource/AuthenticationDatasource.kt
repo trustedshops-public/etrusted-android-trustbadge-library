@@ -37,7 +37,7 @@ import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
 internal class AuthenticationDatasource(
-    private val library: TrustbadgeLibrary = TrustbadgeLibrary.current,
+    private val library: TrustbadgeLibrary = TrustbadgeLibrary,
 ) {
 
     suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken> {
