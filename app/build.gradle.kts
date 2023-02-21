@@ -45,6 +45,26 @@ android {
     }
 }
 
+tasks.register("createEmptyConfigFile") {
+    doLast {
+        val configFileName = "trustbadge-config.json"
+        File("${rootDir}/$configFileName").apply {
+            if (!exists()) {
+                createNewFile()
+                writeText("""
+                    {
+                      "client_id": "",
+                      "client_secret": ""
+                    }
+                """.trimIndent())
+                println("empty config file created")
+            } else {
+                println("config file already exists")
+            }
+        }
+    }
+}
+
 val kotlinVersion: String by project
 val activityVersion: String by project
 val composeVersion: String by project
