@@ -43,18 +43,6 @@ android {
             excludes += setOf("/META-INF/{AL2.0,LGPL2.1}")
         }
     }
-    testOptions {
-        managedDevices {
-            devices {
-                maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel2api30")
-                    .apply {
-                        device = "Pixel 2"
-                        apiLevel = 30
-                        systemImageSource = "google"
-                    }
-            }
-        }
-    }
 }
 
 val kotlinVersion: String by project

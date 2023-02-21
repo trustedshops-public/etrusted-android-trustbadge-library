@@ -5,6 +5,7 @@ plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("de.trustedshops.gradle.trustbadge.config.produce") version "0.0.03"
+    id("jacoco")
 }
 
 android {
@@ -54,6 +55,8 @@ android {
         }
         named("debug") {
             createEmptyPropFileIfNoneProvided()
+            enableUnitTestCoverage = true
+            enableAndroidTestCoverage = true
 
             // load properties
             val propertiesFile = project.file(propFileName)
@@ -75,6 +78,49 @@ android {
     buildFeatures {
         compose = true
     }
+    testOptions {
+        animationsDisabled = true
+
+        managedDevices {
+            devices {
+                maybeCreate<com.android.build.api.dsl.ManagedVirtualDevice>("pixel2api30")
+                    .apply {
+                        device = "Pixel 2"
+                        apiLevel = 30
+                        systemImageSource = "google"
+                    }
+            }
+        }
+    }
+}
+
+jacoco {
+    val jacocoVersion: String by project
+    toolVersion = jacocoVersion
+    reportsDirectory.set(layout.buildDirectory.dir("mergedReportDir"))
+}
+
+tasks.register<JacocoReport>("jacocoTestReport") {
+
+    dependsOn("testDebugUnitTest")
+    dependsOn("pixel2api30DebugAndroidTest")
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+    }
+
+    val fileFilter = listOf("**/R.class", "**/R$*.class", "**/BuildConfig.*", "**/Manifest*.*", "**/*Test*.*", "android/**/*.*")
+    val debugTree = fileTree("${buildDir}/tmp/kotlin-classes/debug") { exclude(fileFilter) }
+    val mainSrc = "${project.projectDir}/src/main/java"
+
+    sourceDirectories.from(files(setOf(mainSrc)))
+    classDirectories.from(files(setOf(debugTree)))
+    executionData.from(fileTree(buildDir) { include(setOf(
+        "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
+        "outputs/managed_device_code_coverage/pixel2api30/coverage.ec"
+    ))})
 }
 
 tasks.preBuild {
