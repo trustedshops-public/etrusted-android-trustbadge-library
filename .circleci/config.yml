@@ -1,0 +1,64 @@
+version: 2.1
+orbs:
+  codecov: codecov/codecov@3.2.4
+
+commands:
+  restore_gradle_cache:
+    steps:
+      - restore_cache:
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore_cache:
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
+
+  restore_sdkmanager_cache:
+    steps:
+      - restore_cache:
+          key: v1-cmdline-tools-{{ checksum "/opt/android/sdk/cmdline-tools/latest/bin/sdkmanager" }}-{{ arch }}
+
+  save_gradle_cache:
+    steps:
+      - save_cache:
+          paths:
+            - ~/.gradle/wrapper
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
+
+  save_sdkmanager_cache:
+    steps:
+      - save_cache:
+          paths:
+            - /opt/android/sdk/cmdline-tools
+          key: v1-cmdline-tools-{{ checksum "/opt/android/sdk/cmdline-tools/latest/bin/sdkmanager" }}-{{ arch }}
+
+jobs:
+  android-test:
+    machine:
+      image: android:2022.12.1
+    resource_class: large
+    steps:
+      - checkout
+      - restore_sdkmanager_cache
+      - run: (yes || true) | sdkmanager "tools" "platform-tools" "build-tools;33.0.2" "platforms;android-33" "system-images;android-30;google_atd;x86"
+      - run: (yes || true) | sdkmanager --licenses
+      - save_sdkmanager_cache
+      - restore_gradle_cache
+      - run: ./gradlew tasks
+      - run: ./gradlew assembleDebug --stacktrace
+      - save_gradle_cache
+      - run: ./gradlew pixel2api30DebugAndroidTest --stacktrace
+      - run: ./gradlew testDebugUnitTest --stacktrace
+      - run: ./gradlew jacocoTestReport --stacktrace
+      - codecov/upload:
+          file: library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml
+      - store_test_results:
+          path: library/build/test-results/testDebugUnitTest
+      - store_artifacts:
+          path: library/build/mergedReportDir
+
+workflows:
+  workflow:
+    jobs:
+      - android-test
