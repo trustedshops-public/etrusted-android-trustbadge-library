@@ -46,6 +46,7 @@ jobs:
       - save_sdkmanager_cache
       - restore_gradle_cache
       - run: ./gradlew tasks
+      - run: ./gradlew createEmptyConfigFile
       - run: ./gradlew assembleDebug --stacktrace
       - save_gradle_cache
       - run: ./gradlew pixel2api30DebugAndroidTest --stacktrace
