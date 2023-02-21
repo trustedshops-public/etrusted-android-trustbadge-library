@@ -1,10 +1,10 @@
-import org.json.JSONObject
 import java.io.FileInputStream
 import java.util.*
 
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    id("de.trustedshops.gradle.trustbadge.config.produce") version "0.0.03"
 }
 
 android {
@@ -24,13 +24,24 @@ android {
         val keyClientId = "client_id"
         val keyClientSecret = "client_secret"
 
+        /**
+         * Create an empty properties file if non provided
+         * to avoid failing builds
+         */
+        fun createEmptyPropFileIfNoneProvided() {
+            File("${project.projectDir}/$propFileName").apply {
+                if (!exists()) {
+                    createNewFile()
+                    writeText("$keyClientId=\n$keyClientSecret=")
+                }
+            }
+        }
+
         named("release") {
+            createEmptyPropFileIfNoneProvided()
+
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
-            // create an empty config file to avoid failing builds
-            File("${project.projectDir}/$propFileName").apply {
-                createNewFile(); writeText("$keyClientId=\n$keyClientSecret=") }
 
             // load properties
             val propertiesFile = project.file(propFileName)
@@ -42,10 +53,7 @@ android {
             resValue("string", keyClientSecret, properties.getProperty(keyClientSecret))
         }
         named("debug") {
-
-            // create an empty config file to avoid failing builds
-            File("${project.projectDir}/$propFileName").apply {
-                createNewFile(); writeText("$keyClientId=\n$keyClientSecret=") }
+            createEmptyPropFileIfNoneProvided()
 
             // load properties
             val propertiesFile = project.file(propFileName)
@@ -67,6 +75,11 @@ android {
     buildFeatures {
         compose = true
     }
+}
+
+tasks.preBuild {
+    // produce the config file before assemble
+    dependsOn(tasks.produce)
 }
 
 internal val coreKtxVersion: String by project
