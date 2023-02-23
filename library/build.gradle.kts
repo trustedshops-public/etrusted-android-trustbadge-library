@@ -1,11 +1,15 @@
 import java.io.FileInputStream
 import java.util.*
 
+group = "com.etrusted.android.trustbadge"
+version = "0.0.01"
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
     id("de.trustedshops.gradle.trustbadge.config.produce") version "0.0.03"
     id("jacoco")
+    `maven-publish`
 }
 
 android {
@@ -13,8 +17,11 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        minSdk = 26
 
+        aarMetadata {
+            minCompileSdk = 26
+        }
+        minSdk = 26
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
     }
@@ -126,6 +133,53 @@ tasks.register<JacocoReport>("jacocoTestReport") {
 tasks.preBuild {
     // produce the config file before assemble
     dependsOn(tasks.produce)
+}
+
+publishing {
+    publications {
+        register<MavenPublication>("release") {
+            groupId = "io.github.trustedshops-public"
+            artifactId = "library"
+            version = "0.0.01"
+
+            afterEvaluate {
+                from(components["release"])
+            }
+
+            pom {
+                name.set("Trustbadge")
+                description.set("Show the TrustBadge on your Android app")
+                url.set("https://github.com/trustedshops-public/etrusted-android-trustbadge-library")
+                licenses {
+                    license {
+                        name.set("The MIT License")
+                        url.set("https://github.com/trustedshops-public/etrusted-android-trustbadge-library/blob/main/LICENSE")
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            // change URLs to point to your repos, e.g. http://my.org/repo
+            val releasesRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
+            val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+            url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+        }
+    }
+}
+
+/**
+ * Compress content of the publishing task and generate the output under build/distributions
+ * More info: https://developer.android.com/studio/publish-library/upload-library#local-repo
+ */
+tasks.register<Zip>("generateRepo") {
+    val publishTask = tasks.named(
+        "publishReleasePublicationToLocalRepoRepository",
+        PublishToMavenRepository::class.java)
+    from(publishTask.map { it.repository.url })
+    into("library")
+    archiveFileName.set("trustbadge-lib.zip")
 }
 
 internal val coreKtxVersion: String by project
