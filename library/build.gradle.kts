@@ -186,19 +186,6 @@ publishing {
     }
 }
 
-/**
- * Compress content of the publishing task and generate the output under build/distributions
- * More info: https://developer.android.com/studio/publish-library/upload-library#local-repo
- */
-tasks.register<Zip>("generateRepo") {
-    val publishTask = tasks.named(
-        "publishReleasePublicationToLocalRepoRepository",
-        PublishToMavenRepository::class.java)
-    from(publishTask.map { it.repository.url })
-    into("library")
-    archiveFileName.set("trustbadge-lib.zip")
-}
-
 signing {
     val signingKeyId: String? = System.getenv("GPG_KEY_NAME")
     val signingKey: String? = System.getenv("GPG_PRIVATE_KEY")
