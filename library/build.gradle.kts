@@ -1,8 +1,8 @@
 import java.io.FileInputStream
 import java.util.*
 
-group = "com.etrusted.android.trustbadge"
-version = "0.0.01"
+group = "io.github.trustedshops-public"
+version = "0.0.${System.getenv("CIRCLE_BUILD_NUMBER") ?: "01"}"
 
 plugins {
     id("com.android.library")
@@ -10,6 +10,7 @@ plugins {
     id("de.trustedshops.gradle.trustbadge.config.produce") version "0.0.03"
     id("jacoco")
     `maven-publish`
+    signing
 }
 
 android {
@@ -140,7 +141,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.trustedshops-public"
             artifactId = "library"
-            version = "0.0.01"
+            version = "0.0.${System.getenv("CIRCLE_BUILD_NUMBER") ?: "01"}"
 
             afterEvaluate {
                 from(components["release"])
@@ -156,15 +157,31 @@ publishing {
                         url.set("https://github.com/trustedshops-public/etrusted-android-trustbadge-library/blob/main/LICENSE")
                     }
                 }
+                developers {
+                    developer {
+                        id.set("superus8r")
+                        name.set("Ali Kabiri")
+                        email.set("ali.kabiri@trustedshops.de")
+                    }
+                }
+                scm {
+                    connection.set("scm:git:git://github.com/trustedshops-public/etrusted-android-trustbadge-library.git")
+                    developerConnection.set("scm:git:ssh://github.com/trustedshops-public/etrusted-android-trustbadge-library.git")
+                    url.set("https://github.com/trustedshops-public/etrusted-android-trustbadge-library")
+                }
             }
         }
     }
     repositories {
         maven {
-            // change URLs to point to your repos, e.g. http://my.org/repo
+            name = "Trustbadge"
             val releasesRepoUrl = uri("https://s01.oss.sonatype.org/content/repositories/snapshots")
             val snapshotsRepoUrl = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
             url = if (version.toString().endsWith("SNAPSHOT")) snapshotsRepoUrl else releasesRepoUrl
+            credentials {
+                username = System.getenv("OSSRH_USERNAME")
+                password = System.getenv("OSSRH_TOKEN")
+            }
         }
     }
 }
@@ -180,6 +197,14 @@ tasks.register<Zip>("generateRepo") {
     from(publishTask.map { it.repository.url })
     into("library")
     archiveFileName.set("trustbadge-lib.zip")
+}
+
+signing {
+    val signingKeyId: String? = System.getenv("GPG_KEY_NAME")
+    val signingKey: String? = System.getenv("GPG_PRIVATE_KEY")
+    val signingPassword: String? = System.getenv("GPG_PASSPHRASE")
+    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
+    sign(publishing.publications.findByName("release"))
 }
 
 internal val coreKtxVersion: String by project
