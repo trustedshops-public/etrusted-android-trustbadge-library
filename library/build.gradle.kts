@@ -136,15 +136,11 @@ tasks.preBuild {
     dependsOn(tasks.produce)
 }
 
-signing {
-    sign(publishing.publications.findByName("release"))
-}
-
 publishing {
     publications {
         register<MavenPublication>("release") {
             groupId = "io.github.trustedshops-public"
-            artifactId = "library"
+            artifactId = "etrusted-android-trustbadge-library"
             version = "0.0.${System.getenv("CIRCLE_BUILD_NUM") ?: "1"}-SNAPSHOT"
 
             afterEvaluate {
@@ -188,6 +184,10 @@ publishing {
             }
         }
     }
+}
+
+signing {
+    sign(publishing.publications.findByName("release"))
 }
 
 internal val coreKtxVersion: String by project
