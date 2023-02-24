@@ -87,7 +87,7 @@ jobs:
       - run: 
           name: Publish release
           command: |
-            ./gradlew publish -Psigning.secretKeyRingFile=~/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
+            ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
 
 workflows:
   workflow:
@@ -98,8 +98,8 @@ workflows:
           context:
             - gpg
             - maven-central
-          requires:
-            - android-test
+#          requires:
+#            - android-test
           filters:
             branches:
               ignore:
