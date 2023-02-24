@@ -191,7 +191,7 @@ signing {
     val signingKey: String? by project
     val signingPassword: String? by project
     useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-    sign(publishing.publications.findByName("release"))
+    // sign(publishing.publications.findByName("release"))
 }
 
 internal val coreKtxVersion: String by project
