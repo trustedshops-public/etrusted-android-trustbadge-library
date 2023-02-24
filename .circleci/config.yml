@@ -83,7 +83,7 @@ jobs:
           name: Publish release
           command: |
             # get first 8 characters of key id, as gradle requires the short id
-            export ORG_GRADLE_PROJECT_signingKeyId="${GPG_KEY_NAME:0:8}", 
+            export ORG_GRADLE_PROJECT_signingKeyId="${GPG_KEY_NAME:0:8}"
             export ORG_GRADLE_PROJECT_signingKey="$GPG_PRIVATE_KEY"
             export ORG_GRADLE_PROJECT_signingPassword="$GPG_PASSPHRASE"
             ./gradlew publish -PbuildRelease=true
