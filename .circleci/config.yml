@@ -100,8 +100,8 @@ workflows:
           context:
             - gpg
             - maven-central
-#          requires:
-#            - android-test
+          requires:
+            - android-test
           filters:
             branches:
               ignore:
