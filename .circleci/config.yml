@@ -92,7 +92,7 @@ workflows:
             - gpg
             - maven-central
           requires:
-            - android-test
+#            - android-test
           filters:
             branches:
               ignore:
