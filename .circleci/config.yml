@@ -91,7 +91,7 @@ workflows:
           context:
             - gpg
             - maven-central
-          requires:
+#          requires:
 #            - android-test
           filters:
             branches:
