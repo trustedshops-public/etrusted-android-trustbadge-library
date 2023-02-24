@@ -2,7 +2,7 @@ import java.io.FileInputStream
 import java.util.*
 
 group = "io.github.trustedshops-public"
-version = "0.0.${System.getenv("CIRCLE_BUILD_NUMBER") ?: "01"}"
+version = "0.0.${System.getenv("CIRCLE_BUILD_NUMBER") ?: "01"}-SNAPSHOT"
 
 plugins {
     id("com.android.library")
@@ -141,7 +141,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.trustedshops-public"
             artifactId = "library"
-            version = "0.0.${System.getenv("CIRCLE_BUILD_NUMBER") ?: "01"}"
+            version = "0.0.${System.getenv("CIRCLE_BUILD_NUMBER") ?: "01"}-SNAPSHOT"
 
             afterEvaluate {
                 from(components["release"])
