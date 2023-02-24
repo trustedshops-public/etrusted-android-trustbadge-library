@@ -136,6 +136,10 @@ tasks.preBuild {
     dependsOn(tasks.produce)
 }
 
+signing {
+    sign(publishing.publications.findByName("release"))
+}
+
 publishing {
     publications {
         register<MavenPublication>("release") {
@@ -195,6 +199,7 @@ internal val testJunitVersion: String by project
 internal val testGoogleTruthVersion: String by project
 internal val androidTestJunitVersion: String by project
 internal val androidTestEspressoVersion: String by project
+
 dependencies {
 
     implementation("androidx.core:core-ktx:$coreKtxVersion")

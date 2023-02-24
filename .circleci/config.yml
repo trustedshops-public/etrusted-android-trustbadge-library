@@ -87,9 +87,7 @@ jobs:
       - run: 
           name: Publish release
           command: |
-            # get first 8 characters of key id, as gradle requires the short id
-            export GPG_KEY_NAME_SHORT="${GPG_KEY_NAME:0:8}"
-            ./gradlew publish -Psigning.secretKeyRingFile=~/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_NAME_SHORT}" -PbuildRelease=true
+            ./gradlew publish -Psigning.secretKeyRingFile=~/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
 
 workflows:
   workflow:
