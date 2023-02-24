@@ -1,6 +1,5 @@
 version: 2.1
 orbs:
-  maven: circleci/maven@1.4.0
   codecov: codecov/codecov@3.2.4
 
 commands:
@@ -35,17 +34,19 @@ commands:
           key: v1-cmdline-tools-{{ checksum "/opt/android/sdk/cmdline-tools/latest/bin/sdkmanager" }}-{{ arch }}
 
 executors:
-  java11:
+  android-machine:
+    machine:
+      image: android:2022.12.1
+  android-docker:
     docker:
-      - image: cimg/openjdk:11.0.16
+      - image: cimg/android:2023.02
     environment:
       MAVEN_OPTS: -Xmx3512m -Djansi.force=true
       SPRING_OUTPUT_ANSI_ENABLED: always
 
 jobs:
   android-test:
-    machine:
-      image: android:2022.12.1
+    executor: android-machine
     resource_class: large
     steps:
       - checkout
@@ -69,19 +70,17 @@ jobs:
           path: library/build/mergedReportDir
 
   deploy:
-    executor: java11
+    executor: android-docker
     steps:
       - checkout
       - restore_gradle_cache
-      - maven/with_cache:
-          steps:
-            - run:
-                name: Import gpg key
-                command: |
-                  echo -e "$GPG_PRIVATE_KEY"  | gpg --import --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback
-                  gpg --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
-            - run: ./gradlew generatePomFileForReleasePublication --stacktrace
-            - run: ./gradlew publish -PbuildRelease=true
+      - run:
+          name: Import gpg key
+          command: |
+            echo -e "$GPG_PRIVATE_KEY"  | gpg --import --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback
+            gpg --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
+      - run: ./gradlew generatePomFileForReleasePublication --stacktrace
+      - run: ./gradlew publish -PbuildRelease=true
 
 workflows:
   workflow:
