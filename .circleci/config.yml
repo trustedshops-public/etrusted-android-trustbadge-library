@@ -79,14 +79,17 @@ jobs:
           command: |
             ./gradlew createEmptyConfigFile
             ./gradlew generatePomFileForReleasePublication
+      - run:
+          name: Import GPG key
+          command: |
+            echo -e "$GPG_PRIVATE_KEY" | gpg --import --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback
+            echo -e "$GPG_PRIVATE_KEY" | gpg --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
       - run: 
           name: Publish release
           command: |
             # get first 8 characters of key id, as gradle requires the short id
-            export ORG_GRADLE_PROJECT_signingKeyId="${GPG_KEY_NAME:0:8}"
-            export ORG_GRADLE_PROJECT_signingKey="$GPG_PRIVATE_KEY"
-            export ORG_GRADLE_PROJECT_signingPassword="$GPG_PASSPHRASE"
-            ./gradlew publish -PbuildRelease=true
+            export GPG_KEY_NAME_SHORT="${GPG_KEY_NAME:0:8}"
+            ./gradlew publish -Psigning.secretKeyRingFile=~/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_NAME_SHORT}" -PbuildRelease=true
 
 workflows:
   workflow:

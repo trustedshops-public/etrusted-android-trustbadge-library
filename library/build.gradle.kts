@@ -186,14 +186,6 @@ publishing {
     }
 }
 
-signing {
-    val signingKeyId: String? by project
-    val signingKey: String? by project
-    val signingPassword: String? by project
-    useInMemoryPgpKeys(signingKeyId, signingKey, signingPassword)
-    sign(publishing.publications.findByName("release"))
-}
-
 internal val coreKtxVersion: String by project
 internal val activityVersion: String by project
 internal val lifecycleViewModelComposeVersion: String by project
