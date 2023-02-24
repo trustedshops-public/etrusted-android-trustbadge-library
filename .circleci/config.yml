@@ -78,6 +78,9 @@ jobs:
           name: Import gpg key
           command: |
             echo -e "$GPG_PRIVATE_KEY"  | gpg --import --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback
+            export ORG_GRADLE_PROJECT_signingKeyId="$GPG_KEY_NAME", 
+            export ORG_GRADLE_PROJECT_signingKey="$GPG_PRIVATE_KEY"
+            export ORG_GRADLE_PROJECT_signingPassword="$GPG_PASSPHRASE"
       - run: ./gradlew createEmptyConfigFile
       - run: ./gradlew generatePomFileForReleasePublication
       - run: ./gradlew publish -PbuildRelease=true
