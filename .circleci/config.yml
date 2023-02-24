@@ -78,8 +78,8 @@ jobs:
           name: Import gpg key
           command: |
             echo -e "$GPG_PRIVATE_KEY"  | gpg --import --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback
-            gpg --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
-      - run: ./gradlew generatePomFileForReleasePublication --stacktrace
+      - run: ./gradlew createEmptyConfigFile
+      - run: ./gradlew generatePomFileForReleasePublication
       - run: ./gradlew publish -PbuildRelease=true
 
 workflows:
