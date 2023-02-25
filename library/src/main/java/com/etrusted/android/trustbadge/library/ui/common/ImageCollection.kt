@@ -68,23 +68,23 @@ fun ImageCircleBuyerProtection(
 }
 
 @Composable
-fun ImageCircleFakeShop(
+fun ImageCircleShopIcon(
     modifier: Modifier = Modifier,
 ) {
     ImageCircleGeneric(
         modifier = modifier,
-        drawableId = R.drawable.delete_me_fake_shop_icon,
+        drawableId = R.drawable.ic_store,
         contentDescription = stringResource(id = R.string.tbadge_ic_store_description)
     )
 }
 
 @Composable
-fun ImageCircleFakeProduct(
+fun ImageCircleProductIcon(
     modifier: Modifier = Modifier,
 ) {
     ImageCircleGeneric(
         modifier = modifier,
-        drawableId = R.drawable.delete_me_fake_product_icon,
+        drawableId = R.drawable.ic_store,
         contentDescription = stringResource(id = R.string.tbadge_ic_product_description)
     )
 }

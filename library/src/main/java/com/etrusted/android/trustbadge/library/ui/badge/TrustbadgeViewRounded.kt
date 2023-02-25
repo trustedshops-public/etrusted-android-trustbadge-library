@@ -35,8 +35,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.ui.common.ImageCircleBuyerProtection
-import com.etrusted.android.trustbadge.library.ui.common.ImageCircleFakeProduct
-import com.etrusted.android.trustbadge.library.ui.common.ImageCircleFakeShop
+import com.etrusted.android.trustbadge.library.ui.common.ImageCircleProductIcon
+import com.etrusted.android.trustbadge.library.ui.common.ImageCircleShopIcon
 import com.etrusted.android.trustbadge.library.ui.common.ImageCircleSeal
 
 @Composable
@@ -59,10 +59,10 @@ internal fun RowScope.RoundedView(
         ) {
             when (badgeContext) {
                 TrustbadgeContext.ShopGrade -> {
-                    ImageCircleFakeShop()
+                    ImageCircleShopIcon()
                 }
                 TrustbadgeContext.ProductGrade -> {
-                    ImageCircleFakeProduct()
+                    ImageCircleProductIcon()
                 }
                 TrustbadgeContext.BuyerProtection -> {
                     ImageCircleBuyerProtection()
