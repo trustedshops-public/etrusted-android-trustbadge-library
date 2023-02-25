@@ -25,8 +25,9 @@
 
 package com.etrusted.android.trustbadge.library.ui.badge
 
-enum class TrustbadgeContext {
-    SHOP_GRADE,
-    PRODUCT_GRADE,
-    BUYER_PROTECTION,
+sealed class TrustbadgeContext {
+    public object TrustMark: TrustbadgeContext()
+    public object ShopGrade: TrustbadgeContext()
+    internal object ProductGrade: TrustbadgeContext()
+    internal object BuyerProtection: TrustbadgeContext()
 }
