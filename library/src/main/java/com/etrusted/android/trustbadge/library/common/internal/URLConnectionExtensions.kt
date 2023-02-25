@@ -33,10 +33,11 @@ import javax.net.ssl.HttpsURLConnection
 
 internal fun HttpsURLConnection.setPostParams(params: List<Pair<String, String>>) {
     val os = this.outputStream
-    val writer = BufferedWriter(OutputStreamWriter(os, "UTF-8"))
-    writer.write(getQuery(params))
-    writer.flush()
-    writer.close()
+    BufferedWriter(OutputStreamWriter(os, "UTF-8")).use {
+        it.write(getQuery(params))
+        it.flush()
+        it.close()
+    }
     os.close()
 }
 
