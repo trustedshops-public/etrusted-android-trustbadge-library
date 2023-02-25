@@ -40,9 +40,6 @@ executors:
   android-docker:
     docker:
       - image: cimg/android:2023.02
-    environment:
-      MAVEN_OPTS: -Xmx3512m -Djansi.force=true
-      SPRING_OUTPUT_ANSI_ENABLED: always
 
 jobs:
   android-test:
@@ -51,8 +48,11 @@ jobs:
     steps:
       - checkout
       - restore_sdkmanager_cache
-      - run: (yes || true) | sdkmanager "tools" "platform-tools" "build-tools;33.0.2" "platforms;android-33" "system-images;android-30;google_atd;x86"
-      - run: (yes || true) | sdkmanager --licenses
+      - run:
+          name: Setup sdkmanager
+          command: |
+            (yes || true) | sdkmanager "tools" "platform-tools" "build-tools;33.0.2" "platforms;android-33" "system-images;android-30;google_atd;x86"
+            (yes || true) | sdkmanager --licenses
       - save_sdkmanager_cache
       - restore_gradle_cache
       - run: ./gradlew tasks
