@@ -44,7 +44,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.SHOP_GRADE
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.ShopGrade
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.TrustMark
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import com.etrusted.android.trustbadge.library.ui.theme.TsBadgeBg
 import com.etrusted.android.trustbadge.library.ui.theme.TsNeutralsGrey50
@@ -54,7 +55,7 @@ import kotlinx.coroutines.delay
 fun Trustbadge(
     modifier: Modifier = Modifier,
     state: TrustbadgeState = rememberTrustbadgeState(),
-    badgeContext: TrustbadgeContext = SHOP_GRADE,
+    badgeContext: TrustbadgeContext = ShopGrade,
     tsid: String,
     channelId: String,
 ) {
@@ -104,10 +105,14 @@ fun Trustbadge(
     }
 
     LaunchedEffect(null) {
-        delay(1000)
-        state.expand()
-        delay(3000)
-        state.retract()
+        // automatically show the expanded state only if the context is not set to TRUSTMARK
+        // The TRUSTMARK state only shows the badge in circle form
+        if (badgeContext != TrustMark) {
+            delay(1000)
+            state.expand()
+            delay(3000)
+            state.retract()
+        }
     }
 }
 
