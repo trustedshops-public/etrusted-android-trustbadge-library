@@ -71,7 +71,7 @@ internal fun RowScope.ExpandedView(
             append(stringResource(id = R.string.tbadge_t_score_trail_product_reviews))
         }
     }
-    val startPadding = if (badgeContext == TrustbadgeContext.BUYER_PROTECTION) 16.dp else 0.dp
+    val startPadding = if (badgeContext == TrustbadgeContext.BuyerProtection) 16.dp else 0.dp
     AnimatedVisibility (
         modifier = modifier.align(Alignment.CenterVertically),
         visible = state.currentState == TrustbadgeStateValue.EXPANDED
@@ -85,9 +85,9 @@ internal fun RowScope.ExpandedView(
 
             when (badgeContext) {
 
-                TrustbadgeContext.SHOP_GRADE, TrustbadgeContext.PRODUCT_GRADE -> {
+                TrustbadgeContext.ShopGrade, TrustbadgeContext.ProductGrade -> {
                     val starTitle =
-                        if (badgeContext == TrustbadgeContext.SHOP_GRADE) excellentShopRevs
+                        if (badgeContext == TrustbadgeContext.ShopGrade) excellentShopRevs
                         else excellentProductRevs
                     Text(modifier = Modifier.align(Alignment.CenterHorizontally),
                         text = starTitle)
@@ -105,7 +105,7 @@ internal fun RowScope.ExpandedView(
                         })
                     }
                 }
-                TrustbadgeContext.BUYER_PROTECTION -> {
+                TrustbadgeContext.BuyerProtection -> {
                     Text(text = stringResource(
                         id = R.string.tbadge_t_buyer_protection_independent),
                         style = MaterialTheme.typography.mobileBase)
@@ -119,6 +119,7 @@ internal fun RowScope.ExpandedView(
                         }
                     })
                 }
+                TrustbadgeContext.TrustMark -> { /* no expanded view*/ }
             }
         }
     }

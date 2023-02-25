@@ -58,15 +58,16 @@ internal fun RowScope.RoundedView(
             exit = fadeOut(),
         ) {
             when (badgeContext) {
-                TrustbadgeContext.SHOP_GRADE -> {
+                TrustbadgeContext.ShopGrade -> {
                     ImageCircleFakeShop()
                 }
-                TrustbadgeContext.PRODUCT_GRADE -> {
+                TrustbadgeContext.ProductGrade -> {
                     ImageCircleFakeProduct()
                 }
-                TrustbadgeContext.BUYER_PROTECTION -> {
+                TrustbadgeContext.BuyerProtection -> {
                     ImageCircleBuyerProtection()
                 }
+                TrustbadgeContext.TrustMark -> {}
             }
         }
     }
