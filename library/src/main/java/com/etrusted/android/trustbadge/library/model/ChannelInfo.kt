@@ -72,11 +72,12 @@ internal data class ChannelInfo(
 
 
         fun fromString(body: String): ChannelInfo {
-            val response7days = JSONObject(body).getJSONObject(KEY_7DAYS)
-            val response30days = JSONObject(body).getJSONObject(KEY_30DAYS)
-            val response90days = JSONObject(body).getJSONObject(KEY_90DAYS)
-            val response365days = JSONObject(body).getJSONObject(KEY_365DAYS)
-            val responseOverall = JSONObject(body).getJSONObject(KEY_OVERALL)
+            val bodyJson = JSONObject(body)
+            val response7days = bodyJson.getJSONObject(KEY_7DAYS)
+            val response30days = bodyJson.getJSONObject(KEY_30DAYS)
+            val response90days = bodyJson.getJSONObject(KEY_90DAYS)
+            val response365days = bodyJson.getJSONObject(KEY_365DAYS)
+            val responseOverall = bodyJson.getJSONObject(KEY_OVERALL)
 
             return ChannelInfo(
                 week = AggregateRating(
