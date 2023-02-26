@@ -67,6 +67,8 @@ jobs:
       - store_test_results:
           path: library/build/test-results/testDebugUnitTest
       - store_artifacts:
+          path: library/build/outputs/managed_device_android_test_additional_output
+      - store_artifacts:
           path: library/build/mergedReportDir
 
   deploy:
