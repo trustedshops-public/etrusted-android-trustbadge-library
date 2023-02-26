@@ -41,10 +41,11 @@ import com.etrusted.android.trustbadge.library.ui.common.ImageCircleSeal
 
 @Composable
 internal fun RowScope.RoundedView(
+    modifier: Modifier = Modifier,
     state: TrustbadgeState,
     badgeContext: TrustbadgeContext
 ) {
-    Box {
+    Box (modifier = modifier) {
         this@RoundedView.AnimatedVisibility(
             visible = state.currentState == TrustbadgeStateValue.DEFAULT,
             enter = fadeIn(),

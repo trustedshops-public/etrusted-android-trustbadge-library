@@ -210,8 +210,12 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
 
+    // test dependencies
     testImplementation("junit:junit:$testJunitVersion")
     androidTestImplementation("com.google.truth:truth:$testGoogleTruthVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidTestJunitVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$androidTestEspressoVersion")
+    // ui tests
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
 }

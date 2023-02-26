@@ -26,6 +26,7 @@
 package com.etrusted.android.trustbadge.library.extensions
 
 import android.content.Context
+import java.io.File
 
 @Throws(Exception::class)
 fun Context.readJsonFile(jsonFilePath: String) : String {
@@ -33,4 +34,24 @@ fun Context.readJsonFile(jsonFilePath: String) : String {
     val fileContents = assetInSt.bufferedReader().use { it.readText() }
     assetInSt.close()
     return fileContents
+}
+
+/**
+ * Returns a [File] with a path to additional test output directory of the emulator
+ * everything stored under this directory will be available in the build folder under:
+ * `build/outputs/managed_device_android_test_additional_output`
+ * Currently used with Gradle Managed devices.
+ */
+fun Context.getAdditionalTestOutputDir(): File {
+    return File(
+        this.externalMediaDirs.first(), "additional_test_output").apply {
+        mkdir()
+    }
+}
+
+fun Context.getScreenshotsDir(): File {
+    return File(
+        this.getAdditionalTestOutputDir(), "screenshots").apply {
+        mkdir()
+    }
 }

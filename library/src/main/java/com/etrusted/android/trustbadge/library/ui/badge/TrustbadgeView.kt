@@ -41,9 +41,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.ShopGrade
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.TrustMark
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
@@ -63,7 +65,7 @@ fun Trustbadge(
     val trustbadgeData by viewModel.trustbadgeData.collectAsState()
 
     AnimatedVisibility(
-        modifier = modifier,
+        modifier = modifier.testTag(TestTags.Trustbadge.raw),
         visible = state.currentState != TrustbadgeStateValue.INVISIBLE
     ) {
 
@@ -96,7 +98,8 @@ fun Trustbadge(
             )
         ) {
 
-            RoundedView(state, badgeContext)
+            RoundedView(modifier = Modifier.testTag(TestTags.TrustbadgeDefault.raw),
+                state = state, badgeContext = badgeContext)
         }
     }
 
