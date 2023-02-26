@@ -42,7 +42,13 @@ class TrustbadgeViewAndroidTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private val goldenName = "screenshot-trustbadge-uncertified-default"
+    /**
+     * Even using gradle managed devices might not be sufficient for having consistent screenshot,
+     * therefore, checking if the tests are running on the CI to use correct assets.
+     */
+    private val isCI = System.getenv("CI").toBoolean()
+
+    private val goldenName = "screenshot-trustbadge-uncertified-default" + if (isCI) "-ci" else ""
 
     @Test
     fun generateTrustbadgeViewScreenshots() {
