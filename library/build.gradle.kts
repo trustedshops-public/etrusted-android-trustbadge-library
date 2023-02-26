@@ -24,6 +24,7 @@ android {
         }
         minSdk = 26
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunnerArguments["CI"] = System.getenv("CI") ?: "false"
         consumerProguardFiles("consumer-rules.pro")
     }
 

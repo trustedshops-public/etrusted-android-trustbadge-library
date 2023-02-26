@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.assertScreenshotMatchesGolden
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.saveScreenshot
@@ -46,7 +47,7 @@ class TrustbadgeViewAndroidTest {
      * Even using gradle managed devices might not be sufficient for having consistent screenshot,
      * therefore, checking if the tests are running on the CI to use correct assets.
      */
-    private val isCI = System.getenv("CI").toBoolean()
+    private val isCI = InstrumentationRegistry.getArguments().getString("CI").toBoolean()
 
     private val goldenName = "screenshot-trustbadge-uncertified-default" + if (isCI) "-ci" else ""
 
