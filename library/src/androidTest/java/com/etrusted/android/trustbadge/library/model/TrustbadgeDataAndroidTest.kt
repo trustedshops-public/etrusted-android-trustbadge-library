@@ -37,7 +37,7 @@ class TrustbadgeDataAndroidTest {
 
         // arrange
         val fakeStringInJsonFile = "fakeString"
-        val jsonPath = "trustmark/trustmark_good_response.json"
+        val jsonPath = "cdn1.api.trustedshops.com/trustmark_good_response.json"
         val goodData = try {
             InstrumentationRegistry.getInstrumentation().context.readJsonFile(jsonPath)
         } catch (e: Exception) {
