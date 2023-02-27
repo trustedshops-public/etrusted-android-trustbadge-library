@@ -37,7 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.etrusted.android.trustbadge.library.ui.badge.Trustbadge
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
-import com.etrusted.android.trustbadge.library.ui.common.ImageScrProduct
+import com.etrusted.android.trustbadgeexample.ui.common.ImageScrProduct
 
 @Composable
 internal fun ProductScreen() {

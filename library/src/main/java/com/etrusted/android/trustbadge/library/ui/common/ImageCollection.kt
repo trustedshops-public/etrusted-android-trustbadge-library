@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -47,17 +46,6 @@ fun ImageCircleSeal(
 }
 
 @Composable
-fun ImageCircleStore(
-    modifier: Modifier = Modifier,
-) {
-    ImageCircleGeneric(
-        modifier = modifier,
-        drawableId = R.drawable.ic_store,
-        contentDescription = stringResource(id = R.string.tbadge_ic_store_description)
-    )
-}
-
-@Composable
 fun ImageCircleBuyerProtection(
     modifier: Modifier = Modifier,
 ) {
@@ -90,49 +78,13 @@ fun ImageCircleProductIcon(
     )
 }
 
-@Composable
-fun ImageScrHome(
-    modifier: Modifier = Modifier,
-) {
-    Image(
-        modifier = modifier.fillMaxSize(),
-        painter = painterResource(id = R.drawable.preview_home),
-        contentScale = ContentScale.Crop,
-        contentDescription = null
-    )
-}
-
-@Composable
-fun ImageScrProduct(
-    modifier: Modifier = Modifier,
-) {
-    Image(
-        modifier = modifier.fillMaxSize(),
-        painter = painterResource(id = R.drawable.preview_product),
-        contentScale = ContentScale.Crop,
-        contentDescription = null
-    )
-}
-
-@Composable
-fun ImageScrCheckout(
-    modifier: Modifier = Modifier,
-) {
-    Image(
-        modifier = modifier.fillMaxSize(),
-        painter = painterResource(id = R.drawable.preview_checkout),
-        contentScale = ContentScale.Crop,
-        contentDescription = null
-    )
-}
-
 @ExcludeFromJacocoGeneratedReport
 @Preview
 @Composable
 fun PreviewImageSeal() {
     Column {
         ImageCircleSeal()
-        ImageCircleStore()
+        ImageCircleShopIcon()
         ImageCircleBuyerProtection()
     }
 }

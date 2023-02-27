@@ -1,6 +1,6 @@
 /*
- * Created by Ali Kabiri on 29.11.2022.
- * Copyright (c) 2022 Trusted Shops GmbH
+ * Created by Ali Kabiri on 27.2.2023.
+ * Copyright (c) 2023 Trusted Shops GmbH
  *
  * MIT License
  *
@@ -23,47 +23,48 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadgeexample.ui.home
+package com.etrusted.android.trustbadgeexample.ui.common
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.etrusted.android.trustbadge.library.ui.badge.Trustbadge
-import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
-import com.etrusted.android.trustbadgeexample.ui.common.ImageScrHome
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
+import com.etrusted.android.trustbadgeexample.R
 
 @Composable
-fun HomeScreen() {
-
-    Box(modifier = Modifier.fillMaxSize()) {
-
-        Column(
-            Modifier
-                .verticalScroll(rememberScrollState())
-                .fillMaxWidth()
-        ) {
-            ImageScrHome()
-        }
-
-        Trustbadge(
-            modifier = Modifier.align(Alignment.BottomStart),
-            badgeContext = TrustbadgeContext.ShopGrade,
-            tsid = "X330A2E7D449E31E467D2F53A55DDD070",
-            channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
-        )
-    }
-
+fun ImageScrHome(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        modifier = modifier.fillMaxSize(),
+        painter = painterResource(id = R.drawable.preview_home),
+        contentScale = ContentScale.Crop,
+        contentDescription = null
+    )
 }
 
 @Composable
-@Preview
-fun PreviewHomeScreen() {
-    HomeScreen()
+fun ImageScrProduct(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        modifier = modifier.fillMaxSize(),
+        painter = painterResource(id = R.drawable.preview_product),
+        contentScale = ContentScale.Crop,
+        contentDescription = null
+    )
+}
+
+@Composable
+fun ImageScrCheckout(
+    modifier: Modifier = Modifier,
+) {
+    Image(
+        modifier = modifier.fillMaxSize(),
+        painter = painterResource(id = R.drawable.preview_checkout),
+        contentScale = ContentScale.Crop,
+        contentDescription = null
+    )
 }
