@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="tbadge_seal_description">Trustbadge Seal</string>
+    <string name="tbadge_ic_store_description">Shop information</string>
+    <string name="tbadge_ic_product_description">Product information</string>
+    <string name="tbadge_ic_buyer_protection_description">Trusted Shops buyer protection</string>
+
+    <string name="tbadge_t_score_excellent">Excellent</string>
+    <string name="tbadge_t_score_trail_shop_reviews">shop reviews</string>
+    <string name="tbadge_t_score_trail_product_reviews">Product reviews</string>
+
+    <string name="tbadge_t_buyer_protection_independent">Independent Guarantee</string>
+    <string name="tbadge_t_buyer_protection_your_purchase">Your purchase is protected up to</string>
+    <string name="tbadge_t_buyer_protection_your_purchase_amount_2500">€2,500</string>
+
+</resources>
