@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 26.2.2023.
+ * Created by Ali Kabiri on 27.2.2023.
  * Copyright (c) 2023 Trusted Shops GmbH
  *
  * MIT License
@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library
+package com.etrusted.android.trustbadge.library.common.internal
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -33,7 +33,6 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.captureToImage
 import androidx.test.platform.app.InstrumentationRegistry
-import com.etrusted.android.trustbadge.library.common.internal.getScreenshotsDir
 import java.io.FileOutputStream
 
 /**

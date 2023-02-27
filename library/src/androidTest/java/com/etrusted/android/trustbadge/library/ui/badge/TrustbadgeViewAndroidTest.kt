@@ -31,9 +31,9 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.platform.app.InstrumentationRegistry
-import com.etrusted.android.trustbadge.library.assertScreenshotMatchesGolden
+import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
-import com.etrusted.android.trustbadge.library.saveScreenshot
+import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import org.junit.Rule
 import org.junit.Test
