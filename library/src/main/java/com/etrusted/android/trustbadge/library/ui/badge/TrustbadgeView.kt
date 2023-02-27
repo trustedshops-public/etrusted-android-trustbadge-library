@@ -45,6 +45,7 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.ShopGrade
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.TrustMark
@@ -119,6 +120,7 @@ fun Trustbadge(
     }
 }
 
+@ExcludeFromJacocoGeneratedReport
 @Preview
 @Composable
 fun PreviewTrustbadge() {
