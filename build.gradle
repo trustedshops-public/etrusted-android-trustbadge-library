@@ -1,7 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = "1.7.10"
-        gradleVersion = "7.4.1"
+        gradleVersion = "8.0.1"
         jacocoVersion = "0.8.8"
 
         activityVersion = "1.6.1"
