@@ -28,30 +28,19 @@ package com.etrusted.android.trustbadge.library.ui.badge
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
-import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedDefault
-import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
+import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
-import org.junit.Rule
 import org.junit.Test
 
-class TrustbadgeUncertifiedDefaultAndroidTest {
+internal class TrustbadgeUncertifiedDefaultAndroidTest: TrustbadgeAndroidTest() {
 
-    @get:Rule
-    val composeTestRule = createComposeRule()
+    override val goldenName = GoldenTrustbadgeUncertifiedDefault.raw + if (isCI) "-ci" else ""
 
-    /**
-     * Even using gradle managed devices might not be sufficient for having consistent screenshot,
-     * therefore, checking if the tests are running on the CI to use correct assets.
-     */
-    private val isCI = InstrumentationRegistry.getArguments().getString("CI").toBoolean()
-    private val goldenName = GoldenTrustbadgeUncertifiedDefault.raw + if (isCI) "-ci" else ""
-
-    private fun showContent() {
+    override fun showContent() {
         composeTestRule.setContent {
             TrustbadgeTheme {
                 Column {
@@ -67,7 +56,7 @@ class TrustbadgeUncertifiedDefaultAndroidTest {
     }
 
     @Test
-    fun generateTrustbadgeViewScreenshots() {
+    override fun generateScreenshot() {
 
         // arrange
         showContent()
@@ -83,7 +72,7 @@ class TrustbadgeUncertifiedDefaultAndroidTest {
     }
 
     @Test
-    fun testTrustbadgeViewUncertifiedDefaultShownCorrectly() {
+    override fun testScreenshotMatchesGolden() {
 
         // arrange
         showContent()
