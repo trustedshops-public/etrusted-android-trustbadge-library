@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 30.1.2023.
+ * Created by Ali Kabiri on 27.2.2023.
  * Copyright (c) 2023 Trusted Shops GmbH
  *
  * MIT License
@@ -23,13 +23,13 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.extensions
+package com.etrusted.android.trustbadge.library.common.internal
 
 import android.content.Context
 import java.io.File
 
 @Throws(Exception::class)
-fun Context.readJsonFile(jsonFilePath: String) : String {
+internal fun Context.readJsonFile(jsonFilePath: String) : String {
     val assetInSt = this.assets.open(jsonFilePath)
     val fileContents = assetInSt.bufferedReader().use { it.readText() }
     assetInSt.close()
@@ -42,14 +42,15 @@ fun Context.readJsonFile(jsonFilePath: String) : String {
  * `build/outputs/managed_device_android_test_additional_output`
  * Currently used with Gradle Managed devices.
  */
-fun Context.getAdditionalTestOutputDir(): File {
+internal fun Context.getAdditionalTestOutputDir(): File {
+    @Suppress("DEPRECATION")
     return File(
         this.externalMediaDirs.first(), "additional_test_output").apply {
         mkdir()
     }
 }
 
-fun Context.getScreenshotsDir(): File {
+internal fun Context.getScreenshotsDir(): File {
     return File(
         this.getAdditionalTestOutputDir(), "screenshots").apply {
         mkdir()

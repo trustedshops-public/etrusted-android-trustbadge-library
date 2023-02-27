@@ -33,8 +33,7 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.SemanticsNodeInteraction
 import androidx.compose.ui.test.captureToImage
 import androidx.test.platform.app.InstrumentationRegistry
-import com.etrusted.android.trustbadge.library.extensions.getScreenshotsDir
-import java.io.File
+import com.etrusted.android.trustbadge.library.common.internal.getScreenshotsDir
 import java.io.FileOutputStream
 
 /**

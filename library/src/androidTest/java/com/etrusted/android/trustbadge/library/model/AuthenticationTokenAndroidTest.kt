@@ -26,7 +26,7 @@
 package com.etrusted.android.trustbadge.library.model
 
 import androidx.test.platform.app.InstrumentationRegistry
-import com.etrusted.android.trustbadge.library.extensions.readJsonFile
+import com.etrusted.android.trustbadge.library.common.internal.readJsonFile
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
