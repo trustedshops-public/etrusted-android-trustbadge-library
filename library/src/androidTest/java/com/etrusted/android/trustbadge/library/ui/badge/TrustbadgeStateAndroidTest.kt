@@ -32,7 +32,6 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Rule
 import org.junit.Test
 
@@ -40,13 +39,10 @@ import org.junit.Test
  * Start the test in expanded state.
  * Make sure calling hide() on the state retracts the widget to hide it.
  */
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class TrustbadgeStateAndroidTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
-
-    private val currentState = MutableStateFlow<TrustbadgeStateValue?>(null)
 
     private fun showContent() {
 
@@ -76,8 +72,7 @@ internal class TrustbadgeStateAndroidTest {
 
         // arrange
         showContent()
-        composeTestRule.waitForIdle()
-
+        composeTestRule.waitForIdle() // wait for hide
 
         // act
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
