@@ -137,6 +137,23 @@ tasks.preBuild {
     dependsOn(tasks.produce)
 }
 
+
+tasks.register("prepareGeneratingFreshGolden") {
+    android.defaultConfig.testInstrumentationRunnerArguments["GENERATE_FRESH_GOLDEN"]="true"
+}
+tasks.register<Copy>("copyFreshGoldenToAssets") {
+    println("copying screenshots")
+    from(layout.buildDirectory.dir("outputs/managed_device_android_test_additional_output/pixel2api30/screenshots"))
+    include("*.png")
+    into(layout.projectDirectory.dir("src/androidTest/assets/screenshots"))
+}
+tasks.register("generateFreshGolden") {
+    dependsOn(tasks.clean)
+    dependsOn(tasks.findByName("prepareGeneratingFreshGolden"))
+    dependsOn(tasks.findByName("pixel2api30DebugAndroidTest"))
+    finalizedBy(tasks.findByName("copyFreshGoldenToAssets"))
+}
+
 publishing {
     publications {
         register<MavenPublication>("release") {
