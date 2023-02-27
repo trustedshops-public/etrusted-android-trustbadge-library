@@ -35,8 +35,6 @@ internal fun HttpsURLConnection.setPostParams(params: List<Pair<String, String>>
     val os = this.outputStream
     BufferedWriter(OutputStreamWriter(os, "UTF-8")).use {
         it.write(getQuery(params))
-        it.flush()
-        it.close()
     }
     os.close()
 }
