@@ -34,4 +34,6 @@ package com.etrusted.android.trustbadge.library.common.internal
 internal sealed class GoldenNames(val raw: String) {
     object GoldenTrustbadgeUncertifiedDefault: GoldenNames("screenshot-trustbadge-uncertified-default")
     object GoldenTrustbadgeUncertifiedExpanded: GoldenNames("screenshot-trustbadge-uncertified-expanded")
+    object GoldenTrustbadgeUncertifiedExpandedBuyerProtection: GoldenNames("screenshot-trustbadge-uncertified-expanded-buyer-protection")
+    object GoldenTrustbadgeUncertifiedExpandedProductGrade: GoldenNames("screenshot-trustbadge-uncertified-expanded-product-grade")
 }

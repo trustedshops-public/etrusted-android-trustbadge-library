@@ -29,16 +29,16 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
-import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedExpandedBuyerProtection
+import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedExpandedProductGrade
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import org.junit.Test
 
-internal class TrustbadgeUncertifiedExpandedBuyerProtectionAndroidTest: TrustbadgeAndroidTest() {
+internal class TrustbadgeUncertifiedExpandedProductGradeAndroidTest: TrustbadgeAndroidTest() {
 
-    override val goldenName = GoldenTrustbadgeUncertifiedExpandedBuyerProtection.raw + if (isCI) "-ci" else ""
+    override val goldenName = GoldenTrustbadgeUncertifiedExpandedProductGrade.raw + if (isCI) "-ci" else ""
 
     override fun showContent() {
         composeTestRule.setContent {
@@ -49,7 +49,7 @@ internal class TrustbadgeUncertifiedExpandedBuyerProtectionAndroidTest: Trustbad
                 Column {
                     Trustbadge(
                         state = state,
-                        badgeContext = TrustbadgeContext.BuyerProtection,
+                        badgeContext = TrustbadgeContext.ProductGrade,
                         tsid = "X330A2E7D449E31E467D2F53A55DDD070",
                         channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
                     )
