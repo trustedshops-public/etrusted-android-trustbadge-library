@@ -32,5 +32,6 @@ package com.etrusted.android.trustbadge.library.common.internal
  *  @param raw the file name of an expected screenshot
  */
 internal sealed class GoldenNames(val raw: String) {
-    object GoldenTrustbadgeDefaultUncertified: GoldenNames("screenshot-trustbadge-uncertified-default")
+    object GoldenTrustbadgeUncertifiedDefault: GoldenNames("screenshot-trustbadge-uncertified-default")
+    object GoldenTrustbadgeUncertifiedExpanded: GoldenNames("screenshot-trustbadge-uncertified-expanded")
 }

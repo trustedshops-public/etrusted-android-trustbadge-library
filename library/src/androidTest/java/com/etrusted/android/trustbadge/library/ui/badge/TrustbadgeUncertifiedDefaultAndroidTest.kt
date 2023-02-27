@@ -31,7 +31,7 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.test.platform.app.InstrumentationRegistry
-import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeDefaultUncertified
+import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedDefault
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
@@ -39,7 +39,7 @@ import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import org.junit.Rule
 import org.junit.Test
 
-class TrustbadgeDefaultUncertifiedAndroidTest {
+class TrustbadgeUncertifiedDefaultAndroidTest {
 
     @get:Rule
     val composeTestRule = createComposeRule()
@@ -49,14 +49,9 @@ class TrustbadgeDefaultUncertifiedAndroidTest {
      * therefore, checking if the tests are running on the CI to use correct assets.
      */
     private val isCI = InstrumentationRegistry.getArguments().getString("CI").toBoolean()
-    private val goldenName = GoldenTrustbadgeDefaultUncertified.raw + if (isCI) "-ci" else ""
+    private val goldenName = GoldenTrustbadgeUncertifiedDefault.raw + if (isCI) "-ci" else ""
 
-    @Test
-    fun generateTrustbadgeViewScreenshots() {
-
-        // arrange
-
-        // act
+    private fun showContent() {
         composeTestRule.setContent {
             TrustbadgeTheme {
                 Column {
@@ -69,6 +64,15 @@ class TrustbadgeDefaultUncertifiedAndroidTest {
                 }
             }
         }
+    }
+
+    @Test
+    fun generateTrustbadgeViewScreenshots() {
+
+        // arrange
+        showContent()
+
+        // act
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
         val bmp = sut.captureToImage().asAndroidBitmap()
         saveScreenshot(goldenName, bmp)
@@ -81,19 +85,10 @@ class TrustbadgeDefaultUncertifiedAndroidTest {
     @Test
     fun testTrustbadgeViewUncertifiedDefaultShownCorrectly() {
 
-        composeTestRule.setContent {
-            TrustbadgeTheme {
-                Column {
-                    Trustbadge(
-                        state = rememberTrustbadgeState(),
-                        badgeContext = TrustbadgeContext.TrustMark,
-                        tsid = "X330A2E7D449E31E467D2F53A55DDD070",
-                        channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
-                    )
-                }
-            }
-        }
+        // arrange
+        showContent()
 
+        // act
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
 
         // assert
