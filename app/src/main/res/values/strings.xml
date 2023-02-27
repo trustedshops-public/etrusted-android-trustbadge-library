@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Trustbadge Example</string>
+
+    <!-- bottom navigation -->
+    <string name="nav_t_home">Home</string>
+    <string name="nav_t_products">Products</string>
+    <string name="nav_t_checkout">Checkout</string>
+    <string name="nav_t_profile">Profile</string>
 </resources>

@@ -1,0 +1,109 @@
+version: 2.1
+orbs:
+  codecov: codecov/codecov@3.2.4
+
+commands:
+  restore_gradle_cache:
+    steps:
+      - restore_cache:
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore_cache:
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
+
+  restore_sdkmanager_cache:
+    steps:
+      - restore_cache:
+          key: v1-cmdline-tools-{{ checksum "/opt/android/sdk/cmdline-tools/latest/bin/sdkmanager" }}-{{ arch }}
+
+  save_gradle_cache:
+    steps:
+      - save_cache:
+          paths:
+            - ~/.gradle/wrapper
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "build.gradle" }}
+
+  save_sdkmanager_cache:
+    steps:
+      - save_cache:
+          paths:
+            - /opt/android/sdk/cmdline-tools
+          key: v1-cmdline-tools-{{ checksum "/opt/android/sdk/cmdline-tools/latest/bin/sdkmanager" }}-{{ arch }}
+
+executors:
+  android-machine:
+    machine:
+      image: android:2022.12.1
+  android-docker:
+    docker:
+      - image: cimg/android:2023.02
+
+jobs:
+  android-test:
+    executor: android-machine
+    resource_class: large
+    steps:
+      - checkout
+      - restore_sdkmanager_cache
+      - run:
+          name: Setup sdkmanager
+          command: |
+            (yes || true) | sdkmanager "tools" "platform-tools" "build-tools;33.0.2" "platforms;android-33" "system-images;android-30;google_atd;x86"
+            (yes || true) | sdkmanager --licenses
+      - save_sdkmanager_cache
+      - restore_gradle_cache
+      - run: ./gradlew tasks
+      - run: ./gradlew createEmptyConfigFile
+      - run: ./gradlew assembleDebug --stacktrace
+      - save_gradle_cache
+      - run: export CI=true
+      - run: ./gradlew pixel2api30DebugAndroidTest --stacktrace
+      - run: ./gradlew testDebugUnitTest --stacktrace
+      - run: ./gradlew jacocoTestReport --stacktrace
+      - codecov/upload:
+          file: library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml
+      - store_test_results:
+          path: library/build/test-results/testDebugUnitTest
+      - store_artifacts:
+          path: library/build/outputs/managed_device_android_test_additional_output
+      - store_artifacts:
+          path: library/build/mergedReportDir
+
+  deploy:
+    executor: android-docker
+    steps:
+      - checkout
+      - restore_gradle_cache
+      - run:
+          name: Prepare for release
+          command: |
+            ./gradlew createEmptyConfigFile
+            ./gradlew generatePomFileForReleasePublication
+      - run:
+          name: Import GPG key
+          command: |
+            echo -e "$GPG_PRIVATE_KEY" | gpg --import --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback
+            echo -e "$GPG_PRIVATE_KEY" | gpg --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
+      - run: 
+          name: Publish release
+          command: |
+            ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
+
+workflows:
+  workflow:
+    jobs:
+      - android-test
+      - deploy:
+          name: deploy-snapshot
+          context:
+            - gpg
+            - maven-central
+          requires:
+            - android-test
+          filters:
+            branches:
+              ignore:
+                - main
