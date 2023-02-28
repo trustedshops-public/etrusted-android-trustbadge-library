@@ -65,6 +65,22 @@ tasks.register("createEmptyConfigFile") {
     }
 }
 
+tasks.register("generateAppDistKey") {
+    doLast {
+        val jsonFileName = "app-dist-key.json"
+        val fileContent = System.getenv("GOOGLE_APP_DIST_FASTLANE_SERVICE_ACCOUNT")
+        File(rootDir, jsonFileName).apply {
+            if (!exists()) {
+                createNewFile()
+                writeText(fileContent)
+                println("Firebase AppDistribution key generated")
+            } else {
+                println("Firebase AppDistribution key already exists")
+            }
+        }
+    }
+}
+
 val kotlinVersion: String by project
 val activityVersion: String by project
 val composeVersion: String by project
