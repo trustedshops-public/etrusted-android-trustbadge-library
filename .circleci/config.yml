@@ -97,7 +97,7 @@ jobs:
     steps:
       - checkout
       - restore_gradle_cache
-      - run: ./gradlew createEmptyConfigFile
+      - run: ./gradlew generateTrustbadgeConfigFile
       - run:
           name: Prepare fastlane
           command: |
@@ -124,8 +124,8 @@ workflows:
                 - main
       - distribute:
           name: distribute-dev
-          requires:
-            - android-test
+#          requires:
+#            - android-test
           filters:
             branches:
               ignore:

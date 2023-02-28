@@ -65,6 +65,22 @@ tasks.register("createEmptyConfigFile") {
     }
 }
 
+tasks.register("generateTrustbadgeConfigFile") {
+    doLast {
+        val configFileName = "trustbadge-config.json"
+        File("${rootDir}/$configFileName").apply {
+            if (!exists()) {
+                createNewFile()
+                val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG")
+                writeText(configContent)
+                println("empty config file created")
+            } else {
+                println("config file already exists")
+            }
+        }
+    }
+}
+
 tasks.register("generateAppDistKey") {
     doLast {
         val jsonFileName = "app-dist-key.json"
