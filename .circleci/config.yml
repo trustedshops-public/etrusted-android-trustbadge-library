@@ -97,11 +97,12 @@ jobs:
     steps:
       - checkout
       - restore_gradle_cache
+      - run: ./gradlew createEmptyConfigFile
       - run:
-          name: Prepare for app distribution
+          name: Prepare fastlane
           command: |
-            ./gradlew createEmptyConfigFile
             ./gradlew generateAppDistKey
+            sudo bundle update
       - run: bundle exec fastlane distDev
 
 workflows:
@@ -119,3 +120,4 @@ workflows:
             branches:
               ignore:
                 - main
+      - distribute-dev

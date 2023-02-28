@@ -25,7 +25,7 @@ platform :android do
   lane :distDev do
     gradle(task: "clean assembleDebug")
     firebase_app_distribution(
-        service_credentials_file: ENV['GOOGLE_APPLICATION_CREDENTIALS'],
+        service_credentials_file: ENV['APP_DIST_SERVICE_ACCOUNT_PATH'],
         app: "1:849831422549:android:238ca47c17a75a8b5a02dc",
         groups: "admins",
         release_notes: "",
