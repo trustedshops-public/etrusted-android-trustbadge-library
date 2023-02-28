@@ -92,7 +92,7 @@ jobs:
           command: |
             ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
 
-  distribute-dev:
+  distribute:
     executor: android-docker
     steps:
       - checkout
@@ -120,4 +120,11 @@ workflows:
             branches:
               ignore:
                 - main
-      - distribute-dev
+      - distribute:
+          name: distribute-dev
+          requires:
+            - android-test
+          filters:
+            branches:
+              ignore:
+                - main
