@@ -12,7 +12,7 @@ android {
         minSdk = 26
         targetSdk = 33
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0.${System.getenv("CIRCLE_BUILD_NUM") ?: 0}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -69,14 +69,10 @@ tasks.register("generateTrustbadgeConfigFile") {
     doLast {
         val configFileName = "trustbadge-config.json"
         File("${rootDir}/$configFileName").apply {
-            if (!exists()) {
-                createNewFile()
-                val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG")
-                writeText(configContent)
-                println("empty config file created")
-            } else {
-                println("config file already exists")
-            }
+            createNewFile()
+            val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG")
+            writeText(configContent)
+            println("empty config file created")
         }
     }
 }

@@ -32,3 +32,4 @@ google-services.json
 *.hprof
 app/config.json
 fastlane/report.xml
+app-dist-key.json
