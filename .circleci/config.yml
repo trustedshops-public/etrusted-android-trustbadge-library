@@ -92,6 +92,18 @@ jobs:
           command: |
             ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
 
+  distribute-dev:
+    executor: android-docker
+    steps:
+      - checkout
+      - restore_gradle_cache
+      - run:
+          name: Prepare for app distribution
+          command: |
+            ./gradlew createEmptyConfigFile
+            ./gradlew generateAppDistKey
+      - run: bundle exec fastlane distDev
+
 workflows:
   workflow:
     jobs:
