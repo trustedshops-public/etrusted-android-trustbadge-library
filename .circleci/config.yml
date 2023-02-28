@@ -103,7 +103,9 @@ jobs:
           command: |
             ./gradlew generateAppDistKey
             sudo bundle update
-      - run: bundle exec fastlane distDev
+      - run:
+          name: Distribute to Firebase AppTester
+          command: bundle exec fastlane distDev
 
 workflows:
   workflow:
