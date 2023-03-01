@@ -96,19 +96,18 @@ jobs:
     executor: android-docker
     steps:
       - checkout
-      - restore_gradle_cache
+#      - restore_gradle_cache
+      - run:
+          name: Prepare dependencies
+          command: |
+            ./gradlew generateTrustbadgeConfigFile
+            ./gradlew generateAppDistKey
+            sudo bundle update
       - run:
           name: Distribute to Firebase AppTester
           command: |
-            ./gradlew tasks
-            ./gradlew generateTrustbadgeConfigFile --stacktrace
-            wc -c trustbadge-config.json
-            ./gradlew generateAppDistKey
-            sudo bundle update
+            ./gradlew clean
             bundle exec fastlane distDev
-#      - run:
-#          name: Distribute to Firebase AppTester
-#          command: bundle exec fastlane distDev
 
 workflows:
   workflow:

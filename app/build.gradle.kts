@@ -11,7 +11,7 @@ android {
         applicationId = "com.etrusted.android.trustbadgeexample"
         minSdk = 26
         targetSdk = 33
-        versionCode = System.getenv("CIRCLE_BUILD_NUM").toIntOrNull() ?: 1
+        versionCode = System.getenv("CIRCLE_BUILD_NUM")?.toIntOrNull() ?: 1
         versionName = "1.0.${System.getenv("CIRCLE_BUILD_NUM") ?: 0}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
@@ -72,7 +72,7 @@ tasks.register("generateTrustbadgeConfigFile") {
             createNewFile()
             val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG")
             writeText(configContent)
-            println("empty config file created")
+            println("config file created")
         }
     }
 }
