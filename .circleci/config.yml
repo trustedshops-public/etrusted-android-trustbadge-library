@@ -96,22 +96,18 @@ jobs:
     executor: android-docker
     steps:
       - checkout
-#      - restore_gradle_cache
-      - run: ./gradlew clean
-      - run: ./gradlew generateAppDistKey
-      - run: ./gradlew generateTrustbadgeConfigFile
-      - run: ./gradlew assembleDebug
-      - store_artifacts:
-          path: /home/circleci/project/app/build/outputs/apk/debug/app-debug.apk
-          destination: gradle
+      - restore_gradle_cache
       - run:
-          name: Distribute to Firebase AppTester
+          name: Prepare Fastlane
           command: |
             sudo bundle update
-            bundle exec fastlane distDev
+            ./gradlew assembleDebug
+      - run:
+          name: Distribute to Firebase AppTester
+          command: bundle exec fastlane distDev
       - store_artifacts:
           path: /home/circleci/project/app/build/outputs/apk/debug/app-debug.apk
-          destination: fastlane
+          destination: fastlane-output-debug
 
 workflows:
   workflow:
