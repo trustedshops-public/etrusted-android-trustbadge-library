@@ -97,11 +97,21 @@ jobs:
     steps:
       - checkout
 #      - restore_gradle_cache
+      - run: ./gradlew clean
+      - run: ./gradlew generateAppDistKey
+      - run: ./gradlew generateTrustbadgeConfigFile
+      - run: ./gradlew assembleDebug
+      - store_artifacts:
+          path: /home/circleci/project/app/build/outputs/apk/debug/app-debug.apk
+          destination: gradle
       - run:
           name: Distribute to Firebase AppTester
           command: |
             sudo bundle update
             bundle exec fastlane distDev
+      - store_artifacts:
+          path: /home/circleci/project/app/build/outputs/apk/debug/app-debug.apk
+          destination: fastlane
 
 workflows:
   workflow:
