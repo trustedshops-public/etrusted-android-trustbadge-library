@@ -101,7 +101,7 @@ jobs:
           name: Distribute to Firebase AppTester
           command: |
             sudo bundle update
-            sudo bundle exec fastlane distDev
+            bundle exec fastlane distDev
 
 workflows:
   workflow:
