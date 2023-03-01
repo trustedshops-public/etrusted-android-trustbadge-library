@@ -23,7 +23,7 @@ platform :android do
 
   desc "Deploy to Firebase AppTester channel"
   lane :distDev do
-    gradle(task: "clean assembleDebug")
+    gradle(task: "clean generateAppDistKey generateTrustbadgeConfigFile assembleDebug")
     firebase_app_distribution(
         service_credentials_file: ENV['APP_DIST_SERVICE_ACCOUNT_PATH'],
         app: "1:849831422549:android:238ca47c17a75a8b5a02dc",

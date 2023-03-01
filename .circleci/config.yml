@@ -98,16 +98,10 @@ jobs:
       - checkout
 #      - restore_gradle_cache
       - run:
-          name: Prepare dependencies
-          command: |
-            ./gradlew generateTrustbadgeConfigFile
-            ./gradlew generateAppDistKey
-            sudo bundle update
-      - run:
           name: Distribute to Firebase AppTester
           command: |
-            ./gradlew clean
-            bundle exec fastlane distDev
+            sudo bundle update
+            sudo bundle exec fastlane distDev
 
 workflows:
   workflow:
