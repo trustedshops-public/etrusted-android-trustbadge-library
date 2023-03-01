@@ -92,6 +92,24 @@ jobs:
           command: |
             ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
 
+  distribute:
+    executor: android-docker
+    steps:
+      - checkout
+      - restore_gradle_cache
+      - run:
+          name: Prepare Fastlane
+          command: |
+            sudo bundle update
+            ./gradlew generateTrustbadgeConfigFile
+            ./gradlew assembleDebug
+      - run:
+          name: Distribute to Firebase AppTester
+          command: bundle exec fastlane distDev
+      - store_artifacts:
+          path: /home/circleci/project/app/build/outputs/apk/debug/app-debug.apk
+          destination: fastlane-output-debug
+
 workflows:
   workflow:
     jobs:
@@ -101,6 +119,14 @@ workflows:
           context:
             - gpg
             - maven-central
+          requires:
+            - android-test
+          filters:
+            branches:
+              ignore:
+                - main
+      - distribute:
+          name: distribute-dev
           requires:
             - android-test
           filters:

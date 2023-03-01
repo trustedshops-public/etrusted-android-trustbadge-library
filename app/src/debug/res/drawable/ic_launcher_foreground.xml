@@ -1,0 +1,12 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="10dp"
+        android:left="10dp"
+        android:right="10dp"
+        android:top="10dp">
+        <inset android:drawable="@drawable/logo_etrusted_e_circle" />
+    </item>
+    <item>
+        <bitmap android:src="@drawable/stage_badge"/>
+    </item>
+</layer-list>

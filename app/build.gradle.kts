@@ -11,8 +11,8 @@ android {
         applicationId = "com.etrusted.android.trustbadgeexample"
         minSdk = 26
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = System.getenv("CIRCLE_BUILD_NUM")?.toIntOrNull() ?: 1
+        versionName = "1.0.${System.getenv("CIRCLE_BUILD_NUM") ?: 0}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -60,6 +60,34 @@ tasks.register("createEmptyConfigFile") {
                 println("empty config file created")
             } else {
                 println("config file already exists")
+            }
+        }
+    }
+}
+
+tasks.register("generateTrustbadgeConfigFile") {
+    doLast {
+        val configFileName = "trustbadge-config.json"
+        File("${rootDir}/$configFileName").apply {
+            createNewFile()
+            val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG")
+            writeText(configContent)
+            println("config file created")
+        }
+    }
+}
+
+tasks.register("generateAppDistKey") {
+    doLast {
+        val jsonFileName = "app-dist-key.json"
+        val fileContent = System.getenv("GOOGLE_APP_DIST_FASTLANE_SERVICE_ACCOUNT")
+        File(rootDir, jsonFileName).apply {
+            if (!exists()) {
+                createNewFile()
+                writeText(fileContent)
+                println("Firebase AppDistribution key generated")
+            } else {
+                println("Firebase AppDistribution key already exists")
             }
         }
     }
