@@ -127,8 +127,8 @@ workflows:
                 - main
       - distribute:
           name: distribute-dev
-#          requires:
-#            - android-test
+          requires:
+            - android-test
           filters:
             branches:
               ignore:
