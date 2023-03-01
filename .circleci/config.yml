@@ -96,11 +96,11 @@ jobs:
     executor: android-docker
     steps:
       - checkout
-      - restore_gradle_cache
-      - run: ./gradlew generateTrustbadgeConfigFile
+#      - restore_gradle_cache
       - run:
           name: Prepare fastlane
           command: |
+            ./gradlew generateTrustbadgeConfigFile
             ./gradlew generateAppDistKey
             sudo bundle update
       - run:
