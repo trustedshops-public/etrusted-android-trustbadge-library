@@ -11,7 +11,7 @@ android {
         applicationId = "com.etrusted.android.trustbadgeexample"
         minSdk = 26
         targetSdk = 33
-        versionCode = 1
+        versionCode = System.getenv("CIRCLE_BUILD_NUM").toIntOrNull() ?: 1
         versionName = "1.0.${System.getenv("CIRCLE_BUILD_NUM") ?: 0}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
