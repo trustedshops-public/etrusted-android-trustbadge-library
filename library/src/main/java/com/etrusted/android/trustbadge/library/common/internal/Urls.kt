@@ -27,25 +27,31 @@ package com.etrusted.android.trustbadge.library.common.internal
 
 import com.etrusted.android.trustbadge.library.BuildConfig
 
+private const val prodChannelsUrl = "https://api.etrusted.com/channels"
+private const val prodAuthUrl = "https://login.etrusted.com/oauth/token"
+private const val prodTrustbadgeDataUrl = "https://cdn1.api.trustedshops.com"
+
+private const val devTrustbadgeDataUrl = "https://cdn1.api-qa.trustedshops.com"
+
 internal class Urls {
     companion object {
         internal val authenticationUrl: String
             get() = when (EnvironmentKey.forRawValue(BuildConfig.BUILD_TYPE)) {
-                EnvironmentKey.RELEASE -> "https://login.etrusted.com/oauth/token"
-                EnvironmentKey.DEBUG -> "https://login.etrusted.com/oauth/token"
-                else -> "https://login.etrusted.com/oauth/token"
+                EnvironmentKey.RELEASE -> prodAuthUrl
+                EnvironmentKey.DEBUG -> prodAuthUrl
+                else -> prodAuthUrl
             }
         internal val trustbadgeJsonUrl: String
             get() = when (EnvironmentKey.forRawValue(BuildConfig.BUILD_TYPE)) {
-                EnvironmentKey.RELEASE -> "https://cdn1.api.trustedshops.com"
-                EnvironmentKey.DEBUG -> "https://cdn1.api.trustedshops.com"
-                else -> "https://cdn1.api.trustedshops.com"
+                EnvironmentKey.RELEASE -> prodTrustbadgeDataUrl
+                EnvironmentKey.DEBUG -> devTrustbadgeDataUrl
+                else -> prodTrustbadgeDataUrl
             }
         internal val channelAggregateRatingUrl: String
             get() = when (EnvironmentKey.forRawValue(BuildConfig.BUILD_TYPE)) {
-                EnvironmentKey.RELEASE -> "https://api.etrusted.com/channels"
-                EnvironmentKey.DEBUG -> "https://api.etrusted.com/channels"
-                else -> "https://api.etrusted.com/channels"
+                EnvironmentKey.RELEASE -> prodChannelsUrl
+                EnvironmentKey.DEBUG -> prodChannelsUrl
+                else -> prodChannelsUrl
             }
     }
 }
