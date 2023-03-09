@@ -3,6 +3,10 @@
 [![trustedshops-public](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library.svg?style=shield)](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library)
 [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/trustedshops-public/etrusted-android-trustbadge-library/blob/main/LICENSE)
 [![codecov](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library/branch/main/graph/badge.svg?token=CnT4ETYgkH)](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library)
+[![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=trustedshops-public_etrusted-android-trustbadge-library&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=trustedshops-public_etrusted-android-trustbadge-library)
+[![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=trustedshops-public_etrusted-android-trustbadge-library&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=trustedshops-public_etrusted-android-trustbadge-library)
+[![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=trustedshops-public_etrusted-android-trustbadge-library&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=trustedshops-public_etrusted-android-trustbadge-library)
+[![Bugs](https://sonarcloud.io/api/project_badges/measure?project=trustedshops-public_etrusted-android-trustbadge-library&metric=bugs)](https://sonarcloud.io/summary/new_code?id=trustedshops-public_etrusted-android-trustbadge-library)
 
 > This project is currently work in progress and used only be a few
 > customers. APIs might not be stable yet and might change without
