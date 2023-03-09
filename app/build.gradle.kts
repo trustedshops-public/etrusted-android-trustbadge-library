@@ -3,6 +3,10 @@ plugins {
     id("org.jetbrains.kotlin.android")
 }
 
+sonarqube {
+    isSkipProject = true
+}
+
 android {
     namespace = "com.etrusted.android.trustbadgeexample"
     compileSdk = 33
