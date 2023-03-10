@@ -43,7 +43,7 @@ class ShopGradeDetailDatasource {
 
         return withContext(Dispatchers.IO) {
 
-            val url = URL(Urls.channelAggregateRatingUrl +
+            val url = URL(Urls.channelAggregateRatingUrl() +
                     "/$channelId/service-reviews/aggregate-rating")
             val urlConnection = url.openConnection() as HttpURLConnection
             urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")

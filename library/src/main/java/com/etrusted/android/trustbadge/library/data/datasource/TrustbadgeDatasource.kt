@@ -43,7 +43,7 @@ internal class TrustbadgeDatasource {
         return withContext(Dispatchers.IO) {
 
             val url = URL(
-                Urls.trustbadgeJsonUrl +
+                Urls.trustbadgeJsonUrl() +
                     "/shops/$tsid/mobiles/v1/sdks/ios/trustmarks.json")
             val urlConnection = url.openConnection() as HttpURLConnection
 

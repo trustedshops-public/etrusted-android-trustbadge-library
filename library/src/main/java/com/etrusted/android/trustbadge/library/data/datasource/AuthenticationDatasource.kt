@@ -44,7 +44,7 @@ internal class AuthenticationDatasource(
 
         return withContext(Dispatchers.IO) {
 
-            val url = URL(Urls.authenticationUrl)
+            val url = URL(Urls.authenticationUrl())
             val urlConnection = url.openConnection() as HttpsURLConnection
             urlConnection.requestMethod = "POST"
 
