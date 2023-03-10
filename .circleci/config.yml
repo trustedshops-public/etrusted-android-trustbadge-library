@@ -59,12 +59,12 @@ jobs:
       - run: ./gradlew tasks
       - run: ./gradlew createEmptyConfigFile
       - run: ./gradlew assembleDebug --stacktrace
-      - save_gradle_cache
       - run: export CI=true
       - run: ./gradlew pixel2api30DebugAndroidTest --stacktrace
       - run: ./gradlew testDebugUnitTest --stacktrace
       - run: ./gradlew jacocoTestReport --stacktrace
       - run: ./gradlew :library:lintDebug --stacktrace
+      - save_gradle_cache
       - sonarcloud/scan
       - codecov/upload:
           file: library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml
