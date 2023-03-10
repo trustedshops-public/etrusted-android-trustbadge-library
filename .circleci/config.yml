@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.4
+  sonarcloud: sonarsource/sonarcloud@1.1.1
 
 commands:
   restore_gradle_cache:
@@ -63,9 +64,8 @@ jobs:
       - run: ./gradlew pixel2api30DebugAndroidTest --stacktrace
       - run: ./gradlew testDebugUnitTest --stacktrace
       - run: ./gradlew jacocoTestReport --stacktrace
-      - run:
-          name: Sonar Scan
-          command: ./gradlew sonar --stacktrace
+      - run: ./gradlew :library:lintDebug --stacktrace
+      - sonarcloud/scan
       - codecov/upload:
           file: library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml
       - store_test_results:
