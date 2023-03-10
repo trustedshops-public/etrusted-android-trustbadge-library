@@ -33,25 +33,27 @@ private const val prodTrustbadgeDataUrl = "https://cdn1.api.trustedshops.com"
 
 private const val devTrustbadgeDataUrl = "https://cdn1.api-qa.trustedshops.com"
 
-internal class Urls {
-    companion object {
-        internal val authenticationUrl: String
-            get() = when (EnvironmentKey.forRawValue(BuildConfig.BUILD_TYPE)) {
-                EnvironmentKey.RELEASE -> prodAuthUrl
-                EnvironmentKey.DEBUG -> prodAuthUrl
-                else -> prodAuthUrl
-            }
-        internal val trustbadgeJsonUrl: String
-            get() = when (EnvironmentKey.forRawValue(BuildConfig.BUILD_TYPE)) {
-                EnvironmentKey.RELEASE -> prodTrustbadgeDataUrl
-                EnvironmentKey.DEBUG -> devTrustbadgeDataUrl
-                else -> prodTrustbadgeDataUrl
-            }
-        internal val channelAggregateRatingUrl: String
-            get() = when (EnvironmentKey.forRawValue(BuildConfig.BUILD_TYPE)) {
-                EnvironmentKey.RELEASE -> prodChannelsUrl
-                EnvironmentKey.DEBUG -> prodChannelsUrl
-                else -> prodChannelsUrl
-            }
-    }
+//interface IUrls {
+//
+//}
+
+object Urls {
+    internal val authenticationUrl: String
+        get() = when (EnvironmentKey.forRawValue(BuildConfig.BUILD_TYPE)) {
+            EnvironmentKey.RELEASE -> prodAuthUrl
+            EnvironmentKey.DEBUG -> prodAuthUrl
+            else -> prodAuthUrl
+        }
+    internal val trustbadgeJsonUrl: String
+        get() = when (EnvironmentKey.forRawValue(BuildConfig.BUILD_TYPE)) {
+            EnvironmentKey.RELEASE -> prodTrustbadgeDataUrl
+            EnvironmentKey.DEBUG -> devTrustbadgeDataUrl
+            else -> prodTrustbadgeDataUrl
+        }
+    internal val channelAggregateRatingUrl: String
+        get() = when (EnvironmentKey.forRawValue(BuildConfig.BUILD_TYPE)) {
+            EnvironmentKey.RELEASE -> prodChannelsUrl
+            EnvironmentKey.DEBUG -> prodChannelsUrl
+            else -> prodChannelsUrl
+        }
 }
