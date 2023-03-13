@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.4
+  ruby: circleci/ruby@2.0.0
   sonarcloud: sonarsource/sonarcloud@1.1.1
 
 commands:
@@ -49,22 +50,16 @@ jobs:
     steps:
       - checkout
       - restore_sdkmanager_cache
-      - run:
-          name: Setup sdkmanager
-          command: |
-            (yes || true) | sdkmanager "tools" "platform-tools" "build-tools;33.0.2" "platforms;android-33" "system-images;android-30;google_atd;x86"
-            (yes || true) | sdkmanager --licenses
-      - save_sdkmanager_cache
       - restore_gradle_cache
-      - run: ./gradlew tasks
-      - run: ./gradlew createEmptyConfigFile
-      - run: ./gradlew assembleDebug --stacktrace
+      - ruby/install-deps:
+          with-cache: true
       - run: export CI=true
-      - run: ./gradlew pixel2api30DebugAndroidTest --stacktrace
-      - run: ./gradlew testDebugUnitTest --stacktrace
-      - run: ./gradlew jacocoTestReport --stacktrace
+      - run:
+          name: Fastlane - run all tests with coverage report
+          command: bundle exec fastlane testDev
       - run: ./gradlew :library:lintDebug --stacktrace
       - save_gradle_cache
+      - save_sdkmanager_cache
       - sonarcloud/scan
       - codecov/upload:
           file: library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml

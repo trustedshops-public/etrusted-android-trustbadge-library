@@ -18,7 +18,7 @@ default_platform(:android)
 platform :android do
   desc "Runs all the tests"
   lane :test do
-    gradle(task: "test")
+    gradle(task: "createEmptyConfigFile pixel2api30DebugAndroidTest testDebugUnitTest jacocoTestReport --stacktrace")
   end
 
   desc "Deploy to Firebase AppTester channel"
