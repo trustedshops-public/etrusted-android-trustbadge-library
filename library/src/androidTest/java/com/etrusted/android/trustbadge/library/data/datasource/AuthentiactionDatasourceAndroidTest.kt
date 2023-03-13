@@ -25,35 +25,38 @@
 
 package com.etrusted.android.trustbadge.library.data.datasource
 
-import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey
-import com.etrusted.android.trustbadge.library.common.internal.IUrls
+import com.etrusted.android.trustbadge.library.common.internal.*
 import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
+import com.etrusted.android.trustbadge.library.common.internal.getFakeLibrary
 import com.etrusted.android.trustbadge.library.common.internal.getUrlsFor
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import org.junit.Ignore
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class ShopGradeDatasourceAndroidTest {
+internal class AuthenticationDatasourceAndroidTest {
 
+    @Ignore("use https mock")
     @Test
-    fun testFetchShopGradeDetailReturnsSuccessfully() = runTest {
+    fun testFetchAuthenticationReturnsSuccessfully() = runTest {
 
         // arrange
-        val goodData = ServerResponses.ChannelInfoGoodResponse.content
+        val goodData = ServerResponses.AuthenticationTokenGoodResponse.content
         val server = MockWebServer()
         server.enqueue(MockResponse().apply { setBody(goodData) })
         server.start()
         val mockUrl = server.url("")
         val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
         val mockUrls = getUrlsFor(mockUrlRoot)
-        val sut = ShopGradeDetailDatasource(urls = mockUrls)
+        val mockLibrary = getFakeLibrary()
+        val sut = AuthenticationDatasource(library = mockLibrary, urls = mockUrls)
 
         // act
-        val result = sut.fetchShopGradeDetail("fakeChannelId", "fakeAccessToken")
+        val result = sut.getAccessTokenUsingSecret()
 
         // assert
         assertThat(result.isSuccess).isTrue()
