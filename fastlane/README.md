@@ -23,6 +23,14 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 Runs all the tests
 
+### android check
+
+```sh
+[bundle exec] fastlane android check
+```
+
+Runs sonar scanner
+
 ### android distDev
 
 ```sh

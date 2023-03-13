@@ -31,6 +31,8 @@ internal const val prodChannelsUrl = "https://api.etrusted.com/channels"
 internal const val prodAuthUrl = "https://login.etrusted.com/oauth/token"
 internal const val prodTrustbadgeDataUrl = "https://cdn1.api.trustedshops.com"
 
+internal const val devChannelsUrl = "https://api.etrusted.koeln/"
+internal const val devAuthUrl = "https://login-integr.etrusted.com/"
 internal const val devTrustbadgeDataUrl = "https://cdn1.api-qa.trustedshops.com"
 
 internal interface IUrls {
@@ -44,7 +46,7 @@ object Urls: IUrls {
     override fun authenticationUrl(env: EnvironmentKey): String
         = when (env) {
             EnvironmentKey.RELEASE -> prodAuthUrl
-            EnvironmentKey.DEBUG -> prodAuthUrl
+            EnvironmentKey.DEBUG -> devAuthUrl
             else -> prodAuthUrl
         }
 
@@ -58,7 +60,7 @@ object Urls: IUrls {
     override fun channelAggregateRatingUrl(env: EnvironmentKey): String
         = when (env) {
             EnvironmentKey.RELEASE -> prodChannelsUrl
-            EnvironmentKey.DEBUG -> prodChannelsUrl
+            EnvironmentKey.DEBUG -> devChannelsUrl
             else -> prodChannelsUrl
         }
 }

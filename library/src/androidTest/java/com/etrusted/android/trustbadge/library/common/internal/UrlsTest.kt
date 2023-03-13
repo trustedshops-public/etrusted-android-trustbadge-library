@@ -38,7 +38,7 @@ class UrlsTest {
         val urlUnknownRaw = Urls.authenticationUrl(env = EnvironmentKey.UNKNOWN)
 
         assertThat(urlReleaseRaw).isEqualTo(prodAuthUrl)
-        assertThat(urlDebugRaw).isEqualTo(prodAuthUrl)
+        assertThat(urlDebugRaw).isEqualTo(devAuthUrl)
         assertThat(urlUnknownRaw).isEqualTo(prodAuthUrl)
     }
 
@@ -62,7 +62,7 @@ class UrlsTest {
         val urlUnknownRaw = Urls.channelAggregateRatingUrl(env = EnvironmentKey.UNKNOWN)
 
         assertThat(urlReleaseRaw).isEqualTo(prodChannelsUrl)
-        assertThat(urlDebugRaw).isEqualTo(prodChannelsUrl)
+        assertThat(urlDebugRaw).isEqualTo(devChannelsUrl)
         assertThat(urlUnknownRaw).isEqualTo(prodChannelsUrl)
     }
 }
