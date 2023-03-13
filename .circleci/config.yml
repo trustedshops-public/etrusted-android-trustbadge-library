@@ -2,7 +2,6 @@ version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.4
   ruby: circleci/ruby@2.0.0
-  sonarcloud: sonarsource/sonarcloud@1.1.1
 
 commands:
   restore_gradle_cache:
@@ -57,10 +56,11 @@ jobs:
       - run:
           name: Fastlane - run all tests with coverage report
           command: bundle exec fastlane test
-      - run: ./gradlew :library:lintDebug --stacktrace
+      - run:
+          name: Fastlane - run sonar scanner
+          command: bundle exec fastlane check
       - save_gradle_cache
       - save_sdkmanager_cache
-      - sonarcloud/scan
       - codecov/upload:
           file: library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml
       - store_test_results:

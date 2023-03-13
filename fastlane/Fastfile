@@ -21,6 +21,11 @@ platform :android do
     gradle(task: "createEmptyConfigFile pixel2api30DebugAndroidTest testDebugUnitTest jacocoTestReport --stacktrace")
   end
 
+  desc "Runs sonar scanner"
+  lane :check do
+    gradle(task: ":library:lintDebug sonar --stacktrace")
+  end
+
   desc "Deploy to Firebase AppTester channel"
   lane :distDev do
     gradle(task: "clean generateAppDistKey generateTrustbadgeConfigFile assembleDebug")
