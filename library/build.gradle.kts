@@ -233,6 +233,7 @@ dependencies {
     androidTestImplementation("com.google.truth:truth:$testGoogleTruthVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidTestJunitVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$androidTestEspressoVersion")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:4.10.0")
     // ui tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
     debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")

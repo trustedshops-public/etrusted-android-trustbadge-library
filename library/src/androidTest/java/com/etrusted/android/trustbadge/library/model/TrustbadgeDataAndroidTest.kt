@@ -25,8 +25,7 @@
 
 package com.etrusted.android.trustbadge.library.model
 
-import androidx.test.platform.app.InstrumentationRegistry
-import com.etrusted.android.trustbadge.library.common.internal.readJsonFile
+import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -37,12 +36,7 @@ class TrustbadgeDataAndroidTest {
 
         // arrange
         val fakeStringInJsonFile = "fakeString"
-        val jsonPath = "cdn1.api.trustedshops.com/trustmark_good_response.json"
-        val goodData = try {
-            InstrumentationRegistry.getInstrumentation().context.readJsonFile(jsonPath)
-        } catch (e: Exception) {
-            throw Error("$jsonPath not found in android test resources")
-        }
+        val goodData = ServerResponses.TrustbadgeDataGoodResponse.content
 
         // act
         val trustbadge = TrustbadgeData.fromString(goodData)
