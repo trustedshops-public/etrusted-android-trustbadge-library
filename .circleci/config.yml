@@ -56,7 +56,7 @@ jobs:
       - run: export CI=true
       - run:
           name: Fastlane - run all tests with coverage report
-          command: bundle exec fastlane testDev
+          command: bundle exec fastlane test
       - run: ./gradlew :library:lintDebug --stacktrace
       - save_gradle_cache
       - save_sdkmanager_cache
