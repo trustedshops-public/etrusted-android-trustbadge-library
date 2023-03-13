@@ -25,7 +25,9 @@
 
 package com.etrusted.android.trustbadge.library.data.datasource
 
+import com.etrusted.android.trustbadge.library.ILibrary
 import com.etrusted.android.trustbadge.library.TrustbadgeLibrary
+import com.etrusted.android.trustbadge.library.common.internal.IUrls
 import com.etrusted.android.trustbadge.library.common.internal.Urls
 import com.etrusted.android.trustbadge.library.common.internal.readStream
 import com.etrusted.android.trustbadge.library.common.internal.setPostParams
@@ -39,15 +41,16 @@ import javax.net.ssl.HttpsURLConnection
 
 @Suppress("BlockingMethodInNonBlockingContext")
 internal class AuthenticationDatasource(
-    private val library: TrustbadgeLibrary = TrustbadgeLibrary,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val library: ILibrary = TrustbadgeLibrary,
+    private val urls: IUrls = Urls,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
 
     suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken> {
 
         return withContext(dispatcher) {
 
-            val url = URL(Urls.authenticationUrl())
+            val url = URL(urls.authenticationUrl())
             val urlConnection = url.openConnection() as HttpsURLConnection
             urlConnection.requestMethod = "POST"
 

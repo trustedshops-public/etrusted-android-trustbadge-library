@@ -37,23 +37,23 @@ import okhttp3.mockwebserver.MockWebServer
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class ShopGradeDatasourceAndroidTest {
+internal class TrustbadgeDatasourceAndroidTest {
 
     @Test
-    fun testFetchShopGradeDetailReturnsSuccessfully() = runTest {
+    fun testFetchTrustbadgeReturnsSuccessfully() = runTest {
 
         // arrange
-        val goodData = ServerResponses.ChannelInfoGoodResponse.content
+        val goodData = ServerResponses.TrustbadgeDataGoodResponse.content
         val server = MockWebServer()
         server.enqueue(MockResponse().apply { setBody(goodData) })
         server.start()
         val mockUrl = server.url("")
         val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
         val mockUrls = getUrlsFor(mockUrlRoot)
-        val sut = ShopGradeDetailDatasource(urls = mockUrls)
+        val sut = TrustbadgeDatasource(urls = mockUrls)
 
         // act
-        val result = sut.fetchShopGradeDetail("fakeChannelId", "fakeAccessToken")
+        val result = sut.fetchTrustbadge("fakeTSID")
 
         // assert
         assertThat(result.isSuccess).isTrue()

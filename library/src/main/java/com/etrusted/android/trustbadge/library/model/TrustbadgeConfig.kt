@@ -28,7 +28,7 @@ package com.etrusted.android.trustbadge.library.model
 import android.content.Context
 import com.etrusted.android.trustbadge.library.R
 
-internal data class TrustbadgeConfig(
+data class TrustbadgeConfig(
     val clientId: String,
     val clientSecret: String,
 ) {
