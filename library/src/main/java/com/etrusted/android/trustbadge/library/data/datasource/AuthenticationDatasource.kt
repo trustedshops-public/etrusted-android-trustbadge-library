@@ -30,19 +30,22 @@ import com.etrusted.android.trustbadge.library.common.internal.Urls
 import com.etrusted.android.trustbadge.library.common.internal.readStream
 import com.etrusted.android.trustbadge.library.common.internal.setPostParams
 import com.etrusted.android.trustbadge.library.model.AuthenticationToken
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
+@Suppress("BlockingMethodInNonBlockingContext")
 internal class AuthenticationDatasource(
     private val library: TrustbadgeLibrary = TrustbadgeLibrary,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
 
     suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken> {
 
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
 
             val url = URL(Urls.authenticationUrl())
             val urlConnection = url.openConnection() as HttpsURLConnection

@@ -30,6 +30,7 @@ import com.etrusted.android.trustbadge.library.data.datasource.ShopGradeDetailDa
 import com.etrusted.android.trustbadge.library.data.datasource.TrustbadgeDatasource
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.etrusted.android.trustbadge.library.model.enrichTrustbadgeDataWithInfo
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -42,6 +43,7 @@ constructor(
     private val auth: AuthenticationDatasource = AuthenticationDatasource(),
     private val trustbadgeDatasource: TrustbadgeDatasource = TrustbadgeDatasource(),
     private val shopGradeDetailDatasource: ShopGradeDetailDatasource = ShopGradeDetailDatasource(),
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ){
 
     @Throws
@@ -50,7 +52,7 @@ constructor(
         channelId: String,
     ): Result<TrustbadgeData> {
 
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
 
             val token = auth.getAccessTokenUsingSecret().getOrThrow()
             val channelInfoData = shopGradeDetailDatasource.fetchShopGradeDetail(
