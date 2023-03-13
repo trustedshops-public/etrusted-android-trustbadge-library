@@ -28,20 +28,22 @@ package com.etrusted.android.trustbadge.library.data.datasource
 import com.etrusted.android.trustbadge.library.common.internal.Urls
 import com.etrusted.android.trustbadge.library.common.internal.readStream
 import com.etrusted.android.trustbadge.library.model.ChannelInfo
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-class ShopGradeDetailDatasource {
+@Suppress("BlockingMethodInNonBlockingContext")
+class ShopGradeDetailDatasource(private val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
     internal suspend fun fetchShopGradeDetail(
         channelId: String,
         accessToken: String,
     ): Result<ChannelInfo> {
 
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
 
             val url = URL(Urls.channelAggregateRatingUrl() +
                     "/$channelId/service-reviews/aggregate-rating")
