@@ -24,11 +24,9 @@
   ~ SOFTWARE.
   -->
 <network-security-config>
-    <network-security-config>
-        <debug-overrides>
-            <trust-anchors>
-                <certificates src="@raw/debug_cert"/>
-            </trust-anchors>
-        </debug-overrides>
-    </network-security-config>
+    <debug-overrides>
+        <trust-anchors>
+            <certificates src="@raw/debug_cert"/>
+        </trust-anchors>
+    </debug-overrides>
 </network-security-config>
