@@ -26,6 +26,7 @@
 package com.etrusted.android.trustbadge.library.common.internal
 
 import android.content.Context
+import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.ILibrary
 import com.etrusted.android.trustbadge.library.model.TrustbadgeConfig
 
@@ -42,4 +43,9 @@ internal fun getFakeLibrary(): ILibrary {
         override var config = TrustbadgeConfig("fakeId", "fakeSecret")
         override fun configure(context: Context): ILibrary { return this }
     }
+}
+
+internal fun getFakeCertificate(): String {
+    return InstrumentationRegistry.getInstrumentation().context.readJsonFile(
+        "certificates/instrumentation_cert.pem")
 }

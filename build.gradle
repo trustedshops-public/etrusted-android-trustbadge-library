@@ -8,12 +8,14 @@ buildscript {
         composeVersion = "1.3.1"
         composeM3Version = "1.0.1"
         composeNavVersion = "2.5.3"
+
+        okhttpVersion = "4.10.0" // only used for tests
     }
 }
 
 plugins {
-    id "com.android.application" version "7.4.1" apply false
-    id "com.android.library" version "7.4.1" apply false
+    id "com.android.application" version '7.4.2' apply false
+    id "com.android.library" version '7.4.2' apply false
     id "org.jetbrains.kotlin.android" version "1.7.0" apply false
     id "org.sonarqube" version "3.5.0.2730"
 }

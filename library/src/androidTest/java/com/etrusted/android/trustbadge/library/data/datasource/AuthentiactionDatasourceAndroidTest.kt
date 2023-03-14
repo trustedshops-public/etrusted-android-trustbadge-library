@@ -26,31 +26,36 @@
 package com.etrusted.android.trustbadge.library.data.datasource
 
 import com.etrusted.android.trustbadge.library.common.internal.*
-import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
-import com.etrusted.android.trustbadge.library.common.internal.getFakeLibrary
-import com.etrusted.android.trustbadge.library.common.internal.getUrlsFor
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
+import okhttp3.tls.HandshakeCertificates
+import okhttp3.tls.HeldCertificate
 import org.junit.Ignore
 import org.junit.Test
+import java.net.InetAddress
+import java.util.concurrent.TimeUnit
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class AuthenticationDatasourceAndroidTest {
 
-    @Ignore("use https mock")
     @Test
     fun testFetchAuthenticationReturnsSuccessfully() = runTest {
 
         // arrange
         val goodData = ServerResponses.AuthenticationTokenGoodResponse.content
         val server = MockWebServer()
+        val localhostCertificate = HeldCertificate.decode(getFakeCertificate())
+        val serverCertificates = HandshakeCertificates.Builder()
+            .heldCertificate(localhostCertificate)
+            .build()
+        server.useHttps(serverCertificates.sslSocketFactory(), false)
         server.enqueue(MockResponse().apply { setBody(goodData) })
         server.start()
         val mockUrl = server.url("")
-        val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
+        val mockUrlRoot = "https://${mockUrl.host}:${mockUrl.port}/"
         val mockUrls = getUrlsFor(mockUrlRoot)
         val mockLibrary = getFakeLibrary()
         val sut = AuthenticationDatasource(library = mockLibrary, urls = mockUrls)
@@ -60,5 +65,20 @@ internal class AuthenticationDatasourceAndroidTest {
 
         // assert
         assertThat(result.isSuccess).isTrue()
+    }
+
+    @Test
+    @Ignore("generate fresh instrumentation certificate")
+    fun generateFakeCertificate() {
+        val localhost = InetAddress.getByName("localhost").canonicalHostName
+        val localhostCertificate = HeldCertificate.Builder()
+            .addSubjectAlternativeName(localhost)
+            .duration(10 * 365, TimeUnit.DAYS)
+            .build()
+        val publicKey = localhostCertificate.certificatePem()
+        val privateKey = localhostCertificate.privateKeyPkcs8Pem()
+
+        println(privateKey)
+        println(publicKey)
     }
 }
