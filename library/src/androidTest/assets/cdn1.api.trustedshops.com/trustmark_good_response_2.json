@@ -10,8 +10,8 @@
         "targetMarketISO3": "fakeString",
         "trustMark": {
           "status": "fakeString",
-          "validFrom": "fakeString",
-          "validTo": "fakeString"
+          "validFrom": "",
+          "validTo": ""
         }
       }
     },

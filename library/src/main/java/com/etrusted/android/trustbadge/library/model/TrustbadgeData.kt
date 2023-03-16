@@ -16,8 +16,8 @@ data class TrustbadgeData(
     ) {
         data class TrustMark(
             val status: String,
-            val validFrom: String,
-            val validTo: String,
+            var validFrom: String,
+            var validTo: String,
         )
     }
 
@@ -50,8 +50,10 @@ data class TrustbadgeData(
                     targetMarketISO3 = shopJson.getString(KEY_TARGET_MARKET_ISO3),
                     trustMark = Shop.TrustMark(
                         status = trustMarkJson.getString(KEY_STATUS),
-                        validFrom = trustMarkJson.getString(KEY_VALID_FROM),
-                        validTo = trustMarkJson.getString(KEY_VALID_TO),
+
+                        // optional attributes
+                        validFrom = trustMarkJson.optString(KEY_VALID_FROM),
+                        validTo = trustMarkJson.optString(KEY_VALID_TO),
                     )
                 )
             )
