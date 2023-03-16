@@ -68,7 +68,12 @@ internal fun RowScope.RoundedView(
                 TrustbadgeContext.BuyerProtection -> {
                     ImageCircleBuyerProtection()
                 }
-                TrustbadgeContext.TrustMark -> {}
+                TrustbadgeContext.TrustMark -> {
+                    // Intentionally left empty since Kotlin requires 'when' expression
+                    // to be exhaustive, it is necessary to add all branches (or 'else').
+                    // In this state, the Trustmark icon remains the same, therefore
+                    // this block remains empty.
+                }
             }
         }
     }

@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 27.2.2023.
+ * Created by Ali Kabiri on 13.3.2023.
  * Copyright (c) 2023 Trusted Shops GmbH
  *
  * MIT License
@@ -25,38 +25,31 @@
 
 package com.etrusted.android.trustbadge.library.common.internal
 
-import android.content.Context
-import java.io.File
+import androidx.test.platform.app.InstrumentationRegistry
 
-@Throws(Exception::class)
-internal fun Context.readJsonFile(jsonFilePath: String) : String {
-    try {
-        val assetInSt = this.assets.open(jsonFilePath)
-        val fileContents = assetInSt.bufferedReader().use { it.readText() }
-        assetInSt.close()
-        return fileContents
-    } catch (e: Exception) {
-        throw Error("$jsonFilePath not found in android test resources")
+internal sealed class ServerResponses {
+    abstract val path: String
+    abstract val content: String
+
+    object ChannelInfoGoodResponse: ServerResponses() {
+        override val path: String
+            get() = "api.etrusted.com" +
+                "/channels/channelid/service-reviews/aggregate-rating/good_response.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }
-}
 
-/**
- * Returns a [File] with a path to additional test output directory of the emulator
- * everything stored under this directory will be available in the build folder under:
- * `build/outputs/managed_device_android_test_additional_output`
- * Currently used with Gradle Managed devices.
- */
-internal fun Context.getAdditionalTestOutputDir(): File {
-    @Suppress("DEPRECATION")
-    return File(
-        this.externalMediaDirs.first(), "additional_test_output").apply {
-        mkdir()
+    object AuthenticationTokenGoodResponse: ServerResponses() {
+        override val path: String
+            get() = "login.etrusted.com/oauth/token/good_response.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }
-}
 
-internal fun Context.getScreenshotsDir(): File {
-    return File(
-        this.getAdditionalTestOutputDir(), "screenshots").apply {
-        mkdir()
+    object TrustbadgeDataGoodResponse: ServerResponses() {
+        override val path: String
+            get() = "cdn1.api.trustedshops.com/trustmark_good_response.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }
 }

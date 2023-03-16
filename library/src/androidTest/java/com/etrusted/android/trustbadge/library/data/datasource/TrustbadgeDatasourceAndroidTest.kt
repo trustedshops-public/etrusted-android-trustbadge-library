@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 30.1.2023.
+ * Created by Ali Kabiri on 13.3.2023.
  * Copyright (c) 2023 Trusted Shops GmbH
  *
  * MIT License
@@ -23,32 +23,39 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.model
+package com.etrusted.android.trustbadge.library.data.datasource
 
+import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey
+import com.etrusted.android.trustbadge.library.common.internal.IUrls
 import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
+import com.etrusted.android.trustbadge.library.common.internal.getUrlsFor
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
+import okhttp3.mockwebserver.MockResponse
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.Test
 
-class TrustbadgeDataAndroidTest {
+@OptIn(ExperimentalCoroutinesApi::class)
+internal class TrustbadgeDatasourceAndroidTest {
 
     @Test
-    fun testFromStringReturnsCorrectTrustbadge() {
+    fun testFetchTrustbadgeReturnsSuccessfully() = runTest {
 
         // arrange
-        val fakeStringInJsonFile = "fakeString"
         val goodData = ServerResponses.TrustbadgeDataGoodResponse.content
+        val server = MockWebServer()
+        server.enqueue(MockResponse().apply { setBody(goodData) })
+        server.start()
+        val mockUrl = server.url("")
+        val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
+        val mockUrls = getUrlsFor(mockUrlRoot)
+        val sut = TrustbadgeDatasource(urls = mockUrls)
 
         // act
-        val trustbadge = TrustbadgeData.fromString(goodData)
+        val result = sut.fetchTrustbadge("fakeTSID")
 
         // assert
-        assertThat(trustbadge.shop.tsid).isEqualTo(fakeStringInJsonFile)
-        assertThat(trustbadge.shop.name).isEqualTo(fakeStringInJsonFile)
-        assertThat(trustbadge.shop.url).isEqualTo(fakeStringInJsonFile)
-        assertThat(trustbadge.shop.languageISO2).isEqualTo(fakeStringInJsonFile)
-        assertThat(trustbadge.shop.targetMarketISO3).isEqualTo(fakeStringInJsonFile)
-        assertThat(trustbadge.shop.trustMark.status).isEqualTo(fakeStringInJsonFile)
-        assertThat(trustbadge.shop.trustMark.validFrom).isEqualTo(fakeStringInJsonFile)
-        assertThat(trustbadge.shop.trustMark.validTo).isEqualTo(fakeStringInJsonFile)
+        assertThat(result.isSuccess).isTrue()
     }
 }

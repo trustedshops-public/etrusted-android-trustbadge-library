@@ -25,25 +25,30 @@
 
 package com.etrusted.android.trustbadge.library.data.datasource
 
+import com.etrusted.android.trustbadge.library.common.internal.IUrls
 import com.etrusted.android.trustbadge.library.common.internal.Urls
 import com.etrusted.android.trustbadge.library.common.internal.readStream
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-internal class TrustbadgeDatasource {
+@Suppress("BlockingMethodInNonBlockingContext")
+internal class TrustbadgeDatasource(
+    private val urls: IUrls = Urls,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
 
     internal suspend fun fetchTrustbadge(
         tsid: String,
     ): Result<TrustbadgeData> {
 
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
 
             val url = URL(
-                Urls.trustbadgeJsonUrl +
+                urls.trustbadgeJsonUrl() +
                     "/shops/$tsid/mobiles/v1/sdks/ios/trustmarks.json")
             val urlConnection = url.openConnection() as HttpURLConnection
 

@@ -100,7 +100,11 @@ class TrustbadgeState(
      */
     suspend fun hide() {
         when (currentState) {
-            INVISIBLE -> {}
+            INVISIBLE -> {
+                // Intentionally left empty since Kotlin requires 'when' expression
+                // to be exhaustive, it is necessary to add all branches (or 'else').
+                // In this case, calling hide on visible state keeps it visible without changes.
+            }
             DEFAULT -> {
                 currentState = INVISIBLE
             }

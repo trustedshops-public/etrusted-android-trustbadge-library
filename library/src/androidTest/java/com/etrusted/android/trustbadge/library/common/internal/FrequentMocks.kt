@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 27.2.2023.
+ * Created by Ali Kabiri on 13.3.2023.
  * Copyright (c) 2023 Trusted Shops GmbH
  *
  * MIT License
@@ -26,37 +26,26 @@
 package com.etrusted.android.trustbadge.library.common.internal
 
 import android.content.Context
-import java.io.File
+import androidx.test.platform.app.InstrumentationRegistry
+import com.etrusted.android.trustbadge.library.ILibrary
+import com.etrusted.android.trustbadge.library.model.TrustbadgeConfig
 
-@Throws(Exception::class)
-internal fun Context.readJsonFile(jsonFilePath: String) : String {
-    try {
-        val assetInSt = this.assets.open(jsonFilePath)
-        val fileContents = assetInSt.bufferedReader().use { it.readText() }
-        assetInSt.close()
-        return fileContents
-    } catch (e: Exception) {
-        throw Error("$jsonFilePath not found in android test resources")
+internal fun getUrlsFor(endpoint: String): IUrls {
+    return object: IUrls {
+        override fun authenticationUrl(env: EnvironmentKey): String = endpoint
+        override fun trustbadgeJsonUrl(env: EnvironmentKey): String = endpoint
+        override fun channelAggregateRatingUrl(env: EnvironmentKey): String = endpoint
     }
 }
 
-/**
- * Returns a [File] with a path to additional test output directory of the emulator
- * everything stored under this directory will be available in the build folder under:
- * `build/outputs/managed_device_android_test_additional_output`
- * Currently used with Gradle Managed devices.
- */
-internal fun Context.getAdditionalTestOutputDir(): File {
-    @Suppress("DEPRECATION")
-    return File(
-        this.externalMediaDirs.first(), "additional_test_output").apply {
-        mkdir()
+internal fun getFakeLibrary(): ILibrary {
+    return object: ILibrary {
+        override var config = TrustbadgeConfig("fakeId", "fakeSecret")
+        override fun configure(context: Context): ILibrary { return this }
     }
 }
 
-internal fun Context.getScreenshotsDir(): File {
-    return File(
-        this.getAdditionalTestOutputDir(), "screenshots").apply {
-        mkdir()
-    }
+internal fun getFakeCertificate(): String {
+    return InstrumentationRegistry.getInstrumentation().context.readJsonFile(
+        "certificates/instrumentation_cert.pem")
 }
