@@ -20,6 +20,12 @@ plugins {
     id "org.sonarqube" version "3.5.0.2730"
 }
 
+project("app") {
+    sonarqube {
+        skipProject = true
+    }
+}
+
 sonarqube {
     properties {
         property "sonar.organization", "trustedshops-public"
@@ -35,4 +41,9 @@ sonarqube {
         property "sonar.androidLint.reportPaths", "$rootDir/library/build/reports/lint-results-debug.xml"
         property "sonar.coverage.jacoco.xmlReportPaths", "$rootDir/library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml"
     }
+}
+
+// produce the lint report before sonar scan
+tasks.getByName("sonar") {
+    dependsOn(tasks.findByPath(":library:lintDebug"))
 }
