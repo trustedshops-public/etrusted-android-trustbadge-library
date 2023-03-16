@@ -9,9 +9,7 @@
         "languageISO2": "fakeString",
         "targetMarketISO3": "fakeString",
         "trustMark": {
-          "status": "fakeString",
-          "validFrom": "fakeString",
-          "validTo": "fakeString"
+          "status": "fakeString"
         }
       }
     },

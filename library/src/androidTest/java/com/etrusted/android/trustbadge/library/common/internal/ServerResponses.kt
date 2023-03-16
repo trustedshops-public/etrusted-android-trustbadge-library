@@ -52,4 +52,18 @@ internal sealed class ServerResponses {
         override val content: String
             get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }
+
+    object TrustbadgeDataGoodResponse2: ServerResponses() {
+        override val path: String
+            get() = "cdn1.api.trustedshops.com/trustmark_good_response_2.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
+    }
+
+    object TrustbadgeDataGoodResponse3: ServerResponses() {
+        override val path: String
+            get() = "cdn1.api.trustedshops.com/trustmark_good_response_3.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
+    }
 }

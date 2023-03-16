@@ -58,4 +58,44 @@ internal class TrustbadgeDatasourceAndroidTest {
         // assert
         assertThat(result.isSuccess).isTrue()
     }
+
+    @Test
+    fun testFetchTrustbadgeReturnsSuccessfullyWhenResponseHasEmptyValidToAndFrom() = runTest {
+
+        // arrange
+        val goodData = ServerResponses.TrustbadgeDataGoodResponse2.content
+        val server = MockWebServer()
+        server.enqueue(MockResponse().apply { setBody(goodData) })
+        server.start()
+        val mockUrl = server.url("")
+        val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
+        val mockUrls = getUrlsFor(mockUrlRoot)
+        val sut = TrustbadgeDatasource(urls = mockUrls)
+
+        // act
+        val result = sut.fetchTrustbadge("fakeTSID")
+
+        // assert
+        assertThat(result.isSuccess).isTrue()
+    }
+
+    @Test
+    fun testFetchTrustbadgeReturnsSuccessfullyWhenResponseHasNoEmptyValidToAndFrom() = runTest {
+
+        // arrange
+        val goodData = ServerResponses.TrustbadgeDataGoodResponse3.content
+        val server = MockWebServer()
+        server.enqueue(MockResponse().apply { setBody(goodData) })
+        server.start()
+        val mockUrl = server.url("")
+        val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
+        val mockUrls = getUrlsFor(mockUrlRoot)
+        val sut = TrustbadgeDatasource(urls = mockUrls)
+
+        // act
+        val result = sut.fetchTrustbadge("fakeTSID")
+
+        // assert
+        assertThat(result.isSuccess).isTrue()
+    }
 }
