@@ -31,8 +31,8 @@ internal const val prodChannelsUrl = "https://api.etrusted.com/channels"
 internal const val prodAuthUrl = "https://login.etrusted.com/oauth/token"
 internal const val prodTrustbadgeDataUrl = "https://cdn1.api.trustedshops.com"
 
-internal const val devChannelsUrl = "https://api.etrusted.koeln/"
-internal const val devAuthUrl = "https://login-integr.etrusted.com/"
+internal const val devChannelsUrl = "https://api.etrusted.koeln/channels"
+internal const val devAuthUrl = "https://login-integr.etrusted.com/oauth/token"
 internal const val devTrustbadgeDataUrl = "https://cdn1.api-qa.trustedshops.com"
 
 internal interface IUrls {
