@@ -51,4 +51,46 @@ class TrustbadgeDataAndroidTest {
         assertThat(trustbadge.shop.trustMark.validFrom).isEqualTo(fakeStringInJsonFile)
         assertThat(trustbadge.shop.trustMark.validTo).isEqualTo(fakeStringInJsonFile)
     }
+
+    @Test
+    fun testFromStringReturnsCorrectTrustbadgeWithEmptyValidFromToAttributes() {
+
+        // arrange
+        val fakeStringInJsonFile = "fakeString"
+        val goodData = ServerResponses.TrustbadgeDataGoodResponse2.content
+
+        // act
+        val trustbadge = TrustbadgeData.fromString(goodData)
+
+        // assert
+        assertThat(trustbadge.shop.tsid).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.name).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.url).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.languageISO2).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.targetMarketISO3).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.trustMark.status).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.trustMark.validFrom).isEmpty()
+        assertThat(trustbadge.shop.trustMark.validTo).isEmpty()
+    }
+
+    @Test
+    fun testFromStringReturnsCorrectTrustbadgeWithoutValidFromToAttributes() {
+
+        // arrange
+        val fakeStringInJsonFile = "fakeString"
+        val goodData = ServerResponses.TrustbadgeDataGoodResponse3.content
+
+        // act
+        val trustbadge = TrustbadgeData.fromString(goodData)
+
+        // assert
+        assertThat(trustbadge.shop.tsid).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.name).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.url).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.languageISO2).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.targetMarketISO3).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.trustMark.status).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.trustMark.validFrom).isEmpty()
+        assertThat(trustbadge.shop.trustMark.validTo).isEmpty()
+    }
 }
