@@ -29,6 +29,7 @@ import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.ILibrary
 import com.etrusted.android.trustbadge.library.model.TrustbadgeConfig
+import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 
 internal fun getUrlsFor(endpoint: String): IUrls {
     return object: IUrls {
@@ -48,4 +49,20 @@ internal fun getFakeLibrary(): ILibrary {
 internal fun getFakeCertificate(): String {
     return InstrumentationRegistry.getInstrumentation().context.readJsonFile(
         "certificates/instrumentation_cert.pem")
+}
+
+internal fun getFakeTrustbadgeData(): TrustbadgeData {
+    val fakeString = "fakeString"
+    return TrustbadgeData(shop = TrustbadgeData.Shop(
+        tsid = fakeString,
+        url = fakeString,
+        name = fakeString,
+        languageISO2 = fakeString,
+        targetMarketISO3 = fakeString,
+        trustMark = TrustbadgeData.Shop.TrustMark(
+            status = fakeString,
+            validTo = fakeString,
+            validFrom = fakeString,
+        )
+    ))
 }

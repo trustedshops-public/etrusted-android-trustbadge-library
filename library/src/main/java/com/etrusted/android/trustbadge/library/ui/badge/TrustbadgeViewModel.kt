@@ -28,23 +28,26 @@ package com.etrusted.android.trustbadge.library.ui.badge
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.etrusted.android.trustbadge.library.data.repository.TrustbadgeRepository
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 private const val TAG = "TrustbadgeVM"
 
 internal class TrustbadgeViewModel(
+    private var scope: CoroutineScope? = null,
     private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO,
     private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main,
+    private val trustbadgeRepo: ITrustbadgeRepository = TrustbadgeRepository(),
 ): ViewModel() {
 
-    private val trustbadgeRepo = TrustbadgeRepository()
+    init {
+        // testScope is provided during tests otherwise uses default viewModelScope
+        if (scope == null) scope = viewModelScope
+    }
 
     private val _trustbadgeData = MutableStateFlow<TrustbadgeData?>(null)
     internal val trustbadgeData: StateFlow<TrustbadgeData?>
@@ -53,7 +56,7 @@ internal class TrustbadgeViewModel(
     internal suspend fun fetchTrustbadgeData(
         tsId: String,
         channelId: String,
-    ) = viewModelScope.launch {
+    ) = scope?.launch {
         withContext(dispatcherIO) {
             try {
                 val resp = trustbadgeRepo.fetchTrustbadgeData(tsid = tsId, channelId = channelId)

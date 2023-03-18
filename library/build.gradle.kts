@@ -218,6 +218,7 @@ internal val testGoogleTruthVersion: String by project
 internal val androidTestJunitVersion: String by project
 internal val androidTestEspressoVersion: String by project
 internal val okhttpVersion: String by project
+internal val kotlinCoroutinesVersion: String by project
 
 dependencies {
 
@@ -231,6 +232,7 @@ dependencies {
 
     // test dependencies
     testImplementation("junit:junit:$testJunitVersion")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion")
     androidTestImplementation("com.google.truth:truth:$testGoogleTruthVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidTestJunitVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$androidTestEspressoVersion")
