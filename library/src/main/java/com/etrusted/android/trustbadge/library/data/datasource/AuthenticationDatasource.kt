@@ -39,14 +39,18 @@ import java.io.BufferedInputStream
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
+internal interface IAuthenticationDatasource {
+    suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken>
+}
+
 @Suppress("BlockingMethodInNonBlockingContext")
 internal class AuthenticationDatasource(
     private val library: ILibrary = TrustbadgeLibrary,
     private val urls: IUrls = Urls,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
-) {
+): IAuthenticationDatasource {
 
-    suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken> {
+    override suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken> {
 
         return withContext(dispatcher) {
 

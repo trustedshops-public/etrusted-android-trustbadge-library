@@ -36,12 +36,17 @@ import java.io.BufferedInputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
+internal interface IShopGradeDetailDatasource {
+    suspend fun fetchShopGradeDetail(channelId: String, accessToken: String): Result<ChannelInfo>
+}
+
 @Suppress("BlockingMethodInNonBlockingContext")
 internal class ShopGradeDetailDatasource(
     private val urls: IUrls = Urls,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+): IShopGradeDetailDatasource {
 
-    internal suspend fun fetchShopGradeDetail(
+    override suspend fun fetchShopGradeDetail(
         channelId: String,
         accessToken: String,
     ): Result<ChannelInfo> {

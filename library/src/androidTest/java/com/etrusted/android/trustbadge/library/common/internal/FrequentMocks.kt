@@ -28,8 +28,11 @@ package com.etrusted.android.trustbadge.library.common.internal
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.ILibrary
+import com.etrusted.android.trustbadge.library.model.AuthenticationToken
+import com.etrusted.android.trustbadge.library.model.ChannelInfo
 import com.etrusted.android.trustbadge.library.model.TrustbadgeConfig
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
+import java.util.Date
 
 internal fun getUrlsFor(endpoint: String): IUrls {
     return object: IUrls {
@@ -65,4 +68,23 @@ internal fun getFakeTrustbadgeData(): TrustbadgeData {
             validFrom = fakeString,
         )
     ))
+}
+
+internal fun getFakeAuthToken(): AuthenticationToken {
+    val fakeString = "fakeString"
+    val fakeInt = 123
+    val fakeDate = Date()
+    return AuthenticationToken(
+        accessToken = fakeString,
+        expiresIn = fakeInt,
+        refreshExpiresIn = fakeInt,
+        tokenType = fakeString,
+        scope = fakeString,
+        notBeforePolicy = fakeInt,
+        latestAuthenticationTimestamp = fakeDate,
+    )
+}
+
+internal fun getFakeChannelInfo(): ChannelInfo {
+    return ChannelInfo.fromString(ServerResponses.ChannelInfoGoodResponse.content)
 }
