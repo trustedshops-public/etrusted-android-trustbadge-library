@@ -67,6 +67,11 @@ internal fun getFakeTrustbadgeData(): TrustbadgeData {
             status = fakeString,
             validTo = fakeString,
             validFrom = fakeString,
+        ),
+        guarantee = TrustbadgeData.Shop.Guarantee(
+            mainProtectionCurrency = fakeString,
+            maxProtectionAmount = fakeString,
+            maxProtectionDuration = fakeString,
         )
     ))
 }

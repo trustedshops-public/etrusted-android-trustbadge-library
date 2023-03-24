@@ -25,8 +25,6 @@
 
 package com.etrusted.android.trustbadge.library.data.datasource
 
-import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey
-import com.etrusted.android.trustbadge.library.common.internal.IUrls
 import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
 import com.etrusted.android.trustbadge.library.common.internal.getUrlsFor
 import com.google.common.truth.Truth.assertThat

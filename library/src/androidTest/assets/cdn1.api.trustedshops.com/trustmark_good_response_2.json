@@ -12,6 +12,8 @@
           "status": "fakeString",
           "validFrom": "",
           "validTo": ""
+        },
+        "guarantee": {
         }
       }
     },

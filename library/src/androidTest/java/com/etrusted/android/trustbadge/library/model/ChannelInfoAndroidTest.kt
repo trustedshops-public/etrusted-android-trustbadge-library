@@ -26,6 +26,7 @@
 package com.etrusted.android.trustbadge.library.model
 
 import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeData
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -76,21 +77,7 @@ class ChannelInfoAndroidTest {
             year = ChannelInfo.AggregateRating(count = 4, rating = 4.5f),
             overall = ChannelInfo.AggregateRating(count = 5, rating = 4.75f),
         )
-        val fakeTrustbadgeData = TrustbadgeData(
-            shop = TrustbadgeData.Shop(
-                tsid = "doesn't matter",
-                url = "doesn't matter",
-                name = "doesn't matter",
-                languageISO2 = "doesn't matter",
-                targetMarketISO3 = "doesn't matter",
-                trustMark = TrustbadgeData.Shop.TrustMark(
-                    status = "doesn't matter",
-                    validFrom = "doesn't matter",
-                    validTo = "doesn't matter",
-                ),
-                rating = null
-            )
-        )
+        val fakeTrustbadgeData = getFakeTrustbadgeData()
 
         // act
         val enrichedTrustbadge = sut.enrichTrustbadgeDataWithInfo(fakeTrustbadgeData)

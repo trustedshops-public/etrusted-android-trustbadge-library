@@ -12,6 +12,11 @@
           "status": "fakeString",
           "validFrom": "fakeString",
           "validTo": "fakeString"
+        },
+        "guarantee": {
+          "mainProtectionCurrency":"fakeString",
+          "maxProtectionAmount":"fakeString",
+          "maxProtectionDuration":"fakeString"
         }
       }
     },
