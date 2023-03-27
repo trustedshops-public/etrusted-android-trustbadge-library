@@ -2,7 +2,7 @@
 
 [![trustedshops-public](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library.svg?style=shield)](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library)
 [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/trustedshops-public/etrusted-android-trustbadge-library/blob/main/LICENSE)
-[![codecov](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library/branch/main/graph/badge.svg?token=CnT4ETYgkH)](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library)
+[![codecov](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library/branch/develop/graph/badge.svg?token=CnT4ETYgkH)](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/trustedshops-public/etrusted-android-trustbadge-library/tree/develop.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/trustedshops-public/etrusted-android-trustbadge-library/tree/develop)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=trustedshops-public_etrusted-android-trustbadge-library&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=trustedshops-public_etrusted-android-trustbadge-library)
 
