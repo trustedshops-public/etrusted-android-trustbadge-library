@@ -1,0 +1,29 @@
+{
+  "response": {
+    "code": 200,
+    "data": {
+      "shop": {
+        "tsId": "fakeString",
+        "name": "fakeString",
+        "url": "fakeString",
+        "languageISO2": "fakeString",
+        "targetMarketISO3": "fakeString",
+        "trustMark": {
+          "status": "fakeString",
+          "validFrom": "fakeString",
+          "validTo": "fakeString"
+        },
+        "guarantee": {
+          "mainProtectionCurrency":"fakeString",
+          "maxProtectionAmount":"fakeString",
+          "maxProtectionDuration":"fakeString"
+        }
+      }
+    },
+    "message": "SUCCESS",
+    "responseInfo": {
+      "apiVersion": "1.3.37"
+    },
+    "status": "SUCCESS"
+  }
+}
