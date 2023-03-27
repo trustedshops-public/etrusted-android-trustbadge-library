@@ -28,12 +28,13 @@ package com.etrusted.android.trustbadge.library.common.internal
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.ILibrary
+import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
 import com.etrusted.android.trustbadge.library.model.AuthenticationToken
 import com.etrusted.android.trustbadge.library.model.ChannelInfo
 import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating
 import com.etrusted.android.trustbadge.library.model.TrustbadgeConfig
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
-import java.util.Date
+import java.util.*
 
 internal fun getUrlsFor(endpoint: String): IUrls {
     return object: IUrls {
@@ -133,4 +134,16 @@ internal fun getFakeChannelInfo(): ChannelInfo {
                 ratingTrend = AggregateRating.AggregateRatingPeriod.RatingTrend.NEGATIVE
             ))
     )
+}
+
+internal fun getFakeTrustbadgeRepository(
+    result: Result<TrustbadgeData> = Result.success(getFakeTrustbadgeData())
+): ITrustbadgeRepository {
+    return object : ITrustbadgeRepository {
+        override suspend fun fetchTrustbadgeData(
+            tsid: String, channelId: String
+        ): Result<TrustbadgeData> {
+            return result
+        }
+    }
 }
