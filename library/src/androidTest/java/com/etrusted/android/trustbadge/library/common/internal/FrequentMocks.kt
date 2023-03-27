@@ -29,6 +29,7 @@ import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.ILibrary
 import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
+import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
 import com.etrusted.android.trustbadge.library.model.AuthenticationToken
 import com.etrusted.android.trustbadge.library.model.ChannelInfo
 import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating
@@ -145,5 +146,14 @@ internal fun getFakeTrustbadgeRepository(
         ): Result<TrustbadgeData> {
             return result
         }
+    }
+}
+
+internal fun getFakeTrustbadgeDataUseCase(
+    result: Result<TrustbadgeData> = Result.success(getFakeTrustbadgeData())
+): ITrustbadgeDataUseCase {
+    return object : ITrustbadgeDataUseCase {
+        override suspend fun invoke(channelId: String, tsid: String): Result<TrustbadgeData> =
+            result
     }
 }

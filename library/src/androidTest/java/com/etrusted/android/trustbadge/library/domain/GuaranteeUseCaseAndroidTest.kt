@@ -25,6 +25,7 @@
 
 package com.etrusted.android.trustbadge.library.domain
 
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeDataUseCase
 import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeRepository
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.google.common.truth.Truth.assertThat
@@ -35,16 +36,16 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class TrustbadgeDataUseCaseAndroidTest {
+class GuaranteeUseCaseAndroidTest {
 
     @Test
-    fun testTrustbadgeDataUseCaseReturnsSuccessfully() = runTest {
+    fun testGuaranteeUseCaseReturnsSuccessfully() = runTest {
 
         // arrange
         val testDispatcher = StandardTestDispatcher(testScheduler)
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
-        val sut = GetTrustbadgeDataUseCase(
-            trustbadgeRepository = fakeTrustbadgeRepo,
+        val fakeUseCase = getFakeTrustbadgeDataUseCase()
+        val sut = GetGuaranteeUseCase(
+            getTrustbadgeDataUseCase = fakeUseCase,
             dispatcher = testDispatcher,
         )
 
@@ -56,17 +57,17 @@ class TrustbadgeDataUseCaseAndroidTest {
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).apply {
             isNotNull()
-            isInstanceOf(TrustbadgeData::class.java)
+            isInstanceOf(TrustbadgeData.Shop.Guarantee::class.java)
         }
     }
 
     @Test
-    fun testTrustbadgeDataUseCaseReturnsSuccessfullyWithDefaultDispatcher() = runTest {
+    fun testGuaranteeUseCaseReturnsSuccessfullyWithDefualtDispatcher() = runTest {
 
         // arrange
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
-        val sut = GetTrustbadgeDataUseCase(
-            trustbadgeRepository = fakeTrustbadgeRepo,
+        val fakeUseCase = getFakeTrustbadgeDataUseCase()
+        val sut = GetGuaranteeUseCase(
+            getTrustbadgeDataUseCase = fakeUseCase,
         )
 
         // act
@@ -79,13 +80,13 @@ class TrustbadgeDataUseCaseAndroidTest {
     }
 
     @Test
-    fun testTrustbadgeDataUseCaseFailsCorrectly() = runTest {
+    fun testGuaranteeUseCaseFailsCorrectly() = runTest {
 
         // arrange
         val testDispatcher = StandardTestDispatcher(testScheduler)
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository(Result.failure(Throwable("failed")))
-        val sut = GetTrustbadgeDataUseCase(
-            trustbadgeRepository = fakeTrustbadgeRepo,
+        val fakeUseCase = getFakeTrustbadgeDataUseCase(Result.failure(Throwable("failed")))
+        val sut = GetGuaranteeUseCase(
+            getTrustbadgeDataUseCase = fakeUseCase,
             dispatcher = testDispatcher,
         )
 
@@ -97,5 +98,4 @@ class TrustbadgeDataUseCaseAndroidTest {
         assertThat(result.isFailure).isTrue()
         assertThat(result.getOrNull()).isNull()
     }
-
 }
