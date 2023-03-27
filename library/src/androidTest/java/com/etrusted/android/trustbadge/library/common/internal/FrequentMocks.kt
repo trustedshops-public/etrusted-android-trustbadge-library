@@ -28,7 +28,12 @@ package com.etrusted.android.trustbadge.library.common.internal
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.ILibrary
+import com.etrusted.android.trustbadge.library.model.AuthenticationToken
+import com.etrusted.android.trustbadge.library.model.ChannelInfo
+import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating
 import com.etrusted.android.trustbadge.library.model.TrustbadgeConfig
+import com.etrusted.android.trustbadge.library.model.TrustbadgeData
+import java.util.Date
 
 internal fun getUrlsFor(endpoint: String): IUrls {
     return object: IUrls {
@@ -48,4 +53,79 @@ internal fun getFakeLibrary(): ILibrary {
 internal fun getFakeCertificate(): String {
     return InstrumentationRegistry.getInstrumentation().context.readJsonFile(
         "certificates/instrumentation_cert.pem")
+}
+
+internal fun getFakeTrustbadgeData(): TrustbadgeData {
+    val fakeString = "fakeString"
+    return TrustbadgeData(shop = TrustbadgeData.Shop(
+        tsid = fakeString,
+        url = fakeString,
+        name = fakeString,
+        languageISO2 = fakeString,
+        targetMarketISO3 = fakeString,
+        trustMark = TrustbadgeData.Shop.TrustMark(
+            status = fakeString,
+            validTo = fakeString,
+            validFrom = fakeString,
+        )
+    ))
+}
+
+internal fun getFakeAuthToken(): AuthenticationToken {
+    val fakeString = "fakeString"
+    val fakeInt = 123
+    val fakeDate = Date()
+    return AuthenticationToken(
+        accessToken = fakeString,
+        expiresIn = fakeInt,
+        refreshExpiresIn = fakeInt,
+        tokenType = fakeString,
+        scope = fakeString,
+        notBeforePolicy = fakeInt,
+        latestAuthenticationTimestamp = fakeDate,
+    )
+}
+
+internal fun getFakeChannelInfo(): ChannelInfo {
+    val fakeDate = Date()
+    return ChannelInfo(
+        week=AggregateRating(count=0, rating=0f, distribution=null, period=null),
+        month=AggregateRating(count=0, rating=0f, distribution=null, period=null),
+        quarter=AggregateRating(count=2, rating=3.5f, distribution=null,
+            period=AggregateRating.AggregateRatingPeriod(
+                start = fakeDate,
+                end = fakeDate,
+                firstConsideredReviewSubmission = fakeDate,
+                lastConsideredReviewSubmission = fakeDate,
+                calculatedAt = fakeDate,
+                ratingTrend = AggregateRating.AggregateRatingPeriod.RatingTrend.NEUTRAL
+        )),
+        year=AggregateRating(count=5, rating=4.4f, distribution=null,
+            period=AggregateRating.AggregateRatingPeriod(
+                start = fakeDate,
+                end = fakeDate,
+                firstConsideredReviewSubmission = fakeDate,
+                lastConsideredReviewSubmission = fakeDate,
+                calculatedAt = fakeDate,
+                ratingTrend = AggregateRating.AggregateRatingPeriod.RatingTrend.POSITIVE
+        )),
+        overall=AggregateRating(
+            count=70,
+            rating=3.51f,
+            distribution=AggregateRating.AggregateRatingDistribution(
+                oneStar = 1,
+                twoStars = 1,
+                threeStars = 1,
+                fourStars = 1,
+                fiveStars = 1,
+            ),
+            period=AggregateRating.AggregateRatingPeriod(
+                start = fakeDate,
+                end = fakeDate,
+                firstConsideredReviewSubmission = fakeDate,
+                lastConsideredReviewSubmission = fakeDate,
+                calculatedAt = fakeDate,
+                ratingTrend = AggregateRating.AggregateRatingPeriod.RatingTrend.NEGATIVE
+            ))
+    )
 }

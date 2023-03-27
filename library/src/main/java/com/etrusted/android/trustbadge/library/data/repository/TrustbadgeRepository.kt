@@ -25,7 +25,10 @@
 
 package com.etrusted.android.trustbadge.library.data.repository
 
+import com.etrusted.android.trustbadge.library.data.datasource.*
 import com.etrusted.android.trustbadge.library.data.datasource.AuthenticationDatasource
+import com.etrusted.android.trustbadge.library.data.datasource.IAuthenticationDatasource
+import com.etrusted.android.trustbadge.library.data.datasource.IShopGradeDetailDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.ShopGradeDetailDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.TrustbadgeDatasource
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
@@ -34,20 +37,24 @@ import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+internal interface ITrustbadgeRepository {
+    suspend fun fetchTrustbadgeData(tsid: String, channelId: String): Result<TrustbadgeData>
+}
+
 /**
  * This class aims on reading the Trustbadge data
  * without using any third party library (e.g. Okhttp, Retrofit, etc...)
  */
 internal class TrustbadgeRepository
 constructor(
-    private val auth: AuthenticationDatasource = AuthenticationDatasource(),
-    private val trustbadgeDatasource: TrustbadgeDatasource = TrustbadgeDatasource(),
-    private val shopGradeDetailDatasource: ShopGradeDetailDatasource = ShopGradeDetailDatasource(),
+    private val auth: IAuthenticationDatasource = AuthenticationDatasource(),
+    private val trustbadgeDatasource: ITrustbadgeDatasource = TrustbadgeDatasource(),
+    private val shopGradeDetailDatasource: IShopGradeDetailDatasource = ShopGradeDetailDatasource(),
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
-){
+): ITrustbadgeRepository {
 
     @Throws
-    internal suspend fun fetchTrustbadgeData(
+    override suspend fun fetchTrustbadgeData(
         tsid: String,
         channelId: String,
     ): Result<TrustbadgeData> {

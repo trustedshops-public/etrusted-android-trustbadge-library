@@ -1,6 +1,7 @@
 buildscript {
     ext {
         kotlinVersion = "1.7.10"
+        kotlinCoroutinesVersion = "1.6.4"
         gradleVersion = "8.0.1"
         jacocoVersion = "0.8.8"
 
@@ -37,6 +38,7 @@ sonarqube {
         // sonar requires relative path for sources and binaries
         property "sonar.sources", "/library/src/main/java"
         property "sonar.binaries", "/library/build/tmp/kotlin-classes/debug"
+        property "sonar.exclusions", "/app/*"
         // sonar requires absolute path for lint and jacoco reports!
         property "sonar.androidLint.reportPaths", "$rootDir/library/build/reports/lint-results-debug.xml"
         property "sonar.coverage.jacoco.xmlReportPaths", "$rootDir/library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml"

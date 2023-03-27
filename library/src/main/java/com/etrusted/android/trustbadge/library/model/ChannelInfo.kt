@@ -30,32 +30,32 @@ import java.util.Date
 
 internal data class ChannelInfo(
 
-    var week: AggregateRating,
-    var month: AggregateRating,
-    var quarter: AggregateRating,
-    var year: AggregateRating,
-    var overall: AggregateRating
+    val week: AggregateRating,
+    val month: AggregateRating,
+    val quarter: AggregateRating,
+    val year: AggregateRating,
+    val overall: AggregateRating
 ) {
     data class AggregateRating(
-        var count: Int,
-        var rating: Float,
-        var distribution: AggregateRatingDistribution? = null,
-        var period: AggregateRatingPeriod? = null,
+        val count: Int,
+        val rating: Float,
+        val distribution: AggregateRatingDistribution? = null,
+        val period: AggregateRatingPeriod? = null,
     ) {
         data class AggregateRatingDistribution(
-            var oneStar: Int,
-            var twoStars: Int,
-            var threeStars: Int,
-            var fourStars: Int,
-            var fiveStars: Int
+            val oneStar: Int,
+            val twoStars: Int,
+            val threeStars: Int,
+            val fourStars: Int,
+            val fiveStars: Int
         )
         data class AggregateRatingPeriod(
-            var start: Date,
-            var end: Date,
-            var firstConsideredReviewSubmission: Date?,
-            var lastConsideredReviewSubmission: Date?,
-            var calculatedAt: Date?,
-            var ratingTrend: RatingTrend?
+            val start: Date,
+            val end: Date,
+            val firstConsideredReviewSubmission: Date?,
+            val lastConsideredReviewSubmission: Date?,
+            val calculatedAt: Date?,
+            val ratingTrend: RatingTrend?
         ) {
             enum class RatingTrend { NEGATIVE, NEUTRAL, POSITIVE }
         }

@@ -36,12 +36,17 @@ import java.io.BufferedInputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
+internal interface ITrustbadgeDatasource {
+    suspend fun fetchTrustbadge(tsid: String): Result<TrustbadgeData>
+}
+
 @Suppress("BlockingMethodInNonBlockingContext")
 internal class TrustbadgeDatasource(
     private val urls: IUrls = Urls,
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO) {
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO
+): ITrustbadgeDatasource {
 
-    internal suspend fun fetchTrustbadge(
+    override suspend fun fetchTrustbadge(
         tsid: String,
     ): Result<TrustbadgeData> {
 
