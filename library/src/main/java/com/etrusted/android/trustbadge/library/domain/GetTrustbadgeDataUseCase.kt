@@ -28,9 +28,6 @@ package com.etrusted.android.trustbadge.library.domain
 import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
 import com.etrusted.android.trustbadge.library.data.repository.TrustbadgeRepository
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 internal interface ITrustbadgeDataUseCase {
     suspend operator fun invoke(channelId: String, tsid: String): Result<TrustbadgeData>
@@ -38,12 +35,10 @@ internal interface ITrustbadgeDataUseCase {
 
 internal class GetTrustbadgeDataUseCase(
     private val trustbadgeRepository: ITrustbadgeRepository = TrustbadgeRepository(),
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ): ITrustbadgeDataUseCase {
-    override suspend operator fun invoke(channelId: String, tsid: String): Result<TrustbadgeData> =
-        withContext(dispatcher) {
-            return@withContext trustbadgeRepository.fetchTrustbadgeData(
-                channelId = channelId, tsid = tsid
-            )
-        }
+    override suspend fun invoke(
+        channelId: String,
+        tsid: String
+    ): Result<TrustbadgeData> =
+        trustbadgeRepository.fetchTrustbadgeData(channelId = channelId, tsid = tsid)
 }

@@ -26,12 +26,10 @@
 package com.etrusted.android.trustbadge.library.model
 
 import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
-import com.google.common.truth.ExpectFailure.expectFailure
 import com.google.common.truth.Truth.assertThat
 import org.json.JSONException
 import org.junit.Assert.assertThrows
 import org.junit.Test
-//import kotlin.test.assertFailsWith
 
 class TrustbadgeDataBadResponseAndroidTest {
 

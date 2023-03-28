@@ -26,10 +26,10 @@
 package com.etrusted.android.trustbadge.library.domain
 
 import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeRepository
+import com.etrusted.android.trustbadge.library.domain.GetTrustbadgeDataUseCase.*
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -41,11 +41,9 @@ class TrustbadgeDataUseCaseAndroidTest {
     fun testTrustbadgeDataUseCaseReturnsSuccessfully() = runTest {
 
         // arrange
-        val testDispatcher = StandardTestDispatcher(testScheduler)
         val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
         val sut = GetTrustbadgeDataUseCase(
             trustbadgeRepository = fakeTrustbadgeRepo,
-            dispatcher = testDispatcher,
         )
 
         // act
@@ -61,10 +59,10 @@ class TrustbadgeDataUseCaseAndroidTest {
     }
 
     @Test
-    fun testTrustbadgeDataUseCaseReturnsSuccessfullyWithDefaultDispatcher() = runTest {
+    fun testTrustbadgeDataUseCaseFailsCorrectly() = runTest {
 
         // arrange
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
+        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository(Result.failure(Throwable("failed")))
         val sut = GetTrustbadgeDataUseCase(
             trustbadgeRepository = fakeTrustbadgeRepo,
         )
@@ -74,23 +72,21 @@ class TrustbadgeDataUseCaseAndroidTest {
         advanceUntilIdle()
 
         // assert
-        assertThat(result.isSuccess).isTrue()
-        assertThat(result.getOrNull()).isNotNull()
+        assertThat(result.isFailure).isTrue()
+        assertThat(result.getOrNull()).isNull()
     }
 
     @Test
-    fun testTrustbadgeDataUseCaseFailsCorrectly() = runTest {
+    fun testTrustbadgeDataUseCaseFailsCorrectly2() = runTest {
 
         // arrange
-        val testDispatcher = StandardTestDispatcher(testScheduler)
         val fakeTrustbadgeRepo = getFakeTrustbadgeRepository(Result.failure(Throwable("failed")))
         val sut = GetTrustbadgeDataUseCase(
-            trustbadgeRepository = fakeTrustbadgeRepo,
-            dispatcher = testDispatcher,
+            trustbadgeRepository = fakeTrustbadgeRepo
         )
 
         // act
-        val result = sut("fakeString", "fakeString")
+        val result = sut.invoke("fakeString", "fakeString")
         advanceUntilIdle()
 
         // assert

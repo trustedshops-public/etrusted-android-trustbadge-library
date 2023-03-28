@@ -26,11 +26,9 @@
 package com.etrusted.android.trustbadge.library.domain
 
 import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeDataUseCase
-import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeRepository
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
@@ -42,11 +40,9 @@ class GuaranteeUseCaseAndroidTest {
     fun testGuaranteeUseCaseReturnsSuccessfully() = runTest {
 
         // arrange
-        val testDispatcher = StandardTestDispatcher(testScheduler)
         val fakeUseCase = getFakeTrustbadgeDataUseCase()
         val sut = GetGuaranteeUseCase(
             getTrustbadgeDataUseCase = fakeUseCase,
-            dispatcher = testDispatcher,
         )
 
         // act
@@ -62,32 +58,12 @@ class GuaranteeUseCaseAndroidTest {
     }
 
     @Test
-    fun testGuaranteeUseCaseReturnsSuccessfullyWithDefualtDispatcher() = runTest {
-
-        // arrange
-        val fakeUseCase = getFakeTrustbadgeDataUseCase()
-        val sut = GetGuaranteeUseCase(
-            getTrustbadgeDataUseCase = fakeUseCase,
-        )
-
-        // act
-        val result = sut("fakeString", "fakeString")
-        advanceUntilIdle()
-
-        // assert
-        assertThat(result.isSuccess).isTrue()
-        assertThat(result.getOrNull()).isNotNull()
-    }
-
-    @Test
     fun testGuaranteeUseCaseFailsCorrectly() = runTest {
 
         // arrange
-        val testDispatcher = StandardTestDispatcher(testScheduler)
-        val fakeUseCase = getFakeTrustbadgeDataUseCase(Result.failure(Throwable("failed")))
+        val fakeUseCase = getFakeTrustbadgeDataUseCase(Result.failure(Error("failed")))
         val sut = GetGuaranteeUseCase(
             getTrustbadgeDataUseCase = fakeUseCase,
-            dispatcher = testDispatcher,
         )
 
         // act

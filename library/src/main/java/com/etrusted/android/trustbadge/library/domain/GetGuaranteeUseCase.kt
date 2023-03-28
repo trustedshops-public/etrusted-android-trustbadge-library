@@ -32,14 +32,10 @@ import kotlinx.coroutines.withContext
 
 internal class GetGuaranteeUseCase(
     private val getTrustbadgeDataUseCase: ITrustbadgeDataUseCase = GetTrustbadgeDataUseCase(),
-    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ) {
     suspend operator fun invoke(
         channelId: String,
         tsid: String
-    ): Result<TrustbadgeData.Shop.Guarantee> =
-        withContext(dispatcher) {
-            return@withContext getTrustbadgeDataUseCase(channelId, tsid)
-                .map { it.shop.guarantee }
-        }
+    ): Result<TrustbadgeData.Shop.Guarantee> = getTrustbadgeDataUseCase(channelId, tsid)
+        .map { it.shop.guarantee }
 }
