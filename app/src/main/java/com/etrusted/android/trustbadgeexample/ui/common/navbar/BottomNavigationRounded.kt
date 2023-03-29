@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 1.12.2022.
- * Copyright (c) 2022 Trusted Shops GmbH
+ * Copyright (c) 2022 Trusted Shops AG
  *
  * MIT License
  *
@@ -48,7 +48,7 @@ import com.etrusted.android.trustbadgeexample.ui.common.NavItem
 
 /*
  * Created by Ali Kabiri on 23.02.2022
- * Copyright (c) 2022 Trusted Shops GmbH. All rights reserved.
+ * Copyright (c) 2022 Trusted Shops AG. All rights reserved.
  */
 
 @Composable

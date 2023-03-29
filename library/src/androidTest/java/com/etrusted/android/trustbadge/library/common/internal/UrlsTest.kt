@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 10.3.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
