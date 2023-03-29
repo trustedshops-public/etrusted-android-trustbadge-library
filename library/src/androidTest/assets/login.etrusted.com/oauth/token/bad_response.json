@@ -1,8 +1,1 @@
-{
-  "access_token": "eyJBla.eyJBla.eMJBla",
-  "expires_in": 3600,
-  "refresh_expires_in": 0,
-  "token_type": "Bearer",
-  "not-before-policy": 1651869373,
-  "scope": "email profile"
-}
+{"error":"invalid_request","error_description":"Missing form parameter: grant_type"}

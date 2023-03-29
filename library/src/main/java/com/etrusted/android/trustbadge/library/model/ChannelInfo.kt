@@ -104,11 +104,3 @@ internal data class ChannelInfo(
         }
     }
 }
-
-internal fun ChannelInfo.enrichTrustbadgeDataWithInfo(data: TrustbadgeData): TrustbadgeData {
-    return data.copy(
-        shop = data.shop.copy(
-            rating = this.year.rating
-        )
-    )
-}

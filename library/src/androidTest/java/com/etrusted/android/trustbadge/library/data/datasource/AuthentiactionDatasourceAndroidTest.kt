@@ -68,6 +68,90 @@ internal class AuthenticationDatasourceAndroidTest {
     }
 
     @Test
+    fun testFetchAuthenticationFailsCorrectly() = runTest {
+
+        // arrange
+        val badData = ServerResponses.AuthenticationTokenBadResponse.content
+        val server = MockWebServer()
+        val localhostCertificate = HeldCertificate.decode(getFakeCertificate())
+        val serverCertificates = HandshakeCertificates.Builder()
+            .heldCertificate(localhostCertificate)
+            .build()
+        server.useHttps(serverCertificates.sslSocketFactory(), false)
+        server.enqueue(MockResponse().apply { setBody(badData) })
+        server.start()
+        val mockUrl = server.url("")
+        val mockUrlRoot = "https://${mockUrl.host}:${mockUrl.port}/"
+        val mockUrls = getUrlsFor(mockUrlRoot)
+        val mockLibrary = getFakeLibrary()
+        val sut = AuthenticationDatasource(library = mockLibrary, urls = mockUrls)
+
+        // act
+        val result = sut.getAccessTokenUsingSecret()
+
+        // assert
+        assertThat(result.isFailure).isTrue()
+    }
+
+    @Test
+    fun testFetchAuthenticationFailsCorrectlyWithErrorBody() = runTest {
+
+        // arrange
+        val badData = ServerResponses.AuthenticationTokenBadResponse.content
+        val server = MockWebServer()
+        val localhostCertificate = HeldCertificate.decode(getFakeCertificate())
+        val serverCertificates = HandshakeCertificates.Builder()
+            .heldCertificate(localhostCertificate)
+            .build()
+        server.useHttps(serverCertificates.sslSocketFactory(), false)
+        server.enqueue(MockResponse().apply {
+            setResponseCode(403)
+            setBody(badData)
+        })
+        server.start()
+        val mockUrl = server.url("")
+        val mockUrlRoot = "https://${mockUrl.host}:${mockUrl.port}/"
+        val mockUrls = getUrlsFor(mockUrlRoot)
+        val mockLibrary = getFakeLibrary()
+        val sut = AuthenticationDatasource(library = mockLibrary, urls = mockUrls)
+
+        // act
+        val result = sut.getAccessTokenUsingSecret()
+
+        // assert
+        assertThat(result.isFailure).isTrue()
+    }
+
+    @Test
+    fun testFetchAuthenticationFailsCorrectlyWithBlankErrorBody() = runTest {
+
+        // arrange
+        val badData = ""
+        val server = MockWebServer()
+        val localhostCertificate = HeldCertificate.decode(getFakeCertificate())
+        val serverCertificates = HandshakeCertificates.Builder()
+            .heldCertificate(localhostCertificate)
+            .build()
+        server.useHttps(serverCertificates.sslSocketFactory(), false)
+        server.enqueue(MockResponse().apply {
+            setResponseCode(403)
+            setBody(badData)
+        })
+        server.start()
+        val mockUrl = server.url("")
+        val mockUrlRoot = "https://${mockUrl.host}:${mockUrl.port}/"
+        val mockUrls = getUrlsFor(mockUrlRoot)
+        val mockLibrary = getFakeLibrary()
+        val sut = AuthenticationDatasource(library = mockLibrary, urls = mockUrls)
+
+        // act
+        val result = sut.getAccessTokenUsingSecret()
+
+        // assert
+        assertThat(result.isFailure).isTrue()
+    }
+
+    @Test
     @Ignore("generate fresh instrumentation certificate")
     fun generateFakeCertificate() {
         val localhost = InetAddress.getByName("localhost").canonicalHostName

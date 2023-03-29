@@ -25,67 +25,70 @@
 
 package com.etrusted.android.trustbadge.library.data.repository
 
-import com.etrusted.android.trustbadge.library.common.internal.getFakeChannelInfo
-import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeDatasource
-import com.etrusted.android.trustbadge.library.model.TrustbadgeData
+import com.etrusted.android.trustbadge.library.common.internal.getFakeAuthDatasource
+import com.etrusted.android.trustbadge.library.common.internal.getFakeShopGradeDetailDatasource
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class TrustbadgeRepositoryAndroidTest {
+internal class ChannelInfoRepositoryAndroidTest {
 
     @Test
-    fun testFetchTrustbadgeDataReturnsSuccessfully() = runTest {
+    fun testFetchChannelInfoReturnsSuccessfully() = runTest {
         // arrange
-        val fakeRating = 3.456f
-        val fakeChannelInfo = getFakeChannelInfo(fakeRating)
-        val fakeTrustbadgeDatasource = getFakeTrustbadgeDatasource()
-        val sut = TrustbadgeRepository(trustbadgeDatasource = fakeTrustbadgeDatasource)
-
-        // act
-        val result = sut.fetchTrustbadgeData(
-            tsid = "fakeString",
-            channelId = "fakeString",
-            channelInfo = fakeChannelInfo,
+        val fakeAuthDatasource = getFakeAuthDatasource()
+        val fakeShopGradeDetailDatasource = getFakeShopGradeDetailDatasource()
+        val sut = ChannelInfoRepository(
+            authenticationDatasource = fakeAuthDatasource,
+            shopGradeDetailDatasource = fakeShopGradeDetailDatasource,
         )
 
-        // assert
-        assertThat(result.isSuccess).isTrue()
-        assertThat(result.getOrNull()).isNotNull()
-        assertThat(result.getOrNull()?.shop?.rating).isEqualTo(fakeRating)
-    }
-
-    @Test
-    fun testFetchTrustbadgeDataReturnsSuccessfullyWithoutChannelInfo() = runTest {
-        // arrange
-        val fakeTrustbadgeDatasource = getFakeTrustbadgeDatasource()
-        val sut = TrustbadgeRepository(trustbadgeDatasource = fakeTrustbadgeDatasource)
-
         // act
-        val result = sut.fetchTrustbadgeData(
-            tsid = "fakeString",
-            channelId = "fakeString",
-        )
+        val result = sut.fetchChannelInfo("fakeChannelId")
 
         // assert
         assertThat(result.isSuccess).isTrue()
     }
 
     @Test
-    fun testFetchTrustbadgeDataFailsWhenLoadingTrustbadge() = runTest {
+    fun testFetchChannelInfoFails() = runTest {
         // arrange
         val fakeMsg = "failed"
-        val failingResult = Result.failure<TrustbadgeData>(exception = Throwable(fakeMsg))
-        val fakeTrustbadgeDatasource = getFakeTrustbadgeDatasource(failingResult)
-        val sut = TrustbadgeRepository(trustbadgeDatasource = fakeTrustbadgeDatasource)
+        val fakeAuthDatasource = getFakeAuthDatasource()
+        val fakeShopGradeDetailDatasource = getFakeShopGradeDetailDatasource(
+            result = Result.failure(Throwable(fakeMsg))
+        )
+        val sut = ChannelInfoRepository(
+            authenticationDatasource = fakeAuthDatasource,
+            shopGradeDetailDatasource = fakeShopGradeDetailDatasource,
+        )
 
         // act
-        val result = sut.fetchTrustbadgeData(
-            tsid = "fakeString",
-            channelId = "fakeString",
+        val result = sut.fetchChannelInfo("fakeChannelId")
+
+        // assert
+        assertThat(result.isFailure).isTrue()
+        assertThat(result.exceptionOrNull()).isNotNull()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo(fakeMsg)
+    }
+
+    @Test
+    fun testFetchChannelInfoFailsWithAuthError() = runTest {
+        // arrange
+        val fakeMsg = "failed"
+        val fakeAuthDatasource = getFakeAuthDatasource(
+            result = Result.failure(Throwable(fakeMsg))
         )
+        val fakeShopGradeDetailDatasource = getFakeShopGradeDetailDatasource()
+        val sut = ChannelInfoRepository(
+            authenticationDatasource = fakeAuthDatasource,
+            shopGradeDetailDatasource = fakeShopGradeDetailDatasource,
+        )
+
+        // act
+        val result = sut.fetchChannelInfo("fakeChannelId")
 
         // assert
         assertThat(result.isFailure).isTrue()

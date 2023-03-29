@@ -39,9 +39,24 @@ internal sealed class ServerResponses {
             get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }
 
+    object ChannelInfoBadResponse: ServerResponses() {
+        override val path: String
+            get() = "api.etrusted.com" +
+                    "/channels/channelid/service-reviews/aggregate-rating/bad_response.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
+    }
+
     object AuthenticationTokenGoodResponse: ServerResponses() {
         override val path: String
             get() = "login.etrusted.com/oauth/token/good_response.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
+    }
+
+    object AuthenticationTokenBadResponse: ServerResponses() {
+        override val path: String
+            get() = "login.etrusted.com/oauth/token/bad_response.json"
         override val content: String
             get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }

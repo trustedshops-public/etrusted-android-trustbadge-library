@@ -27,10 +27,15 @@ package com.etrusted.android.trustbadge.library.domain
 
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 
+internal interface IGuaranteeUseCase {
+    suspend operator fun invoke(channelId: String, tsid: String):
+            Result<TrustbadgeData.Shop.Guarantee>
+}
+
 internal class GetGuaranteeUseCase(
     private val getTrustbadgeDataUseCase: ITrustbadgeDataUseCase = GetTrustbadgeDataUseCase(),
-) {
-    suspend operator fun invoke(
+): IGuaranteeUseCase {
+    override suspend fun invoke(
         channelId: String,
         tsid: String
     ): Result<TrustbadgeData.Shop.Guarantee> = getTrustbadgeDataUseCase(channelId, tsid)

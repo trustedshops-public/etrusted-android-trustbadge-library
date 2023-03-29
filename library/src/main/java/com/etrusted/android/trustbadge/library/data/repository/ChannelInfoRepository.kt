@@ -25,48 +25,43 @@
 
 package com.etrusted.android.trustbadge.library.data.repository
 
+import com.etrusted.android.trustbadge.library.data.datasource.AuthenticationDatasource
+import com.etrusted.android.trustbadge.library.data.datasource.IAuthenticationDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.IShopGradeDetailDatasource
-import com.etrusted.android.trustbadge.library.data.datasource.ITrustbadgeDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.ShopGradeDetailDatasource
-import com.etrusted.android.trustbadge.library.data.datasource.TrustbadgeDatasource
-import com.etrusted.android.trustbadge.library.model.AuthenticationToken
-import com.etrusted.android.trustbadge.library.model.TrustbadgeData
-import com.etrusted.android.trustbadge.library.model.enrichTrustbadgeDataWithInfo
+import com.etrusted.android.trustbadge.library.model.ChannelInfo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-internal interface ITrustbadgeRepository {
-    suspend fun fetchTrustbadgeData(tsid: String, channelId: String): Result<TrustbadgeData>
+internal interface IChannelInfoRepository {
+    suspend fun fetchChannelInfo(channelId: String): Result<ChannelInfo>
 }
 
 /**
  * This class aims on reading the Trustbadge data
  * without using any third party library (e.g. Okhttp, Retrofit, etc...)
  */
-internal class TrustbadgeRepository
+internal class ChannelInfoRepository
 constructor(
-    private val token: AuthenticationToken,
-    private val trustbadgeDatasource: ITrustbadgeDatasource = TrustbadgeDatasource(),
+    private val authenticationDatasource: IAuthenticationDatasource = AuthenticationDatasource(),
     private val shopGradeDetailDatasource: IShopGradeDetailDatasource = ShopGradeDetailDatasource(),
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
-): ITrustbadgeRepository {
+): IChannelInfoRepository {
 
     @Throws
-    override suspend fun fetchTrustbadgeData(
-        tsid: String,
+    override suspend fun fetchChannelInfo(
         channelId: String,
-    ): Result<TrustbadgeData> {
+    ): Result<ChannelInfo> {
 
         return withContext(dispatcher) {
 
-            val channelInfoData = shopGradeDetailDatasource.fetchShopGradeDetail(
+            val token = authenticationDatasource.getAccessTokenUsingSecret().getOrElse {
+                return@withContext Result.failure(it)
+            }
+            return@withContext shopGradeDetailDatasource.fetchShopGradeDetail(
                     channelId = channelId,
-                    accessToken = token.accessToken).getOrThrow()
-            val tBadgeData = trustbadgeDatasource.fetchTrustbadge(tsid).getOrThrow()
-            val tBadgeWithRating = channelInfoData.enrichTrustbadgeDataWithInfo(tBadgeData)
-
-            Result.success(tBadgeWithRating)
+                    accessToken = token.accessToken)
         }
     }
 }

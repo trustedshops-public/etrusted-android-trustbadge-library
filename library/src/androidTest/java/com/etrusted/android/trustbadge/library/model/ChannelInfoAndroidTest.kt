@@ -26,7 +26,6 @@
 package com.etrusted.android.trustbadge.library.model
 
 import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
-import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeData
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -65,25 +64,5 @@ class ChannelInfoAndroidTest {
         assertThat(channelInfo.overall.rating).isEqualTo(3.51f)
         assertThat(channelInfo.overall.period).isEqualTo(null)
         assertThat(channelInfo.overall.distribution).isEqualTo(null)
-    }
-
-    @Test
-    fun testEnrichTrustbadgeDataWithInfoWorks() {
-        // arrange
-        val sut = ChannelInfo(
-            week = ChannelInfo.AggregateRating(count = 1, rating = 1.5f),
-            month = ChannelInfo.AggregateRating(count = 2, rating = 2.5f),
-            quarter = ChannelInfo.AggregateRating(count = 3, rating = 3.5f),
-            year = ChannelInfo.AggregateRating(count = 4, rating = 4.5f),
-            overall = ChannelInfo.AggregateRating(count = 5, rating = 4.75f),
-        )
-        val fakeTrustbadgeData = getFakeTrustbadgeData()
-
-        // act
-        val enrichedTrustbadge = sut.enrichTrustbadgeDataWithInfo(fakeTrustbadgeData)
-
-        // assert
-        assertThat(enrichedTrustbadge.shop.rating).isNotNull()
-        assertThat(enrichedTrustbadge.shop.rating).isEqualTo(sut.year.rating)
     }
 }

@@ -25,6 +25,7 @@
 
 package com.etrusted.android.trustbadge.library.domain
 
+import com.etrusted.android.trustbadge.library.common.internal.getFakeChannelInfoDataUseCase
 import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeRepository
 import com.etrusted.android.trustbadge.library.domain.GetTrustbadgeDataUseCase.*
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
@@ -42,8 +43,10 @@ class TrustbadgeDataUseCaseAndroidTest {
 
         // arrange
         val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
+        val fakeChannelInfoDataUseCase = getFakeChannelInfoDataUseCase()
         val sut = GetTrustbadgeDataUseCase(
             trustbadgeRepository = fakeTrustbadgeRepo,
+            getChannelInfoDataUseCase = fakeChannelInfoDataUseCase,
         )
 
         // act
@@ -63,8 +66,10 @@ class TrustbadgeDataUseCaseAndroidTest {
 
         // arrange
         val fakeTrustbadgeRepo = getFakeTrustbadgeRepository(Result.failure(Throwable("failed")))
+        val fakeChannelInfoDataUseCase = getFakeChannelInfoDataUseCase()
         val sut = GetTrustbadgeDataUseCase(
             trustbadgeRepository = fakeTrustbadgeRepo,
+            getChannelInfoDataUseCase = fakeChannelInfoDataUseCase,
         )
 
         // act
@@ -81,8 +86,10 @@ class TrustbadgeDataUseCaseAndroidTest {
 
         // arrange
         val fakeTrustbadgeRepo = getFakeTrustbadgeRepository(Result.failure(Throwable("failed")))
+        val fakeChannelInfoDataUseCase = getFakeChannelInfoDataUseCase()
         val sut = GetTrustbadgeDataUseCase(
-            trustbadgeRepository = fakeTrustbadgeRepo
+            trustbadgeRepository = fakeTrustbadgeRepo,
+            getChannelInfoDataUseCase = fakeChannelInfoDataUseCase,
         )
 
         // act

@@ -25,8 +25,6 @@
 
 package com.etrusted.android.trustbadge.library.data.datasource
 
-import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey
-import com.etrusted.android.trustbadge.library.common.internal.IUrls
 import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
 import com.etrusted.android.trustbadge.library.common.internal.getUrlsFor
 import com.google.common.truth.Truth.assertThat
@@ -57,5 +55,25 @@ internal class ShopGradeDatasourceAndroidTest {
 
         // assert
         assertThat(result.isSuccess).isTrue()
+    }
+
+    @Test
+    fun testFetchShopGradeDetailFailsCorrectly() = runTest {
+
+        // arrange
+        val badData = ServerResponses.ChannelInfoBadResponse.content
+        val server = MockWebServer()
+        server.enqueue(MockResponse().apply { setBody(badData) })
+        server.start()
+        val mockUrl = server.url("")
+        val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
+        val mockUrls = getUrlsFor(mockUrlRoot)
+        val sut = ShopGradeDetailDatasource(urls = mockUrls)
+
+        // act
+        val result = sut.fetchShopGradeDetail("fakeChannelId", "fakeAccessToken")
+
+        // assert
+        assertThat(result.isFailure).isTrue()
     }
 }

@@ -35,10 +35,17 @@ internal interface ITrustbadgeDataUseCase {
 
 internal class GetTrustbadgeDataUseCase(
     private val trustbadgeRepository: ITrustbadgeRepository = TrustbadgeRepository(),
+    private val getChannelInfoDataUseCase: IChannelInfoDataUseCase = GetChannelInfoDataUseCase(),
 ): ITrustbadgeDataUseCase {
     override suspend fun invoke(
         channelId: String,
         tsid: String
-    ): Result<TrustbadgeData> =
-        trustbadgeRepository.fetchTrustbadgeData(channelId = channelId, tsid = tsid)
+    ): Result<TrustbadgeData> {
+        val channelInfo = getChannelInfoDataUseCase(channelId = channelId)
+        return trustbadgeRepository.fetchTrustbadgeData(
+            channelId = channelId,
+            tsid = tsid,
+            channelInfo = channelInfo.getOrNull(),
+        )
+    }
 }

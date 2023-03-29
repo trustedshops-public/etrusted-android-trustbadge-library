@@ -25,10 +25,9 @@
 
 package com.etrusted.android.trustbadge.library.domain
 
-import com.etrusted.android.trustbadge.library.common.internal.getFakeChannelInfoDataUseCase
-import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeRepository
+import com.etrusted.android.trustbadge.library.common.internal.getFakeChannelInfoRepository
 import com.etrusted.android.trustbadge.library.domain.GetTrustbadgeDataUseCase.*
-import com.etrusted.android.trustbadge.library.model.TrustbadgeData
+import com.etrusted.android.trustbadge.library.model.ChannelInfo
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.advanceUntilIdle
@@ -36,69 +35,49 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class TrustbadgeDataUseCaseAndroidTest {
+class ChannelInfoDataUseCaseAndroidTest {
 
     @Test
-    fun testTrustbadgeDataUseCaseReturnsSuccessfully() = runTest {
+    fun testChannelInfoDataUseCaseReturnsSuccessfully() = runTest {
 
         // arrange
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
-        val fakeChannelInfoDataUseCase = getFakeChannelInfoDataUseCase()
-        val sut = GetTrustbadgeDataUseCase(
-            trustbadgeRepository = fakeTrustbadgeRepo,
-            getChannelInfoDataUseCase = fakeChannelInfoDataUseCase,
+        val fakeChannelInfoRepository = getFakeChannelInfoRepository()
+        val sut = GetChannelInfoDataUseCase(
+            channelInfoRepository = fakeChannelInfoRepository
         )
 
         // act
-        val result = sut("fakeString", "fakeString")
+        val result = sut(channelId = "fakeString")
         advanceUntilIdle()
 
         // assert
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).apply {
             isNotNull()
-            isInstanceOf(TrustbadgeData::class.java)
+            isInstanceOf(ChannelInfo::class.java)
         }
     }
 
     @Test
-    fun testTrustbadgeDataUseCaseFailsCorrectly() = runTest {
+    fun testChannelInfoDataUseCaseFailsCorrectly() = runTest {
 
         // arrange
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository(Result.failure(Throwable("failed")))
-        val fakeChannelInfoDataUseCase = getFakeChannelInfoDataUseCase()
-        val sut = GetTrustbadgeDataUseCase(
-            trustbadgeRepository = fakeTrustbadgeRepo,
-            getChannelInfoDataUseCase = fakeChannelInfoDataUseCase,
+        val fakeMsg = "failed"
+        val fakeChannelInfoRepository = getFakeChannelInfoRepository(
+            result = Result.failure(Throwable(fakeMsg))
+        )
+        val sut = GetChannelInfoDataUseCase(
+            channelInfoRepository = fakeChannelInfoRepository
         )
 
         // act
-        val result = sut("fakeString", "fakeString")
+        val result = sut(channelId = "fakeString")
         advanceUntilIdle()
 
         // assert
         assertThat(result.isFailure).isTrue()
-        assertThat(result.getOrNull()).isNull()
-    }
-
-    @Test
-    fun testTrustbadgeDataUseCaseFailsCorrectly2() = runTest {
-
-        // arrange
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository(Result.failure(Throwable("failed")))
-        val fakeChannelInfoDataUseCase = getFakeChannelInfoDataUseCase()
-        val sut = GetTrustbadgeDataUseCase(
-            trustbadgeRepository = fakeTrustbadgeRepo,
-            getChannelInfoDataUseCase = fakeChannelInfoDataUseCase,
-        )
-
-        // act
-        val result = sut.invoke("fakeString", "fakeString")
-        advanceUntilIdle()
-
-        // assert
-        assertThat(result.isFailure).isTrue()
-        assertThat(result.getOrNull()).isNull()
+        assertThat(result.exceptionOrNull()).isNotNull()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo(fakeMsg)
     }
 
 }
