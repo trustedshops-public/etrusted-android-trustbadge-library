@@ -25,7 +25,7 @@
 
 package com.etrusted.android.trustbadge.library.ui.badge
 
-import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeRepository
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeDataUseCase
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -41,12 +41,12 @@ class TrustbadgeViewModelAndroidTest {
 
         // arrange
         val testDispatcher = StandardTestDispatcher(testScheduler)
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
         val sut = TrustbadgeViewModel(
             scope = this,
             dispatcherIO = testDispatcher,
             dispatcherMain = testDispatcher,
-            trustbadgeRepo = fakeTrustbadgeRepo,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
         )
 
         // act
@@ -62,12 +62,12 @@ class TrustbadgeViewModelAndroidTest {
 
         // arrange
         val testDispatcher = StandardTestDispatcher(testScheduler)
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository(Result.failure(Throwable("failed")))
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase(Result.failure(Throwable("failed")))
         val sut = TrustbadgeViewModel(
             scope = this,
             dispatcherIO = testDispatcher,
             dispatcherMain = testDispatcher,
-            trustbadgeRepo = fakeTrustbadgeRepo,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
         )
 
         // act

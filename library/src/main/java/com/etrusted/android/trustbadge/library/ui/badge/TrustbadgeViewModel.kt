@@ -28,9 +28,9 @@ package com.etrusted.android.trustbadge.library.ui.badge
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
+import com.etrusted.android.trustbadge.library.domain.GetTrustbadgeDataUseCase
+import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
-import com.etrusted.android.trustbadge.library.data.repository.TrustbadgeRepository
 import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -41,7 +41,7 @@ internal class TrustbadgeViewModel(
     private var scope: CoroutineScope? = null,
     private val dispatcherIO: CoroutineDispatcher = Dispatchers.IO,
     private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main,
-    private val trustbadgeRepo: ITrustbadgeRepository = TrustbadgeRepository(),
+    private val getTrustbadgeDataUseCase: ITrustbadgeDataUseCase = GetTrustbadgeDataUseCase(),
 ): ViewModel() {
 
     init {
@@ -59,7 +59,7 @@ internal class TrustbadgeViewModel(
     ) = scope?.launch {
         withContext(dispatcherIO) {
             try {
-                val resp = trustbadgeRepo.fetchTrustbadgeData(tsid = tsId, channelId = channelId)
+                val resp = getTrustbadgeDataUseCase(tsid = tsId, channelId = channelId)
                 if (resp.isSuccess) {
                     withContext(dispatcherMain) {
                         _trustbadgeData.value = resp.getOrNull()
