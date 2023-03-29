@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 18.3.2023.
+ * Created by Ali Kabiri on 27.3.2023.
  * Copyright (c) 2023 Trusted Shops GmbH
  *
  * MIT License
@@ -23,58 +23,55 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.ui.badge
+package com.etrusted.android.trustbadge.library.domain
 
-import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeRepository
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeDataUseCase
+import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class TrustbadgeViewModelAndroidTest {
+class GuaranteeUseCaseAndroidTest {
 
     @Test
-    fun testFetchTrustbadgeDataWorksWithRepoFetchSuccessful() = runTest {
+    fun testGuaranteeUseCaseReturnsSuccessfully() = runTest {
 
         // arrange
-        val testDispatcher = StandardTestDispatcher(testScheduler)
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
-        val sut = TrustbadgeViewModel(
-            scope = this,
-            dispatcherIO = testDispatcher,
-            dispatcherMain = testDispatcher,
-            trustbadgeRepo = fakeTrustbadgeRepo,
+        val fakeUseCase = getFakeTrustbadgeDataUseCase()
+        val sut = GetGuaranteeUseCase(
+            getTrustbadgeDataUseCase = fakeUseCase,
         )
 
         // act
-        sut.fetchTrustbadgeData("fakeString", "fakeString")
+        val result = sut("fakeString", "fakeString")
         advanceUntilIdle()
 
         // assert
-        assertThat(sut.trustbadgeData.value).isNotNull()
+        assertThat(result.isSuccess).isTrue()
+        assertThat(result.getOrNull()).apply {
+            isNotNull()
+            isInstanceOf(TrustbadgeData.Shop.Guarantee::class.java)
+        }
     }
 
     @Test
-    fun testFetchTrustbadgeDataWorksWithRepoFetchFailure() = runTest {
+    fun testGuaranteeUseCaseFailsCorrectly() = runTest {
 
         // arrange
-        val testDispatcher = StandardTestDispatcher(testScheduler)
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository(Result.failure(Throwable("failed")))
-        val sut = TrustbadgeViewModel(
-            scope = this,
-            dispatcherIO = testDispatcher,
-            dispatcherMain = testDispatcher,
-            trustbadgeRepo = fakeTrustbadgeRepo,
+        val fakeUseCase = getFakeTrustbadgeDataUseCase(Result.failure(Error("failed")))
+        val sut = GetGuaranteeUseCase(
+            getTrustbadgeDataUseCase = fakeUseCase,
         )
 
         // act
-        sut.fetchTrustbadgeData("fakeString", "fakeString")
+        val result = sut("fakeString", "fakeString")
         advanceUntilIdle()
 
         // assert
-        assertThat(sut.trustbadgeData.value).isNull()
+        assertThat(result.isFailure).isTrue()
+        assertThat(result.getOrNull()).isNull()
     }
 }

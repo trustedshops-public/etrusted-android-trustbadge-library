@@ -55,6 +55,14 @@ Git even has a -s command line option to append this automatically to your commi
 git commit -s -m 'This is my commit message'
 ```
 
+## Architecture
+The library follows Google's recommendations for app architecture.
+- The main layers are the [UI Layer](https://developer.android.com/topic/architecture/ui-layer) and the [Data Layer](https://developer.android.com/topic/architecture/data-layer) (distinguished by same package names in the library project)
+- The [Domain Layer](https://developer.android.com/topic/architecture/domain-layer) classes distinguished by suffix `UseCase` are optional and hold business-logic only
+- It is allowed to reuse a `UseCase` in another `UseCase`, [More info on Google's MAD Skills episode about the Domain Layer](https://youtu.be/gIhjCh3U88I)
+
+[Read more about app architecture on Google's official docs for Android](https://developer.android.com/topic/architecture?authuser=2#recommended-app-arch)
+
 ## Testing
 The project has Gradle Managed Devices set for running instrumented tests.
 All the instrumented tests can be run from the command line:
