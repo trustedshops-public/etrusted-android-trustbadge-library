@@ -26,9 +26,6 @@
 package com.etrusted.android.trustbadge.library.domain
 
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
-import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
 
 internal class GetGuaranteeUseCase(
     private val getTrustbadgeDataUseCase: ITrustbadgeDataUseCase = GetTrustbadgeDataUseCase(),
