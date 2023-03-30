@@ -57,19 +57,17 @@ internal class TrustbadgeViewModel(
         tsId: String,
         channelId: String,
     ) = scope?.launch {
-        withContext(dispatcherIO) {
-            try {
-                val resp = getTrustbadgeDataUseCase(tsid = tsId, channelId = channelId)
-                if (resp.isSuccess) {
-                    withContext(dispatcherMain) {
-                        _trustbadgeData.value = resp.getOrNull()
-                    }
-                } else {
-                    Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
+        try {
+            val resp = getTrustbadgeDataUseCase(tsid = tsId, channelId = channelId)
+            if (resp.isSuccess) {
+                withContext(dispatcherMain) {
+                    _trustbadgeData.value = resp.getOrNull()
                 }
-            } catch (e: Exception) {
-                Log.e(TAG, "error: ${e.message}")
+            } else {
+                Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
             }
+        } catch (e: Exception) {
+            Log.e(TAG, "error: ${e.message}")
         }
     }
 }

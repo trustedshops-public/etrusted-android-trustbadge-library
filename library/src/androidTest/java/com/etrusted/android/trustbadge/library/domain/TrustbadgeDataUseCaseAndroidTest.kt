@@ -62,6 +62,49 @@ class TrustbadgeDataUseCaseAndroidTest {
     }
 
     @Test
+    fun testTrustbadgeDataUseCaseReturnsSuccessfullyWithoutChannelInfo() = runTest {
+
+        // arrange
+        val fakeMsg = "failed"
+        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
+        val fakeChannelInfoDataUseCase = getFakeChannelInfoDataUseCase(
+            result = Result.failure(Throwable(fakeMsg)))
+        val sut = GetTrustbadgeDataUseCase(
+            trustbadgeRepository = fakeTrustbadgeRepo,
+            getChannelInfoDataUseCase = fakeChannelInfoDataUseCase,
+        )
+
+        // act
+        val result = sut("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(result.isSuccess).isTrue()
+        assertThat(result.getOrNull()?.shop?.rating).isNull()
+    }
+
+    @Test
+    fun testTrustbadgeDataUseCaseReturnsSuccessfullyWithoutChannelInfo2() = runTest {
+
+        // arrange
+        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
+        val fakeChannelInfoDataUseCase = getFakeChannelInfoDataUseCase(
+            result = Result.failure(Throwable()))
+        val sut = GetTrustbadgeDataUseCase(
+            trustbadgeRepository = fakeTrustbadgeRepo,
+            getChannelInfoDataUseCase = fakeChannelInfoDataUseCase,
+        )
+
+        // act
+        val result = sut("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(result.isSuccess).isTrue()
+        assertThat(result.getOrNull()?.shop?.rating).isNull()
+    }
+
+    @Test
     fun testTrustbadgeDataUseCaseFailsCorrectly() = runTest {
 
         // arrange

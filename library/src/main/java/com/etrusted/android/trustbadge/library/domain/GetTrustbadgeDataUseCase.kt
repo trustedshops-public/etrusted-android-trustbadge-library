@@ -25,9 +25,12 @@
 
 package com.etrusted.android.trustbadge.library.domain
 
+import android.util.Log
 import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
 import com.etrusted.android.trustbadge.library.data.repository.TrustbadgeRepository
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
+
+private const val TAG = "TrustbadgeDataUseCase"
 
 internal interface ITrustbadgeDataUseCase {
     suspend operator fun invoke(channelId: String, tsid: String): Result<TrustbadgeData>
@@ -41,11 +44,15 @@ internal class GetTrustbadgeDataUseCase(
         channelId: String,
         tsid: String
     ): Result<TrustbadgeData> {
-        val channelInfo = getChannelInfoDataUseCase(channelId = channelId)
+        val channelInfoResult = getChannelInfoDataUseCase(channelId = channelId)
+        if (channelInfoResult.isFailure) {
+            Log.e(TAG, channelInfoResult.exceptionOrNull()?.message
+                ?: "error getting channelInfo")
+        }
         return trustbadgeRepository.fetchTrustbadgeData(
             channelId = channelId,
             tsid = tsid,
-            channelInfo = channelInfo.getOrNull(),
+            channelInfo = channelInfoResult.getOrNull(),
         )
     }
 }
