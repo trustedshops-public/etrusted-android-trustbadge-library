@@ -48,7 +48,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.ShopGrade
-import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.TrustMark
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import com.etrusted.android.trustbadge.library.ui.theme.TsBadgeBg
 import com.etrusted.android.trustbadge.library.ui.theme.TsNeutralsGrey50
@@ -64,6 +63,7 @@ fun Trustbadge(
 ) {
     val viewModel: TrustbadgeViewModel = viewModel()
     val trustbadgeData by viewModel.trustbadgeData.collectAsState()
+    val guarantee by viewModel.guarantee.collectAsState()
 
     AnimatedVisibility(
         modifier = modifier.testTag(TestTags.Trustbadge.raw),
@@ -86,7 +86,9 @@ fun Trustbadge(
             ExpandedView(
                 modifier = Modifier.align(Alignment.CenterVertically),
                 state = state, badgeContext = badgeContext,
-                rating = trustbadgeData?.shop?.rating)
+                rating = trustbadgeData?.shop?.rating,
+                guaranteeAmount = guarantee?.maxProtectionAmount ?: "0"
+            )
         }
 
         ElevatedButton(
@@ -106,12 +108,13 @@ fun Trustbadge(
 
     LaunchedEffect(null) {
         viewModel.fetchTrustbadgeData(tsid, channelId)
+        viewModel.fetchGuarantee(tsid, channelId)
     }
 
     LaunchedEffect(null) {
         // automatically show the expanded state only if the context is not set to TRUSTMARK
         // The TRUSTMARK state only shows the badge in circle form
-        if (badgeContext != TrustMark) {
+        if (badgeContext.isExpandable) {
             delay(1000)
             state.expand()
             delay(3000)

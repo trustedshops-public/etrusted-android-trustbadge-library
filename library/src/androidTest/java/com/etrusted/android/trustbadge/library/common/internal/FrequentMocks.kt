@@ -34,6 +34,7 @@ import com.etrusted.android.trustbadge.library.data.datasource.ITrustbadgeDataso
 import com.etrusted.android.trustbadge.library.data.repository.IChannelInfoRepository
 import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
 import com.etrusted.android.trustbadge.library.domain.IChannelInfoDataUseCase
+import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
 import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
 import com.etrusted.android.trustbadge.library.model.AuthenticationToken
 import com.etrusted.android.trustbadge.library.model.ChannelInfo
@@ -81,6 +82,15 @@ internal fun getFakeTrustbadgeData(): TrustbadgeData {
             maxProtectionDuration = fakeString,
         )
     ))
+}
+
+internal fun getFakeGuarantee(): TrustbadgeData.Shop.Guarantee {
+    val fakeString = "fakeString"
+    return TrustbadgeData.Shop.Guarantee(
+        mainProtectionCurrency = fakeString,
+        maxProtectionAmount = fakeString,
+        maxProtectionDuration = fakeString,
+    )
 }
 
 internal fun getFakeAuthToken(): AuthenticationToken {
@@ -196,6 +206,15 @@ internal fun getFakeTrustbadgeDataUseCase(
     return object : ITrustbadgeDataUseCase {
         override suspend fun invoke(channelId: String, tsid: String): Result<TrustbadgeData> =
             result
+    }
+}
+
+internal fun getFakeGuaranteeUseCase(
+    result: Result<TrustbadgeData.Shop.Guarantee> = Result.success(getFakeGuarantee())
+): IGuaranteeUseCase {
+    return object : IGuaranteeUseCase {
+        override suspend fun invoke(channelId: String, tsid: String):
+                Result<TrustbadgeData.Shop.Guarantee> = result
     }
 }
 
