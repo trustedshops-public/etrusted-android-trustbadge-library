@@ -53,6 +53,7 @@ import com.etrusted.android.trustbadge.library.ui.theme.TsBadgeBg
 import com.etrusted.android.trustbadge.library.ui.theme.TsNeutralsGrey50
 import kotlinx.coroutines.delay
 
+@ExcludeFromJacocoGeneratedReport
 @Composable
 fun Trustbadge(
     modifier: Modifier = Modifier,
@@ -61,7 +62,22 @@ fun Trustbadge(
     tsid: String,
     channelId: String,
 ) {
-    val viewModel: TrustbadgeViewModel = viewModel()
+    TrustbadgeContent(modifier = modifier, state = state, badgeContext = badgeContext,
+        tsid = tsid, channelId = channelId)
+}
+
+/**
+ * Trustbadge content allowing usage of custom viewModel in tests
+ */
+@Composable
+internal fun TrustbadgeContent(
+    viewModel: TrustbadgeViewModel = viewModel(),
+    modifier: Modifier,
+    state: TrustbadgeState,
+    badgeContext: TrustbadgeContext,
+    tsid: String,
+    channelId: String
+) {
     val trustbadgeData by viewModel.trustbadgeData.collectAsState()
     val guarantee by viewModel.guarantee.collectAsState()
 
@@ -101,8 +117,10 @@ fun Trustbadge(
             )
         ) {
 
-            RoundedView(modifier = Modifier.testTag(TestTags.TrustbadgeDefault.raw),
-                state = state, badgeContext = badgeContext)
+            RoundedView(
+                modifier = Modifier.testTag(TestTags.TrustbadgeDefault.raw),
+                state = state, badgeContext = badgeContext
+            )
         }
     }
 
