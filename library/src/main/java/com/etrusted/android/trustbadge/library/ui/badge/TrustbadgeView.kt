@@ -32,7 +32,6 @@ import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacoco
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.ShopGrade
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 
-@ExcludeFromJacocoGeneratedReport
 @Composable
 fun Trustbadge(
     modifier: Modifier = Modifier,
