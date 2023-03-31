@@ -67,6 +67,7 @@ fun ImageCircleShopIcon(
     )
 }
 
+@ExcludeFromJacocoGeneratedReport
 @Composable
 fun ImageCircleProductIcon(
     modifier: Modifier = Modifier,

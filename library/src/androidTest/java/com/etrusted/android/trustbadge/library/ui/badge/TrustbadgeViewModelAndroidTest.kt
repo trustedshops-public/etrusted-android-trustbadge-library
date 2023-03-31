@@ -25,7 +25,8 @@
 
 package com.etrusted.android.trustbadge.library.ui.badge
 
-import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeRepository
+import com.etrusted.android.trustbadge.library.common.internal.getFakeGuaranteeUseCase
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeDataUseCase
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -41,12 +42,13 @@ class TrustbadgeViewModelAndroidTest {
 
         // arrange
         val testDispatcher = StandardTestDispatcher(testScheduler)
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository()
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
         val sut = TrustbadgeViewModel(
             scope = this,
-            dispatcherIO = testDispatcher,
             dispatcherMain = testDispatcher,
-            trustbadgeRepo = fakeTrustbadgeRepo,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
         )
 
         // act
@@ -62,12 +64,13 @@ class TrustbadgeViewModelAndroidTest {
 
         // arrange
         val testDispatcher = StandardTestDispatcher(testScheduler)
-        val fakeTrustbadgeRepo = getFakeTrustbadgeRepository(Result.failure(Throwable("failed")))
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase(Result.failure(Throwable("failed")))
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
         val sut = TrustbadgeViewModel(
             scope = this,
-            dispatcherIO = testDispatcher,
             dispatcherMain = testDispatcher,
-            trustbadgeRepo = fakeTrustbadgeRepo,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
         )
 
         // act
@@ -76,5 +79,49 @@ class TrustbadgeViewModelAndroidTest {
 
         // assert
         assertThat(sut.trustbadgeData.value).isNull()
+    }
+
+    @Test
+    fun testFetchGuaranteeSucceeds() = runTest {
+
+        // arrange
+        val testDispatcher = StandardTestDispatcher(testScheduler)
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
+        val sut = TrustbadgeViewModel(
+            scope = this,
+            dispatcherMain = testDispatcher,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
+        )
+
+        // act
+        sut.fetchGuarantee("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(sut.guarantee.value).isNotNull()
+    }
+
+    @Test
+    fun testFetchGuaranteeFails() = runTest {
+
+        // arrange
+        val testDispatcher = StandardTestDispatcher(testScheduler)
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase(Result.failure(Throwable("failed")))
+        val sut = TrustbadgeViewModel(
+            scope = this,
+            dispatcherMain = testDispatcher,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
+        )
+
+        // act
+        sut.fetchGuarantee("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(sut.guarantee.value).isNull()
     }
 }

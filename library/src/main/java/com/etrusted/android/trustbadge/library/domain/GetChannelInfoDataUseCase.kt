@@ -1,6 +1,6 @@
 /*
- * Created by Ali Kabiri on 28.11.2022.
- * Copyright (c) 2022 Trusted Shops GmbH
+ * Created by Ali Kabiri on 29.3.2023.
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -23,11 +23,22 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.ui.badge
+package com.etrusted.android.trustbadge.library.domain
 
-sealed class TrustbadgeContext(val isExpandable: Boolean = false) {
-    object TrustMark: TrustbadgeContext()
-    object ShopGrade: TrustbadgeContext(isExpandable = true)
-    internal object ProductGrade: TrustbadgeContext()
-    object BuyerProtection: TrustbadgeContext(isExpandable = true)
+import com.etrusted.android.trustbadge.library.data.repository.ChannelInfoRepository
+import com.etrusted.android.trustbadge.library.data.repository.IChannelInfoRepository
+import com.etrusted.android.trustbadge.library.model.ChannelInfo
+
+internal interface IChannelInfoDataUseCase {
+    suspend operator fun invoke(channelId: String): Result<ChannelInfo>
+}
+
+internal class GetChannelInfoDataUseCase(
+    private val channelInfoRepository: IChannelInfoRepository = ChannelInfoRepository()
+): IChannelInfoDataUseCase {
+    override suspend fun invoke(
+        channelId: String,
+    ): Result<ChannelInfo> {
+        return channelInfoRepository.fetchChannelInfo(channelId = channelId)
+    }
 }

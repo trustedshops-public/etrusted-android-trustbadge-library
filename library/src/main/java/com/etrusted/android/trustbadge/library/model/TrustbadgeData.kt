@@ -85,3 +85,11 @@ data class TrustbadgeData(
         }
     }
 }
+
+internal fun TrustbadgeData.enrichWithChannelInfo(channelInfo: ChannelInfo): TrustbadgeData {
+    return this.copy(
+        shop = this.shop.copy(
+            rating = channelInfo.year.rating
+        )
+    )
+}

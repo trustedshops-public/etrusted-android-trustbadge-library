@@ -1,6 +1,6 @@
 /*
- * Created by Ali Kabiri on 28.11.2022.
- * Copyright (c) 2022 Trusted Shops GmbH
+ * Created by Ali Kabiri on 30.3.2023.
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -23,11 +23,15 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.ui.badge
+package com.etrusted.android.trustbadge.library.common.internal
 
-sealed class TrustbadgeContext(val isExpandable: Boolean = false) {
-    object TrustMark: TrustbadgeContext()
-    object ShopGrade: TrustbadgeContext(isExpandable = true)
-    internal object ProductGrade: TrustbadgeContext()
-    object BuyerProtection: TrustbadgeContext(isExpandable = true)
+import java.text.SimpleDateFormat
+import java.util.*
+
+fun Date.fromString(input: String): Date? {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.GERMANY)
+    this.time =
+        try { dateFormat.parse(input)?.time ?: run { return null } }
+        catch (e: Exception) { return null }
+    return this
 }

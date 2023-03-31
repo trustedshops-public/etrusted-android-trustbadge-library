@@ -28,7 +28,13 @@ package com.etrusted.android.trustbadge.library.common.internal
 import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.ILibrary
+import com.etrusted.android.trustbadge.library.data.datasource.IAuthenticationDatasource
+import com.etrusted.android.trustbadge.library.data.datasource.IShopGradeDetailDatasource
+import com.etrusted.android.trustbadge.library.data.datasource.ITrustbadgeDatasource
+import com.etrusted.android.trustbadge.library.data.repository.IChannelInfoRepository
 import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
+import com.etrusted.android.trustbadge.library.domain.IChannelInfoDataUseCase
+import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
 import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
 import com.etrusted.android.trustbadge.library.model.AuthenticationToken
 import com.etrusted.android.trustbadge.library.model.ChannelInfo
@@ -78,6 +84,15 @@ internal fun getFakeTrustbadgeData(): TrustbadgeData {
     ))
 }
 
+internal fun getFakeGuarantee(): TrustbadgeData.Shop.Guarantee {
+    val fakeString = "fakeString"
+    return TrustbadgeData.Shop.Guarantee(
+        mainProtectionCurrency = fakeString,
+        maxProtectionAmount = fakeString,
+        maxProtectionDuration = fakeString,
+    )
+}
+
 internal fun getFakeAuthToken(): AuthenticationToken {
     val fakeString = "fakeString"
     val fakeInt = 123
@@ -93,12 +108,12 @@ internal fun getFakeAuthToken(): AuthenticationToken {
     )
 }
 
-internal fun getFakeChannelInfo(): ChannelInfo {
+internal fun getFakeChannelInfo(fakeRating: Float = 3.51f): ChannelInfo {
     val fakeDate = Date()
     return ChannelInfo(
-        week=AggregateRating(count=0, rating=0f, distribution=null, period=null),
-        month=AggregateRating(count=0, rating=0f, distribution=null, period=null),
-        quarter=AggregateRating(count=2, rating=3.5f, distribution=null,
+        week=AggregateRating(count=0, rating=fakeRating, distribution=null, period=null),
+        month=AggregateRating(count=0, rating=fakeRating, distribution=null, period=null),
+        quarter=AggregateRating(count=2, rating=fakeRating, distribution=null,
             period=AggregateRating.AggregateRatingPeriod(
                 start = fakeDate,
                 end = fakeDate,
@@ -107,7 +122,7 @@ internal fun getFakeChannelInfo(): ChannelInfo {
                 calculatedAt = fakeDate,
                 ratingTrend = AggregateRating.AggregateRatingPeriod.RatingTrend.NEUTRAL
         )),
-        year=AggregateRating(count=5, rating=4.4f, distribution=null,
+        year=AggregateRating(count=5, rating=fakeRating, distribution=null,
             period=AggregateRating.AggregateRatingPeriod(
                 start = fakeDate,
                 end = fakeDate,
@@ -118,7 +133,7 @@ internal fun getFakeChannelInfo(): ChannelInfo {
         )),
         overall=AggregateRating(
             count=70,
-            rating=3.51f,
+            rating=fakeRating,
             distribution=AggregateRating.AggregateRatingDistribution(
                 oneStar = 1,
                 twoStars = 1,
@@ -137,15 +152,51 @@ internal fun getFakeChannelInfo(): ChannelInfo {
     )
 }
 
+internal fun getFakeAuthDatasource(
+    result: Result<AuthenticationToken> = Result.success(getFakeAuthToken())
+): IAuthenticationDatasource {
+    return object : IAuthenticationDatasource {
+        override suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken> = result
+    }
+}
+
+internal fun getFakeTrustbadgeDatasource(
+    result: Result<TrustbadgeData> = Result.success(getFakeTrustbadgeData())
+): ITrustbadgeDatasource {
+    return object : ITrustbadgeDatasource {
+        override suspend fun fetchTrustbadge(tsid: String): Result<TrustbadgeData> = result
+    }
+}
+
+internal fun getFakeShopGradeDetailDatasource(
+    result: Result<ChannelInfo> = Result.success(getFakeChannelInfo())
+): IShopGradeDetailDatasource {
+    return object : IShopGradeDetailDatasource {
+        override suspend fun fetchShopGradeDetail(channelId: String, accessToken: String):
+                Result<ChannelInfo> = result
+    }
+}
+
 internal fun getFakeTrustbadgeRepository(
     result: Result<TrustbadgeData> = Result.success(getFakeTrustbadgeData())
 ): ITrustbadgeRepository {
     return object : ITrustbadgeRepository {
+
         override suspend fun fetchTrustbadgeData(
-            tsid: String, channelId: String
+            tsid: String,
+            channelId: String,
+            channelInfo: ChannelInfo?
         ): Result<TrustbadgeData> {
             return result
         }
+    }
+}
+
+internal fun getFakeChannelInfoRepository(
+    result: Result<ChannelInfo> = Result.success(getFakeChannelInfo())
+): IChannelInfoRepository {
+    return object : IChannelInfoRepository {
+        override suspend fun fetchChannelInfo(channelId: String): Result<ChannelInfo> = result
     }
 }
 
@@ -155,5 +206,22 @@ internal fun getFakeTrustbadgeDataUseCase(
     return object : ITrustbadgeDataUseCase {
         override suspend fun invoke(channelId: String, tsid: String): Result<TrustbadgeData> =
             result
+    }
+}
+
+internal fun getFakeGuaranteeUseCase(
+    result: Result<TrustbadgeData.Shop.Guarantee> = Result.success(getFakeGuarantee())
+): IGuaranteeUseCase {
+    return object : IGuaranteeUseCase {
+        override suspend fun invoke(channelId: String, tsid: String):
+                Result<TrustbadgeData.Shop.Guarantee> = result
+    }
+}
+
+internal fun getFakeChannelInfoDataUseCase(
+    result: Result<ChannelInfo> = Result.success(getFakeChannelInfo())
+): IChannelInfoDataUseCase {
+    return object: IChannelInfoDataUseCase {
+        override suspend fun invoke(channelId: String): Result<ChannelInfo> = result
     }
 }

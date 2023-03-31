@@ -25,50 +25,43 @@
 
 package com.etrusted.android.trustbadge.library.data.repository
 
-import com.etrusted.android.trustbadge.library.data.datasource.ITrustbadgeDatasource
-import com.etrusted.android.trustbadge.library.data.datasource.TrustbadgeDatasource
+import com.etrusted.android.trustbadge.library.data.datasource.AuthenticationDatasource
+import com.etrusted.android.trustbadge.library.data.datasource.IAuthenticationDatasource
+import com.etrusted.android.trustbadge.library.data.datasource.IShopGradeDetailDatasource
+import com.etrusted.android.trustbadge.library.data.datasource.ShopGradeDetailDatasource
 import com.etrusted.android.trustbadge.library.model.ChannelInfo
-import com.etrusted.android.trustbadge.library.model.TrustbadgeData
-import com.etrusted.android.trustbadge.library.model.enrichWithChannelInfo
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-internal interface ITrustbadgeRepository {
-    suspend fun fetchTrustbadgeData(
-        tsid: String,
-        channelId: String,
-        channelInfo: ChannelInfo? = null,
-    ): Result<TrustbadgeData>
+internal interface IChannelInfoRepository {
+    suspend fun fetchChannelInfo(channelId: String): Result<ChannelInfo>
 }
 
 /**
  * This class aims on reading the Trustbadge data
  * without using any third party library (e.g. Okhttp, Retrofit, etc...)
  */
-internal class TrustbadgeRepository
+internal class ChannelInfoRepository
 constructor(
-    private val trustbadgeDatasource: ITrustbadgeDatasource = TrustbadgeDatasource(),
+    private val authenticationDatasource: IAuthenticationDatasource = AuthenticationDatasource(),
+    private val shopGradeDetailDatasource: IShopGradeDetailDatasource = ShopGradeDetailDatasource(),
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
-): ITrustbadgeRepository {
+): IChannelInfoRepository {
 
     @Throws
-    override suspend fun fetchTrustbadgeData(
-        tsid: String,
+    override suspend fun fetchChannelInfo(
         channelId: String,
-        channelInfo: ChannelInfo?,
-    ): Result<TrustbadgeData> {
+    ): Result<ChannelInfo> {
 
         return withContext(dispatcher) {
 
-            val tBadgeWithoutRating = trustbadgeDatasource.fetchTrustbadge(tsid).getOrElse {
+            val token = authenticationDatasource.getAccessTokenUsingSecret().getOrElse {
                 return@withContext Result.failure(it)
             }
-            val tBadgeWithRating = channelInfo?.let {
-                return@let tBadgeWithoutRating.enrichWithChannelInfo(it)
-            }
-
-            Result.success(tBadgeWithRating ?: tBadgeWithoutRating)
+            return@withContext shopGradeDetailDatasource.fetchShopGradeDetail(
+                    channelId = channelId,
+                    accessToken = token.accessToken)
         }
     }
 }
