@@ -132,12 +132,6 @@ tasks.register<JacocoReport>("jacocoTestReport") {
     ))})
 }
 
-tasks.preBuild {
-    // produce the config file before assemble
-    dependsOn(tasks.produce)
-}
-
-
 tasks.register("prepareGeneratingFreshGolden") {
     android.defaultConfig.testInstrumentationRunnerArguments["GENERATE_FRESH_GOLDEN"]="true"
 }

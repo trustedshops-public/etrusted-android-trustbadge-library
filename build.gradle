@@ -21,12 +21,6 @@ plugins {
     id "org.sonarqube" version "3.5.0.2730"
 }
 
-project("app") {
-    sonarqube {
-        skipProject = true
-    }
-}
-
 sonarqube {
     properties {
         property "sonar.organization", "trustedshops-public"
@@ -34,18 +28,28 @@ sonarqube {
         property "sonar.projectName", "etrusted-android-trustbadge-library"
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.host.url", "https://sonarcloud.io"
-
-        // sonar requires relative path for sources and binaries
-        property "sonar.sources", "/library/src/main/java"
-        property "sonar.binaries", "/library/build/tmp/kotlin-classes/debug"
-        property "sonar.exclusions", "/app/*"
-        // sonar requires absolute path for lint and jacoco reports!
-        property "sonar.androidLint.reportPaths", "$rootDir/library/build/reports/lint-results-debug.xml"
-        property "sonar.coverage.jacoco.xmlReportPaths", "$rootDir/library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml"
     }
 }
 
-// produce the lint report before sonar scan
-tasks.getByName("sonar") {
-    dependsOn(tasks.findByPath(":library:lintDebug"))
+project("app") {
+    sonarqube {
+        skipProject = true
+    }
+}
+
+project("library") {
+    sonarqube {
+        skipProject = false
+        properties {
+            // sonar requires relative path for sources and binaries
+            property "sonar.sources", "src/main/java"
+            property "sonar.binaries", "build/tmp/kotlin-classes/debug"
+            // sonar requires absolute path for lint and jacoco reports!
+            property "sonar.androidLint.reportPaths", "$rootDir/library/build/reports/lint-results-debug.xml"
+            property "sonar.coverage.jacoco.reportPaths", [
+                    "$rootDir/library/build/outputs/managed_device_code_coverage/pixel2api30/coverage.ec",
+                    "$rootDir/library/build/outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
+            ]
+        }
+    }
 }
