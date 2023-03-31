@@ -26,6 +26,8 @@
 package com.etrusted.android.trustbadge.library.model
 
 import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
+import com.etrusted.android.trustbadge.library.common.internal.getFakeChannelInfo
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeData
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -92,5 +94,21 @@ class TrustbadgeDataAndroidTest {
         assertThat(trustbadge.shop.trustMark.status).isEqualTo(fakeStringInJsonFile)
         assertThat(trustbadge.shop.trustMark.validFrom).isEmpty()
         assertThat(trustbadge.shop.trustMark.validTo).isEmpty()
+    }
+
+    @Test
+    fun testEnrichTrustbadgeDataWithInfoWorks() {
+        // arrange
+        val fakeRating = 3.57f
+        val fakeChannelInfo = getFakeChannelInfo(fakeRating)
+        val fakeTrustbadgeData = getFakeTrustbadgeData()
+
+        // act
+        val enrichedTrustbadge = fakeTrustbadgeData.enrichWithChannelInfo(fakeChannelInfo)
+
+        // assert
+        assertThat(enrichedTrustbadge.shop.rating).isNotNull()
+        assertThat(enrichedTrustbadge.shop.rating).isEqualTo(fakeRating)
+        assertThat(enrichedTrustbadge.shop.rating).isEqualTo(fakeChannelInfo.year.rating)
     }
 }

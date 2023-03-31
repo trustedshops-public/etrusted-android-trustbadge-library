@@ -25,9 +25,9 @@
 
 package com.etrusted.android.trustbadge.library.ui.badge
 
-sealed class TrustbadgeContext {
-    public object TrustMark: TrustbadgeContext()
-    public object ShopGrade: TrustbadgeContext()
+sealed class TrustbadgeContext(val isExpandable: Boolean = false) {
+    object TrustMark: TrustbadgeContext()
+    object ShopGrade: TrustbadgeContext(isExpandable = true)
     internal object ProductGrade: TrustbadgeContext()
-    internal object BuyerProtection: TrustbadgeContext()
+    object BuyerProtection: TrustbadgeContext(isExpandable = true)
 }

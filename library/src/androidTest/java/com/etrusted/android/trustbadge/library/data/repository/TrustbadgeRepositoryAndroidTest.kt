@@ -25,18 +25,11 @@
 
 package com.etrusted.android.trustbadge.library.data.repository
 
-import com.etrusted.android.trustbadge.library.common.internal.getFakeAuthToken
 import com.etrusted.android.trustbadge.library.common.internal.getFakeChannelInfo
-import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeData
-import com.etrusted.android.trustbadge.library.data.datasource.IAuthenticationDatasource
-import com.etrusted.android.trustbadge.library.data.datasource.IShopGradeDetailDatasource
-import com.etrusted.android.trustbadge.library.data.datasource.ITrustbadgeDatasource
-import com.etrusted.android.trustbadge.library.model.AuthenticationToken
-import com.etrusted.android.trustbadge.library.model.ChannelInfo
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeDatasource
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
@@ -46,35 +39,57 @@ internal class TrustbadgeRepositoryAndroidTest {
     @Test
     fun testFetchTrustbadgeDataReturnsSuccessfully() = runTest {
         // arrange
-        val fakeAuthDatasource = object: IAuthenticationDatasource {
-            override suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken> {
-                return Result.success(getFakeAuthToken())
-            }
-        }
-        val fakeTrustbadgeDatasource = object: ITrustbadgeDatasource {
-            override suspend fun fetchTrustbadge(tsid: String): Result<TrustbadgeData> {
-                return Result.success(getFakeTrustbadgeData())
-            }
-        }
-        val fakeShopGradeDetailDatasource = object: IShopGradeDetailDatasource {
-            override suspend fun fetchShopGradeDetail(
-                channelId: String,
-                accessToken: String
-            ): Result<ChannelInfo> {
-                return Result.success(getFakeChannelInfo())
-            }
-
-        }
-        val sut = TrustbadgeRepository(
-            auth = fakeAuthDatasource,
-            trustbadgeDatasource = fakeTrustbadgeDatasource,
-            shopGradeDetailDatasource = fakeShopGradeDetailDatasource,
-        )
+        val fakeRating = 3.456f
+        val fakeChannelInfo = getFakeChannelInfo(fakeRating)
+        val fakeTrustbadgeDatasource = getFakeTrustbadgeDatasource()
+        val sut = TrustbadgeRepository(trustbadgeDatasource = fakeTrustbadgeDatasource)
 
         // act
-        val result = sut.fetchTrustbadgeData("fakeString", "fakeString")
+        val result = sut.fetchTrustbadgeData(
+            tsid = "fakeString",
+            channelId = "fakeString",
+            channelInfo = fakeChannelInfo,
+        )
 
         // assert
         assertThat(result.isSuccess).isTrue()
+        assertThat(result.getOrNull()).isNotNull()
+        assertThat(result.getOrNull()?.shop?.rating).isEqualTo(fakeRating)
+    }
+
+    @Test
+    fun testFetchTrustbadgeDataReturnsSuccessfullyWithoutChannelInfo() = runTest {
+        // arrange
+        val fakeTrustbadgeDatasource = getFakeTrustbadgeDatasource()
+        val sut = TrustbadgeRepository(trustbadgeDatasource = fakeTrustbadgeDatasource)
+
+        // act
+        val result = sut.fetchTrustbadgeData(
+            tsid = "fakeString",
+            channelId = "fakeString",
+        )
+
+        // assert
+        assertThat(result.isSuccess).isTrue()
+    }
+
+    @Test
+    fun testFetchTrustbadgeDataFailsWhenLoadingTrustbadge() = runTest {
+        // arrange
+        val fakeMsg = "failed"
+        val failingResult = Result.failure<TrustbadgeData>(exception = Throwable(fakeMsg))
+        val fakeTrustbadgeDatasource = getFakeTrustbadgeDatasource(failingResult)
+        val sut = TrustbadgeRepository(trustbadgeDatasource = fakeTrustbadgeDatasource)
+
+        // act
+        val result = sut.fetchTrustbadgeData(
+            tsid = "fakeString",
+            channelId = "fakeString",
+        )
+
+        // assert
+        assertThat(result.isFailure).isTrue()
+        assertThat(result.exceptionOrNull()).isNotNull()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo(fakeMsg)
     }
 }

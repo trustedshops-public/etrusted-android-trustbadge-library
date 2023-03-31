@@ -1,6 +1,6 @@
 /*
- * Created by Ali Kabiri on 13.3.2023.
- * Copyright (c) 2023 Trusted Shops AG
+ * Created by Ali Kabiri on 27.3.2023.
+ * Copyright (c) 2023 Trusted Shops GmbH
  *
  * MIT License
  *
@@ -23,57 +23,61 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.data.datasource
+package com.etrusted.android.trustbadge.library.domain
 
-import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
-import com.etrusted.android.trustbadge.library.common.internal.getUrlsFor
+import com.etrusted.android.trustbadge.library.common.internal.getFakeChannelInfoRepository
+import com.etrusted.android.trustbadge.library.domain.GetTrustbadgeDataUseCase.*
+import com.etrusted.android.trustbadge.library.model.ChannelInfo
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
-import okhttp3.mockwebserver.MockResponse
-import okhttp3.mockwebserver.MockWebServer
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class ShopGradeDatasourceAndroidTest {
+class ChannelInfoDataUseCaseAndroidTest {
 
     @Test
-    fun testFetchShopGradeDetailReturnsSuccessfully() = runTest {
+    fun testChannelInfoDataUseCaseReturnsSuccessfully() = runTest {
 
         // arrange
-        val goodData = ServerResponses.ChannelInfoGoodResponse.content
-        val server = MockWebServer()
-        server.enqueue(MockResponse().apply { setBody(goodData) })
-        server.start()
-        val mockUrl = server.url("")
-        val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
-        val mockUrls = getUrlsFor(mockUrlRoot)
-        val sut = ShopGradeDetailDatasource(urls = mockUrls)
+        val fakeChannelInfoRepository = getFakeChannelInfoRepository()
+        val sut = GetChannelInfoDataUseCase(
+            channelInfoRepository = fakeChannelInfoRepository
+        )
 
         // act
-        val result = sut.fetchShopGradeDetail("fakeChannelId", "fakeAccessToken")
+        val result = sut(channelId = "fakeString")
+        advanceUntilIdle()
 
         // assert
         assertThat(result.isSuccess).isTrue()
+        assertThat(result.getOrNull()).apply {
+            isNotNull()
+            isInstanceOf(ChannelInfo::class.java)
+        }
     }
 
     @Test
-    fun testFetchShopGradeDetailFailsCorrectly() = runTest {
+    fun testChannelInfoDataUseCaseFailsCorrectly() = runTest {
 
         // arrange
-        val badData = ServerResponses.ChannelInfoBadResponse.content
-        val server = MockWebServer()
-        server.enqueue(MockResponse().apply { setBody(badData) })
-        server.start()
-        val mockUrl = server.url("")
-        val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
-        val mockUrls = getUrlsFor(mockUrlRoot)
-        val sut = ShopGradeDetailDatasource(urls = mockUrls)
+        val fakeMsg = "failed"
+        val fakeChannelInfoRepository = getFakeChannelInfoRepository(
+            result = Result.failure(Throwable(fakeMsg))
+        )
+        val sut = GetChannelInfoDataUseCase(
+            channelInfoRepository = fakeChannelInfoRepository
+        )
 
         // act
-        val result = sut.fetchShopGradeDetail("fakeChannelId", "fakeAccessToken")
+        val result = sut(channelId = "fakeString")
+        advanceUntilIdle()
 
         // assert
         assertThat(result.isFailure).isTrue()
+        assertThat(result.exceptionOrNull()).isNotNull()
+        assertThat(result.exceptionOrNull()?.message).isEqualTo(fakeMsg)
     }
+
 }

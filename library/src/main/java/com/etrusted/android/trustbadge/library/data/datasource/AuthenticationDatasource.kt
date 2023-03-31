@@ -79,18 +79,15 @@ internal class AuthenticationDatasource(
             } catch (e: Exception) {
 
                 val errorStream = BufferedInputStream(urlConnection.errorStream)
-                val errorBody = readStream(errorStream)
+                val errorBody =
+                    try { readStream(errorStream) }
+                    catch (e: Exception) { return@withContext Result.failure(e) }
+                    finally { urlConnection.disconnect() }
 
-                if (errorBody.isNotBlank()) {
-                    Result.failure(Error(errorBody))
-                } else {
-                    Result.failure(e)
-                }
+                if (errorBody.isNotBlank()) { Result.failure(Error(errorBody)) }
+                else { Result.failure(e) }
 
-            } finally {
-
-                urlConnection.disconnect()
-            }
+            } finally { urlConnection.disconnect() }
         }
     }
 }

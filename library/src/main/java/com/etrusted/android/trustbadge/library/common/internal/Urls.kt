@@ -33,7 +33,7 @@ internal const val prodTrustbadgeDataUrl = "https://cdn1.api.trustedshops.com"
 
 internal const val devChannelsUrl = "https://api.etrusted.koeln/channels"
 internal const val devAuthUrl = "https://login-integr.etrusted.com/oauth/token"
-internal const val devTrustbadgeDataUrl = "https://cdn1.api-qa.trustedshops.com"
+internal const val devTrustbadgeDataUrl = "https://cdn1.api-dev.trustedshops.com"
 
 internal interface IUrls {
     fun authenticationUrl(env: EnvironmentKey = forRawValue(BuildConfig.BUILD_TYPE)): String

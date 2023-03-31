@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 27.3.2023.
+ * Created by Ali Kabiri on 30.3.2023.
  * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
@@ -23,21 +23,15 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.domain
+package com.etrusted.android.trustbadge.library.common.internal
 
-import com.etrusted.android.trustbadge.library.model.TrustbadgeData
+import java.text.SimpleDateFormat
+import java.util.*
 
-internal interface IGuaranteeUseCase {
-    suspend operator fun invoke(channelId: String, tsid: String):
-            Result<TrustbadgeData.Shop.Guarantee>
-}
-
-internal class GetGuaranteeUseCase(
-    private val getTrustbadgeDataUseCase: ITrustbadgeDataUseCase = GetTrustbadgeDataUseCase(),
-): IGuaranteeUseCase {
-    override suspend fun invoke(
-        channelId: String,
-        tsid: String
-    ): Result<TrustbadgeData.Shop.Guarantee> = getTrustbadgeDataUseCase(channelId, tsid)
-        .map { it.shop.guarantee }
+fun Date.fromString(input: String): Date? {
+    val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.GERMANY)
+    this.time =
+        try { dateFormat.parse(input)?.time ?: run { return null } }
+        catch (e: Exception) { return null }
+    return this
 }

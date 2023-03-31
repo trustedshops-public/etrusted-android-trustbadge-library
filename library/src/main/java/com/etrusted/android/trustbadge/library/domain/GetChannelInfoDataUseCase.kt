@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 27.3.2023.
+ * Created by Ali Kabiri on 29.3.2023.
  * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
@@ -25,34 +25,20 @@
 
 package com.etrusted.android.trustbadge.library.domain
 
-import android.util.Log
-import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
-import com.etrusted.android.trustbadge.library.data.repository.TrustbadgeRepository
-import com.etrusted.android.trustbadge.library.model.TrustbadgeData
+import com.etrusted.android.trustbadge.library.data.repository.ChannelInfoRepository
+import com.etrusted.android.trustbadge.library.data.repository.IChannelInfoRepository
+import com.etrusted.android.trustbadge.library.model.ChannelInfo
 
-private const val TAG = "TrustbadgeDataUseCase"
-
-internal interface ITrustbadgeDataUseCase {
-    suspend operator fun invoke(channelId: String, tsid: String): Result<TrustbadgeData>
+internal interface IChannelInfoDataUseCase {
+    suspend operator fun invoke(channelId: String): Result<ChannelInfo>
 }
 
-internal class GetTrustbadgeDataUseCase(
-    private val trustbadgeRepository: ITrustbadgeRepository = TrustbadgeRepository(),
-    private val getChannelInfoDataUseCase: IChannelInfoDataUseCase = GetChannelInfoDataUseCase(),
-): ITrustbadgeDataUseCase {
+internal class GetChannelInfoDataUseCase(
+    private val channelInfoRepository: IChannelInfoRepository = ChannelInfoRepository()
+): IChannelInfoDataUseCase {
     override suspend fun invoke(
         channelId: String,
-        tsid: String
-    ): Result<TrustbadgeData> {
-        val channelInfoResult = getChannelInfoDataUseCase(channelId = channelId)
-        if (channelInfoResult.isFailure) {
-            Log.e(TAG, channelInfoResult.exceptionOrNull()?.message
-                ?: "error getting channelInfo")
-        }
-        return trustbadgeRepository.fetchTrustbadgeData(
-            channelId = channelId,
-            tsid = tsid,
-            channelInfo = channelInfoResult.getOrNull(),
-        )
+    ): Result<ChannelInfo> {
+        return channelInfoRepository.fetchChannelInfo(channelId = channelId)
     }
 }
