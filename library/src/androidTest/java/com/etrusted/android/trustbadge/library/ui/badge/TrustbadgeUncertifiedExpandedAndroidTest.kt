@@ -26,14 +26,16 @@
 package com.etrusted.android.trustbadge.library.ui.badge
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
+import com.etrusted.android.trustbadge.library.common.internal.*
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedExpanded
-import com.etrusted.android.trustbadge.library.common.internal.TestTags
-import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
-import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
+import kotlinx.coroutines.flow.MutableStateFlow
+import org.junit.Ignore
 import org.junit.Test
 
 internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest() {
@@ -43,11 +45,16 @@ internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest()
     override fun showContent() {
         composeTestRule.setContent {
 
+            val fakeViewModel = getFakeTrustbadgeViewModel(
+                trustbadgeData = MutableStateFlow(getFakeTrustbadgeData(rating = 4.5f))
+            )
             val state = rememberTrustbadgeState()
 
             TrustbadgeTheme {
                 Column {
-                    Trustbadge(
+                    TrustbadgeContent(
+                        modifier = Modifier,
+                        viewModel = fakeViewModel,
                         state = state,
                         badgeContext = TrustbadgeContext.ShopGrade,
                         tsid = "X330A2E7D449E31E467D2F53A55DDD070",
@@ -61,15 +68,15 @@ internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest()
         }
     }
 
+    @Ignore("activate to generate fresh screenshots")
     @Test
     override fun generateScreenshot() {
 
         // arrange
+        showContent()
 
         // act
-        showContent()
-        // wait for expand animation to finish
-        composeTestRule.mainClock.advanceTimeBy(5000)
+        composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
         composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
         val bmp = sut.captureToImage().asAndroidBitmap()
@@ -77,20 +84,34 @@ internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest()
 
         // assert
         sut.assertExists()
-
     }
 
     @Test
     override fun testScreenshotMatchesGolden() {
 
         // arrange
+        showContent()
 
         // act
-        showContent()
-        // wait for expand animation to finish
-        composeTestRule.mainClock.advanceTimeBy(5000)
+        composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
         composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
+
+        // assert
+        sut.assertExists()
+        assertScreenshotMatchesGolden(goldenName, sut)
+    }
+
+    @Test
+    fun testScreenshotMatchesGoldenAfterClick() {
+
+        // arrange
+        showContent()
+
+        // act
+        composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
+        composeTestRule.waitForIdle()
+        val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw).performClick()
 
         // assert
         sut.assertExists()

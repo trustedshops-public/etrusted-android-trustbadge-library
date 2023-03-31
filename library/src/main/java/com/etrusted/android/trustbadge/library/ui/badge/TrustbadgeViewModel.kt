@@ -43,8 +43,8 @@ private const val TAG = "TrustbadgeVM"
 internal interface ITrustbadgeViewModel {
     val trustbadgeData: StateFlow<TrustbadgeData?>
     val guarantee: StateFlow<Guarantee?>
-    fun fetchTrustbadgeData(tsId: String, channelId: String): Job?
-    fun fetchGuarantee(tsId: String, channelId: String): Job?
+    fun fetchTrustbadgeData(tsId: String, channelId: String)
+    fun fetchGuarantee(tsId: String, channelId: String)
 }
 
 internal class TrustbadgeViewModel(
@@ -70,36 +70,40 @@ internal class TrustbadgeViewModel(
     override fun fetchTrustbadgeData(
         tsId: String,
         channelId: String,
-    ) = scope?.launch {
-        try {
-            val resp = getTrustbadgeDataUseCase(tsid = tsId, channelId = channelId)
-            if (resp.isSuccess) {
-                withContext(dispatcherMain) {
-                    _trustbadgeData.value = resp.getOrNull()
+    ) {
+        scope?.launch {
+            try {
+                val resp = getTrustbadgeDataUseCase(tsid = tsId, channelId = channelId)
+                if (resp.isSuccess) {
+                    withContext(dispatcherMain) {
+                        _trustbadgeData.value = resp.getOrNull()
+                    }
+                } else {
+                    Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
                 }
-            } else {
-                Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
+            } catch (e: Exception) {
+                Log.e(TAG, "error: ${e.message}")
             }
-        } catch (e: Exception) {
-            Log.e(TAG, "error: ${e.message}")
         }
     }
 
     override fun fetchGuarantee(
         tsId: String,
         channelId: String,
-    ) = scope?.launch {
-        try {
-            val resp = getGuaranteeUseCase(tsid = tsId, channelId = channelId)
-            if (resp.isSuccess) {
-                withContext(dispatcherMain) {
-                    _guarantee.value = resp.getOrNull()
+    ) {
+        scope?.launch {
+            try {
+                val resp = getGuaranteeUseCase(tsid = tsId, channelId = channelId)
+                if (resp.isSuccess) {
+                    withContext(dispatcherMain) {
+                        _guarantee.value = resp.getOrNull()
+                    }
+                } else {
+                    Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
                 }
-            } else {
-                Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
+            } catch (e: Exception) {
+                Log.e(TAG, "error: ${e.message}")
             }
-        } catch (e: Exception) {
-            Log.e(TAG, "error: ${e.message}")
         }
     }
 }

@@ -71,8 +71,8 @@ fun Trustbadge(
  */
 @Composable
 internal fun TrustbadgeContent(
-    viewModel: TrustbadgeViewModel = viewModel(),
     modifier: Modifier,
+    viewModel: ITrustbadgeViewModel = viewModel<TrustbadgeViewModel>(),
     state: TrustbadgeState,
     badgeContext: TrustbadgeContext,
     tsid: String,

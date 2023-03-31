@@ -68,7 +68,8 @@ internal fun saveScreenshot(filename: String, bmp: Bitmap) {
 
 private fun Bitmap.compare(other: Bitmap) {
     if (this.width != other.width || this.height != other.height) {
-        throw AssertionError("Size of screenshot does not match golden file (check device density)")
+        throw AssertionError(
+            "Size of screenshot does not match golden file (check device density)")
     }
     // Compare row by row to save memory on device
     val row1 = IntArray(width)
