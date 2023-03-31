@@ -27,10 +27,7 @@ package com.etrusted.android.trustbadge.library.ui.badge
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext.ShopGrade
-import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 
 @Composable
 fun Trustbadge(
@@ -42,16 +39,4 @@ fun Trustbadge(
 ) {
     TrustbadgeContent(modifier = modifier, state = state, badgeContext = badgeContext,
         tsid = tsid, channelId = channelId)
-}
-
-@ExcludeFromJacocoGeneratedReport
-@Preview
-@Composable
-fun PreviewTrustbadge() {
-    TrustbadgeTheme {
-        Trustbadge(
-            tsid = "X330A2E7D449E31E467D2F53A55DDD070",
-            channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b",
-        )
-    }
 }
