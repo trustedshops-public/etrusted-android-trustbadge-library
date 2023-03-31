@@ -40,12 +40,19 @@ import kotlinx.coroutines.flow.StateFlow
 
 private const val TAG = "TrustbadgeVM"
 
+internal interface ITrustbadgeViewModel {
+    val trustbadgeData: StateFlow<TrustbadgeData?>
+    val guarantee: StateFlow<Guarantee?>
+    fun fetchTrustbadgeData(tsId: String, channelId: String): Job?
+    fun fetchGuarantee(tsId: String, channelId: String): Job?
+}
+
 internal class TrustbadgeViewModel(
     private var scope: CoroutineScope? = null,
     private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main,
     private val getTrustbadgeDataUseCase: ITrustbadgeDataUseCase = GetTrustbadgeDataUseCase(),
     private val getGuaranteeUseCase: IGuaranteeUseCase = GetGuaranteeUseCase()
-): ViewModel() {
+): ViewModel(), ITrustbadgeViewModel {
 
     init {
         // testScope is provided during tests otherwise uses default viewModelScope
@@ -53,14 +60,14 @@ internal class TrustbadgeViewModel(
     }
 
     private val _trustbadgeData = MutableStateFlow<TrustbadgeData?>(null)
-    internal val trustbadgeData: StateFlow<TrustbadgeData?>
+    override val trustbadgeData: StateFlow<TrustbadgeData?>
         get() = _trustbadgeData
 
     private val _guarantee = MutableStateFlow<Guarantee?>(null)
-    internal val guarantee: StateFlow<Guarantee?>
+    override val guarantee: StateFlow<Guarantee?>
         get() = _guarantee
 
-    internal suspend fun fetchTrustbadgeData(
+    override fun fetchTrustbadgeData(
         tsId: String,
         channelId: String,
     ) = scope?.launch {
@@ -78,7 +85,7 @@ internal class TrustbadgeViewModel(
         }
     }
 
-    internal suspend fun fetchGuarantee(
+    override fun fetchGuarantee(
         tsId: String,
         channelId: String,
     ) = scope?.launch {
