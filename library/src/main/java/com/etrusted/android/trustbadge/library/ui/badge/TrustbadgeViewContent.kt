@@ -74,4 +74,8 @@ internal fun TrustbadgeContent(
             state.retract()
         }
     }
+
+    LaunchedEffect("animate") {
+
+    }
 }
