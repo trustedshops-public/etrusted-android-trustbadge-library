@@ -21,10 +21,20 @@ plugins {
     id "org.sonarqube" version "3.5.0.2730"
 }
 
+//sonarqube {
+//    properties {
+//        property "sonar.organization", "trustedshops-public"
+//        property "sonar.projectKey", "trustedshops-public_etrusted-android-trustbadge-library"
+//        property "sonar.projectName", "etrusted-android-trustbadge-library"
+//        property "sonar.sourceEncoding", "UTF-8"
+//        property "sonar.host.url", "https://sonarcloud.io"
+//    }
+//}
+
 sonarqube {
     properties {
-        property "sonar.organization", "trustedshops-public"
-        property "sonar.projectKey", "trustedshops-public_etrusted-android-trustbadge-library"
+        property "sonar.organization", "superus8r"
+        property "sonar.projectKey", "superus8r_etrusted-android-trustbadge-library"
         property "sonar.projectName", "etrusted-android-trustbadge-library"
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.host.url", "https://sonarcloud.io"
@@ -49,4 +59,9 @@ project("library") {
             property "sonar.coverage.jacoco.reportPaths", "$rootDir/library/build/outputs/managed_device_code_coverage/pixel2api30/coverage.ec"
         }
     }
+}
+
+tasks.getByName("sonar") {
+    dependsOn(tasks.findByPath(":library:lintDebug"))
+    dependsOn(tasks.findByPath(":app:lintDebug"))
 }
