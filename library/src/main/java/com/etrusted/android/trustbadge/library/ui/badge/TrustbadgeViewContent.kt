@@ -64,7 +64,9 @@ internal fun TrustbadgeContent(
     LaunchedEffect("fetch_data") {
         viewModel.fetchTrustbadgeData(tsid, channelId)
         viewModel.fetchGuarantee(tsid, channelId)
+    }
 
+    LaunchedEffect("animate") {
         // automatically show the expanded state only if the context is not set to TRUSTMARK
         // The TRUSTMARK state only shows the badge in circle form
         if (badgeContext.isExpandable) {
@@ -73,9 +75,5 @@ internal fun TrustbadgeContent(
             delay(3000)
             state.retract()
         }
-    }
-
-    LaunchedEffect("animate") {
-
     }
 }
