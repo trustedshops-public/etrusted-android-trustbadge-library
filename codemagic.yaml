@@ -3,13 +3,6 @@ workflows:
     name: Native Android
     max_build_duration: 10
     instance_type: mac_mini_m1
-    environment:
-      android_signing:
-        - keystore_reference
-      groups:
-        - google_play
-      vars:
-        PACKAGE_NAME: "io.codemagic.sample.androidnative"
     scripts:
       - name: Set Android SDK location
         script: |
