@@ -19,11 +19,11 @@ platform :android do
   desc "Runs all the tests"
   lane :test do
     gradle(tasks: [
-        "clean",
-        "createEmptyConfigFile",
+        "clean --build-cache",
+        "createEmptyConfigFile --build-cache",
         "pixel2api30DebugAndroidTest --build-cache",
-        "testDebugUnitTest",
-        "jacocoTestReport"])
+        "testDebugUnitTest --build-cache",
+        "jacocoTestReport --build-cache"])
   end
 
   desc "Runs sonar scanner"
