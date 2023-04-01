@@ -236,8 +236,8 @@ internal fun getFakeChannelInfoDataUseCase(
 }
 
 internal fun getFakeTrustbadgeViewModel(
-    trustbadgeData: StateFlow<TrustbadgeData> = MutableStateFlow(getFakeTrustbadgeData()),
-    guarantee: StateFlow<TrustbadgeData.Shop.Guarantee> = MutableStateFlow(getFakeGuarantee())
+    trustbadgeData: StateFlow<TrustbadgeData?> = MutableStateFlow(getFakeTrustbadgeData()),
+    guarantee: StateFlow<TrustbadgeData.Shop.Guarantee?> = MutableStateFlow(getFakeGuarantee())
 ): ITrustbadgeViewModel {
     return object : ITrustbadgeViewModel {
         override val trustbadgeData: StateFlow<TrustbadgeData?> = trustbadgeData

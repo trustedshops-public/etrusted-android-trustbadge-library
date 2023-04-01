@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.ui.badge
+package com.etrusted.android.trustbadge.library.ui.badge.integration
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.Modifier
@@ -31,14 +31,17 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import com.etrusted.android.trustbadge.library.common.internal.*
+import com.etrusted.android.trustbadge.library.ui.badge.Trustbadge
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
+import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import org.junit.Ignore
 import org.junit.Test
 
-internal class TrustbadgeUncertifiedExpandedNullRatingDefaultContextIntegrationAndroidTest:
-    TrustbadgeAndroidTest() {
+internal class TrustbadgeUncertifiedExpandedIntegrationAndroidTest: TrustbadgeAndroidTest() {
 
-    override val goldenName = GoldenNames.GoldenTrustbadgeUncertifiedExpandedNullRating.raw +
+    override val goldenName = GoldenNames.GoldenTrustbadgeUncertifiedExpandedIntegration.raw +
             if (isCI) "-ci" else ""
 
     override fun showContent() {
@@ -51,6 +54,7 @@ internal class TrustbadgeUncertifiedExpandedNullRatingDefaultContextIntegrationA
                     Trustbadge(
                         modifier = Modifier,
                         state = state,
+                        badgeContext = TrustbadgeContext.ShopGrade,
                         tsid = "bad-tsid",
                         channelId = "bad-channel-id"
                     )

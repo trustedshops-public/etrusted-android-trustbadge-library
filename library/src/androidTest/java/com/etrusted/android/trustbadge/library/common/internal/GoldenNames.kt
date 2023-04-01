@@ -33,10 +33,13 @@ package com.etrusted.android.trustbadge.library.common.internal
  */
 internal sealed class GoldenNames(val raw: String) {
     object GoldenTrustbadgeUncertifiedDefault: GoldenNames("screenshot-trustbadge-uncertified-default")
+    object GoldenTrustbadgeUncertifiedDefaultIntegration: GoldenNames("screenshot-trustbadge-uncertified-default-integration")
     object GoldenTrustbadgeUncertifiedExpanded: GoldenNames("screenshot-trustbadge-uncertified-expanded")
-    object GoldenTrustbadgeUncertifiedExpandedNullRating: GoldenNames("screenshot-trustbadge-uncertified-expanded-null-rating")
+    object GoldenTrustbadgeUncertifiedExpandedIntegration: GoldenNames("screenshot-trustbadge-uncertified-expanded-integration")
     object GoldenTrustbadgeUncertifiedExpandedBuyerProtection: GoldenNames("screenshot-trustbadge-uncertified-expanded-buyer-protection")
+    object GoldenTrustbadgeUncertifiedExpandedBuyerProtectionIntegration: GoldenNames("screenshot-trustbadge-uncertified-expanded-buyer-protection-integration")
     object GoldenTrustbadgeUncertifiedExpandedProductGrade: GoldenNames("screenshot-trustbadge-uncertified-expanded-product-grade")
+    object GoldenTrustbadgeUncertifiedExpandedProductGradeIntegration: GoldenNames("screenshot-trustbadge-uncertified-expanded-product-grade-integration")
 
     object GoldenTrustbadgeViewRounded: GoldenNames("screenshot-trustbadge-view-rounded")
 }

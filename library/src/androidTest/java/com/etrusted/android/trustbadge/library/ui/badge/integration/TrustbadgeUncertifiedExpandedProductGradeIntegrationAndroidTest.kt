@@ -23,20 +23,28 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.ui.badge
+package com.etrusted.android.trustbadge.library.ui.badge.integration
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
-import com.etrusted.android.trustbadge.library.common.internal.*
+import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedExpandedProductGradeIntegration
+import com.etrusted.android.trustbadge.library.common.internal.TestTags
+import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
+import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContent
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
+import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import org.junit.Ignore
 import org.junit.Test
 
-internal class TrustbadgeUncertifiedExpandedNullRatingIntegrationAndroidTest: TrustbadgeAndroidTest() {
+internal class TrustbadgeUncertifiedExpandedProductGradeIntegrationAndroidTest: TrustbadgeAndroidTest() {
 
-    override val goldenName = GoldenNames.GoldenTrustbadgeUncertifiedExpandedNullRating.raw +
+    override val goldenName = GoldenTrustbadgeUncertifiedExpandedProductGradeIntegration.raw +
             if (isCI) "-ci" else ""
 
     override fun showContent() {
@@ -46,11 +54,12 @@ internal class TrustbadgeUncertifiedExpandedNullRatingIntegrationAndroidTest: Tr
 
             TrustbadgeTheme {
                 Column {
-                    Trustbadge(
+                    TrustbadgeContent(
+                        modifier = Modifier,
                         state = state,
-                        badgeContext = TrustbadgeContext.ShopGrade,
-                        tsid = "bad-tsid",
-                        channelId = "bad-channel-id"
+                        badgeContext = TrustbadgeContext.ProductGrade,
+                        tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+                        channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
                     )
                 }
             }
@@ -76,6 +85,7 @@ internal class TrustbadgeUncertifiedExpandedNullRatingIntegrationAndroidTest: Tr
 
         // assert
         sut.assertExists()
+
     }
 
     @Test

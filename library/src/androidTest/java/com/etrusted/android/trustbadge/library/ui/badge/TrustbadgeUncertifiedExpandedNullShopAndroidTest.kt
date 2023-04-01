@@ -31,12 +31,13 @@ import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import com.etrusted.android.trustbadge.library.common.internal.*
+import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Ignore
 import org.junit.Test
 
-internal class TrustbadgeUncertifiedExpandedNullRatingAndroidTest: TrustbadgeAndroidTest() {
+internal class TrustbadgeUncertifiedExpandedNullShopAndroidTest: TrustbadgeAndroidTest() {
 
     override val goldenName = GoldenNames.GoldenTrustbadgeUncertifiedExpandedIntegration.raw +
             if (isCI) "-ci" else ""
@@ -45,7 +46,8 @@ internal class TrustbadgeUncertifiedExpandedNullRatingAndroidTest: TrustbadgeAnd
         composeTestRule.setContent {
 
             val fakeViewModel = getFakeTrustbadgeViewModel(
-                trustbadgeData = MutableStateFlow(getFakeTrustbadgeData(rating = null))
+                trustbadgeData = MutableStateFlow<TrustbadgeData?>(null),
+                guarantee = MutableStateFlow(getFakeGuarantee())
             )
             val state = rememberTrustbadgeState()
 

@@ -23,47 +23,44 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.ui.badge
+package com.etrusted.android.trustbadge.library.ui.badge.integration
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
-import com.etrusted.android.trustbadge.library.common.internal.*
+import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedDefaultIntegration
+import com.etrusted.android.trustbadge.library.common.internal.TestTags
+import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
+import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
+import com.etrusted.android.trustbadge.library.ui.badge.Trustbadge
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
+import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
-import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Ignore
 import org.junit.Test
 
-internal class TrustbadgeUncertifiedExpandedNullRatingAndroidTest: TrustbadgeAndroidTest() {
+internal class TrustbadgeUncertifiedDefaultIntegrationAndroidTest: TrustbadgeAndroidTest() {
 
-    override val goldenName = GoldenNames.GoldenTrustbadgeUncertifiedExpandedIntegration.raw +
+    override val goldenName = GoldenTrustbadgeUncertifiedDefaultIntegration.raw +
             if (isCI) "-ci" else ""
 
     override fun showContent() {
+
         composeTestRule.setContent {
-
-            val fakeViewModel = getFakeTrustbadgeViewModel(
-                trustbadgeData = MutableStateFlow(getFakeTrustbadgeData(rating = null))
-            )
-            val state = rememberTrustbadgeState()
-
             TrustbadgeTheme {
                 Column {
-                    TrustbadgeContent(
+                    Trustbadge(
                         modifier = Modifier,
-                        viewModel = fakeViewModel,
-                        state = state,
-                        badgeContext = TrustbadgeContext.ShopGrade,
+                        state = rememberTrustbadgeState(),
+                        badgeContext = TrustbadgeContext.TrustMark,
                         tsid = "X330A2E7D449E31E467D2F53A55DDD070",
                         channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
                     )
                 }
             }
-
-            // expand the widget
-            state.expand()
         }
     }
 
@@ -75,14 +72,13 @@ internal class TrustbadgeUncertifiedExpandedNullRatingAndroidTest: TrustbadgeAnd
         showContent()
 
         // act
-        composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
-        composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
         val bmp = sut.captureToImage().asAndroidBitmap()
         saveScreenshot(goldenName, bmp)
 
         // assert
         sut.assertExists()
+
     }
 
     @Test
@@ -92,8 +88,6 @@ internal class TrustbadgeUncertifiedExpandedNullRatingAndroidTest: TrustbadgeAnd
         showContent()
 
         // act
-        composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
-        composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
 
         // assert
