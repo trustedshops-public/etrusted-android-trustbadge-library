@@ -87,6 +87,10 @@ android {
     buildFeatures {
         compose = true
     }
+    composeOptions {
+        val composeCompilerVersion: String by project
+        kotlinCompilerExtensionVersion = composeCompilerVersion
+    }
     testOptions {
         animationsDisabled = true
 
@@ -210,6 +214,7 @@ signing {
 internal val coreKtxVersion: String by project
 internal val activityVersion: String by project
 internal val lifecycleViewModelComposeVersion: String by project
+internal val composeBomVersion: String by project
 internal val composeVersion: String by project
 internal val composeM3Version: String by project
 internal val testJunitVersion: String by project
@@ -224,10 +229,12 @@ dependencies {
     implementation("androidx.core:core-ktx:$coreKtxVersion")
     implementation("androidx.activity:activity-compose:$activityVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleViewModelComposeVersion")
-    implementation("androidx.compose.material3:material3:$composeM3Version")
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
+
+    val composeBom = platform("androidx.compose:compose-bom:$composeBomVersion")
+    implementation(composeBom)
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.ui:ui")
 
     // test dependencies
     testImplementation("junit:junit:$testJunitVersion")
@@ -239,5 +246,6 @@ dependencies {
     androidTestImplementation("com.squareup.okhttp3:okhttp-tls:$okhttpVersion")
     // ui tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 }
