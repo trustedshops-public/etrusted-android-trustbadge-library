@@ -61,7 +61,7 @@ internal fun TrustbadgeContent(
         TrustbadgeViewRoundedElevated(state, badgeContext)
     }
 
-    LaunchedEffect("fetch_data") {
+    LaunchedEffect(null) {
         viewModel.fetchTrustbadgeData(tsid, channelId)
         viewModel.fetchGuarantee(tsid, channelId)
 
