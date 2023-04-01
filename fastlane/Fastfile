@@ -23,7 +23,7 @@ platform :android do
 
   desc "Runs sonar scanner"
   lane :check do
-    gradle(task: ":library:lintDebug sonar --stacktrace")
+    gradle(task: "sonar")
   end
 
   desc "Deploy to Firebase AppTester channel"
