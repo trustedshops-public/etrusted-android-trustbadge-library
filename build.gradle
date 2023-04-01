@@ -56,7 +56,8 @@ project("library") {
             property "sonar.binaries", "build/tmp/kotlin-classes/debug"
             // sonar requires absolute path for lint and jacoco reports!
             property "sonar.androidLint.reportPaths", "$rootDir/library/build/reports/lint-results-debug.xml"
-            property "sonar.coverage.jacoco.reportPaths", "$rootDir/library/build/outputs/managed_device_code_coverage/pixel2api30/coverage.ec"
+//            property "sonar.coverage.jacoco.reportPaths", "$rootDir/library/build/outputs/managed_device_code_coverage/pixel2api30/coverage.ec"
+            property "sonar.coverage.jacoco.reportPaths", "$rootDir/library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml"
         }
     }
 }
