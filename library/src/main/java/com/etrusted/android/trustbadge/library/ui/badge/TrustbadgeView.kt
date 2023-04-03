@@ -37,6 +37,11 @@ fun Trustbadge(
     tsid: String,
     channelId: String,
 ) {
-    TrustbadgeContent(modifier = modifier, state = state, badgeContext = badgeContext,
-        tsid = tsid, channelId = channelId)
+    TrustbadgeContent(
+        modifier = modifier,
+        state = state,
+        badgeContext = badgeContext,
+        tsid = tsid,
+        channelId = channelId
+    )
 }
