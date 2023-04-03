@@ -48,16 +48,14 @@ internal interface ITrustbadgeViewModel {
 }
 
 internal class TrustbadgeViewModel(
-    private var scope: CoroutineScope? = null,
+    coroutineScope: CoroutineScope? = null,
     private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main,
     private val getTrustbadgeDataUseCase: ITrustbadgeDataUseCase = GetTrustbadgeDataUseCase(),
     private val getGuaranteeUseCase: IGuaranteeUseCase = GetGuaranteeUseCase()
 ): ViewModel(), ITrustbadgeViewModel {
 
-    init {
-        // testScope is provided during tests otherwise uses default viewModelScope
-        if (scope == null) scope = viewModelScope
-    }
+    // testScope is provided during tests otherwise uses default viewModelScope
+    private var scope: CoroutineScope = coroutineScope ?: viewModelScope
 
     private val _trustbadgeData = MutableStateFlow<TrustbadgeData?>(null)
     override val trustbadgeData: StateFlow<TrustbadgeData?>
@@ -71,7 +69,7 @@ internal class TrustbadgeViewModel(
         tsId: String,
         channelId: String,
     ) {
-        scope?.launch {
+        scope.launch {
             try {
                 val resp = getTrustbadgeDataUseCase(tsid = tsId, channelId = channelId)
                 if (resp.isSuccess) {
@@ -91,7 +89,7 @@ internal class TrustbadgeViewModel(
         tsId: String,
         channelId: String,
     ) {
-        scope?.launch {
+        scope.launch {
             try {
                 val resp = getGuaranteeUseCase(tsid = tsId, channelId = channelId)
                 if (resp.isSuccess) {

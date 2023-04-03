@@ -1,14 +1,16 @@
 buildscript {
     ext {
-        kotlinVersion = "1.7.10"
+        kotlinVersion = "1.8.10"
         kotlinCoroutinesVersion = "1.6.4"
         gradleVersion = "8.0.1"
         jacocoVersion = "0.8.8"
 
-        activityVersion = "1.6.1"
-        composeVersion = "1.3.1"
+        composeBomVersion = "2023.03.00"
+        composeCompilerVersion = "1.4.2"
+        composeVersion = "1.4.0"
         composeM3Version = "1.0.1"
         composeNavVersion = "2.5.3"
+        activityVersion = "1.6.1"
 
         okhttpVersion = "4.10.0" // only used for tests
     }
@@ -17,14 +19,14 @@ buildscript {
 plugins {
     id "com.android.application" version '7.4.2' apply false
     id "com.android.library" version '7.4.2' apply false
-    id "org.jetbrains.kotlin.android" version "1.7.0" apply false
-    id "org.sonarqube" version "3.5.0.2730"
+    id "org.jetbrains.kotlin.android" version "1.8.10" apply false
+    id "org.sonarqube" version "4.0.0.2929"
 }
 
-sonarqube {
+sonar {
     properties {
-        property "sonar.organization", "trustedshops-public"
-        property "sonar.projectKey", "trustedshops-public_etrusted-android-trustbadge-library"
+        property "sonar.organization", "superus8r"
+        property "sonar.projectKey", "superus8r_etrusted-android-trustbadge-library"
         property "sonar.projectName", "etrusted-android-trustbadge-library"
         property "sonar.sourceEncoding", "UTF-8"
         property "sonar.host.url", "https://sonarcloud.io"
@@ -32,13 +34,13 @@ sonarqube {
 }
 
 project("app") {
-    sonarqube {
+    sonar {
         skipProject = true
     }
 }
 
 project("library") {
-    sonarqube {
+    sonar {
         skipProject = false
         properties {
             // sonar requires relative path for sources and binaries
@@ -46,7 +48,12 @@ project("library") {
             property "sonar.binaries", "build/tmp/kotlin-classes/debug"
             // sonar requires absolute path for lint and jacoco reports!
             property "sonar.androidLint.reportPaths", "$rootDir/library/build/reports/lint-results-debug.xml"
-            property "sonar.coverage.jacoco.reportPaths", "$rootDir/library/build/outputs/managed_device_code_coverage/pixel2api30/coverage.ec"
+            property "sonar.coverage.jacoco.xmlReportPaths", "$rootDir/library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml"
         }
     }
+}
+
+tasks.getByName("sonar") {
+    dependsOn(tasks.findByPath(":library:lintDebug"))
+    dependsOn(tasks.findByPath(":app:lintDebug"))
 }
