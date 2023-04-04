@@ -40,59 +40,68 @@ import kotlinx.coroutines.flow.StateFlow
 
 private const val TAG = "TrustbadgeVM"
 
+internal interface ITrustbadgeViewModel {
+    val trustbadgeData: StateFlow<TrustbadgeData?>
+    val guarantee: StateFlow<Guarantee?>
+    fun fetchTrustbadgeData(tsId: String, channelId: String)
+    fun fetchGuarantee(tsId: String, channelId: String)
+}
+
 internal class TrustbadgeViewModel(
-    private var scope: CoroutineScope? = null,
+    coroutineScope: CoroutineScope? = null,
     private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main,
     private val getTrustbadgeDataUseCase: ITrustbadgeDataUseCase = GetTrustbadgeDataUseCase(),
     private val getGuaranteeUseCase: IGuaranteeUseCase = GetGuaranteeUseCase()
-): ViewModel() {
+): ViewModel(), ITrustbadgeViewModel {
 
-    init {
-        // testScope is provided during tests otherwise uses default viewModelScope
-        if (scope == null) scope = viewModelScope
-    }
+    // testScope is provided during tests otherwise uses default viewModelScope
+    private var scope: CoroutineScope = coroutineScope ?: viewModelScope
 
     private val _trustbadgeData = MutableStateFlow<TrustbadgeData?>(null)
-    internal val trustbadgeData: StateFlow<TrustbadgeData?>
+    override val trustbadgeData: StateFlow<TrustbadgeData?>
         get() = _trustbadgeData
 
     private val _guarantee = MutableStateFlow<Guarantee?>(null)
-    internal val guarantee: StateFlow<Guarantee?>
+    override val guarantee: StateFlow<Guarantee?>
         get() = _guarantee
 
-    internal suspend fun fetchTrustbadgeData(
+    override fun fetchTrustbadgeData(
         tsId: String,
         channelId: String,
-    ) = scope?.launch {
-        try {
-            val resp = getTrustbadgeDataUseCase(tsid = tsId, channelId = channelId)
-            if (resp.isSuccess) {
-                withContext(dispatcherMain) {
-                    _trustbadgeData.value = resp.getOrNull()
+    ) {
+        scope.launch {
+            try {
+                val resp = getTrustbadgeDataUseCase(tsid = tsId, channelId = channelId)
+                if (resp.isSuccess) {
+                    withContext(dispatcherMain) {
+                        _trustbadgeData.value = resp.getOrNull()
+                    }
+                } else {
+                    Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
                 }
-            } else {
-                Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
+            } catch (e: Exception) {
+                Log.e(TAG, "error: ${e.message}")
             }
-        } catch (e: Exception) {
-            Log.e(TAG, "error: ${e.message}")
         }
     }
 
-    internal suspend fun fetchGuarantee(
+    override fun fetchGuarantee(
         tsId: String,
         channelId: String,
-    ) = scope?.launch {
-        try {
-            val resp = getGuaranteeUseCase(tsid = tsId, channelId = channelId)
-            if (resp.isSuccess) {
-                withContext(dispatcherMain) {
-                    _guarantee.value = resp.getOrNull()
+    ) {
+        scope.launch {
+            try {
+                val resp = getGuaranteeUseCase(tsid = tsId, channelId = channelId)
+                if (resp.isSuccess) {
+                    withContext(dispatcherMain) {
+                        _guarantee.value = resp.getOrNull()
+                    }
+                } else {
+                    Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
                 }
-            } else {
-                Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
+            } catch (e: Exception) {
+                Log.e(TAG, "error: ${e.message}")
             }
-        } catch (e: Exception) {
-            Log.e(TAG, "error: ${e.message}")
         }
     }
 }

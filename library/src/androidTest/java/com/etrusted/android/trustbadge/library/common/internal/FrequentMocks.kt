@@ -41,6 +41,9 @@ import com.etrusted.android.trustbadge.library.model.ChannelInfo
 import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating
 import com.etrusted.android.trustbadge.library.model.TrustbadgeConfig
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
+import com.etrusted.android.trustbadge.library.ui.badge.ITrustbadgeViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.util.*
 
 internal fun getUrlsFor(endpoint: String): IUrls {
@@ -63,7 +66,10 @@ internal fun getFakeCertificate(): String {
         "certificates/instrumentation_cert.pem")
 }
 
-internal fun getFakeTrustbadgeData(): TrustbadgeData {
+internal fun getFakeTrustbadgeData(
+    rating: Float? = null,
+    maxProtectionAmount: String = "2,500"
+): TrustbadgeData {
     val fakeString = "fakeString"
     return TrustbadgeData(shop = TrustbadgeData.Shop(
         tsid = fakeString,
@@ -78,17 +84,20 @@ internal fun getFakeTrustbadgeData(): TrustbadgeData {
         ),
         guarantee = TrustbadgeData.Shop.Guarantee(
             mainProtectionCurrency = fakeString,
-            maxProtectionAmount = fakeString,
+            maxProtectionAmount = maxProtectionAmount,
             maxProtectionDuration = fakeString,
-        )
+        ),
+        rating = rating,
     ))
 }
 
-internal fun getFakeGuarantee(): TrustbadgeData.Shop.Guarantee {
+internal fun getFakeGuarantee(
+    maxProtectionAmount: String = "2,500"
+): TrustbadgeData.Shop.Guarantee {
     val fakeString = "fakeString"
     return TrustbadgeData.Shop.Guarantee(
         mainProtectionCurrency = fakeString,
-        maxProtectionAmount = fakeString,
+        maxProtectionAmount = maxProtectionAmount,
         maxProtectionDuration = fakeString,
     )
 }
@@ -223,5 +232,17 @@ internal fun getFakeChannelInfoDataUseCase(
 ): IChannelInfoDataUseCase {
     return object: IChannelInfoDataUseCase {
         override suspend fun invoke(channelId: String): Result<ChannelInfo> = result
+    }
+}
+
+internal fun getFakeTrustbadgeViewModel(
+    trustbadgeData: StateFlow<TrustbadgeData?> = MutableStateFlow(getFakeTrustbadgeData()),
+    guarantee: StateFlow<TrustbadgeData.Shop.Guarantee?> = MutableStateFlow(getFakeGuarantee())
+): ITrustbadgeViewModel {
+    return object : ITrustbadgeViewModel {
+        override val trustbadgeData: StateFlow<TrustbadgeData?> = trustbadgeData
+        override val guarantee: StateFlow<TrustbadgeData.Shop.Guarantee?> = guarantee
+        override fun fetchTrustbadgeData(tsId: String, channelId: String) {}
+        override fun fetchGuarantee(tsId: String, channelId: String) {}
     }
 }

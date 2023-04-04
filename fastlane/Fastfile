@@ -18,12 +18,17 @@ default_platform(:android)
 platform :android do
   desc "Runs all the tests"
   lane :test do
-    gradle(task: "createEmptyConfigFile pixel2api30DebugAndroidTest testDebugUnitTest jacocoTestReport --stacktrace")
+    gradle(tasks: [
+        "clean --build-cache",
+        "createEmptyConfigFile --build-cache",
+        "pixel2api30DebugAndroidTest --build-cache",
+        "testDebugUnitTest --build-cache",
+        "jacocoTestReport --build-cache"])
   end
 
   desc "Runs sonar scanner"
   lane :check do
-    gradle(task: ":library:lintDebug sonar --stacktrace")
+    gradle(task: "sonar --build-cache")
   end
 
   desc "Deploy to Firebase AppTester channel"

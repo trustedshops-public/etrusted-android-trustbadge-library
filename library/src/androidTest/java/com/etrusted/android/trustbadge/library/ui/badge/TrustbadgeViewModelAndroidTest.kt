@@ -45,7 +45,7 @@ class TrustbadgeViewModelAndroidTest {
         val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
         val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
         val sut = TrustbadgeViewModel(
-            scope = this,
+            coroutineScope = this,
             dispatcherMain = testDispatcher,
             getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
             getGuaranteeUseCase = fakeGuaranteeUseCase,
@@ -67,7 +67,7 @@ class TrustbadgeViewModelAndroidTest {
         val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase(Result.failure(Throwable("failed")))
         val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
         val sut = TrustbadgeViewModel(
-            scope = this,
+            coroutineScope = this,
             dispatcherMain = testDispatcher,
             getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
             getGuaranteeUseCase = fakeGuaranteeUseCase,
@@ -89,7 +89,7 @@ class TrustbadgeViewModelAndroidTest {
         val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
         val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
         val sut = TrustbadgeViewModel(
-            scope = this,
+            coroutineScope = this,
             dispatcherMain = testDispatcher,
             getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
             getGuaranteeUseCase = fakeGuaranteeUseCase,
@@ -111,7 +111,7 @@ class TrustbadgeViewModelAndroidTest {
         val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
         val fakeGuaranteeUseCase = getFakeGuaranteeUseCase(Result.failure(Throwable("failed")))
         val sut = TrustbadgeViewModel(
-            scope = this,
+            coroutineScope = this,
             dispatcherMain = testDispatcher,
             getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
             getGuaranteeUseCase = fakeGuaranteeUseCase,
