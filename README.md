@@ -1,6 +1,5 @@
 # etrusted-android-trustbadge-library
 
-[![trustedshops-public](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library.svg?style=shield)](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library)
 [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/trustedshops-public/etrusted-android-trustbadge-library/blob/main/LICENSE)
 [![codecov](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library/branch/develop/graph/badge.svg?token=CnT4ETYgkH)](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/trustedshops-public/etrusted-android-trustbadge-library/tree/develop.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/trustedshops-public/etrusted-android-trustbadge-library/tree/develop)
@@ -105,12 +104,6 @@ First, add a `ComposeView` tag in your layout's XML file, for example:
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/hello_world"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello Android!" />
-
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/compose_view"
         android:layout_width="match_parent"
@@ -153,15 +146,18 @@ Please read the section [Getting `channelId` and `TSID`]() for more information 
 
 The `Trustbadge` function requires a `badgeContext` to determine either showing the `TrustMark`, the `ShopGrade`, or the `BuyerProtection` widget.
 You can simply pass either of the following options to set your desired `badgeContext`:
-<code>
-- TrustbadgeContext.**TrustMark**
-- TrustbadgeContext.**ShopGrade**
-- TrustbadgeContext.**BuyerProtection**
-  </code>
+
+```
+- TrustbadgeContext.TrustMark
+- TrustbadgeContext.ShopGrade
+- TrustbadgeContext.BuyerProtection
+```
 
 ## Getting `channelId` and `TSID`
 - You can find your `channelId` by navigating to your desired channel on [eTrustd Control Center](https://app.etrusted.com) in your browser. You can simply copy the `channelId` from the address bar (starts with `chl-`) for your desired channel as shown in the example image:
-  <img width="500" src="https://user-images.githubusercontent.com/27926337/215760110-6d00a5ec-3b0c-4458-a867-acf75d6afa8b.png">
+
+<img width="500" src="https://user-images.githubusercontent.com/27926337/215760110-6d00a5ec-3b0c-4458-a867-acf75d6afa8b.png">
+
 - If you don't have a `TSID` (usually shared during the onboarding process with Trusted Shops), You can get your `TSID` by contacting Trsuted Shop via email: members@trustedshops.com
 
 ## Support
