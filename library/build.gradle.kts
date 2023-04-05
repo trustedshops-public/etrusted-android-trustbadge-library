@@ -162,7 +162,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.trustedshops-public"
             artifactId = "etrusted-android-trustbadge-library"
-            version = "0.0.${System.getenv("CIRCLE_BUILD_NUM") ?: "1"}-SNAPSHOT"
+            version = "0.1.${System.getenv("CIRCLE_BUILD_NUM") ?: "1"}-SNAPSHOT"
 
             afterEvaluate {
                 from(components["release"])
