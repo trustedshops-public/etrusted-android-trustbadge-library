@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 10.1.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -26,17 +26,18 @@
 package com.etrusted.android.trustbadge.library
 
 import android.content.Context
-import android.util.Log
 import com.etrusted.android.trustbadge.library.model.TrustbadgeConfig
 
-private const val TAG = "Trustbage Library"
+internal interface ILibrary {
+    var config: TrustbadgeConfig
+    fun configure(context: Context): ILibrary
+}
+object TrustbadgeLibrary: ILibrary {
 
-object TrustbadgeLibrary {
-
-    internal lateinit var config: TrustbadgeConfig
+    override lateinit var config: TrustbadgeConfig
 
     @Throws
-    fun configure(context: Context): TrustbadgeLibrary {
+    override fun configure(context: Context): TrustbadgeLibrary {
         if (!::config.isInitialized) {
             val newConfig = TrustbadgeConfig.fromResource(context)
             if (newConfig.clientId.isNotBlank() || newConfig.clientSecret.isNotBlank()) {

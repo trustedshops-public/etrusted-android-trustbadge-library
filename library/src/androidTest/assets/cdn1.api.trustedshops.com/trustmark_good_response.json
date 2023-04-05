@@ -4,20 +4,25 @@
     "data": {
       "shop": {
         "tsId": "fakeString",
-        "url": "fakeString",
         "name": "fakeString",
+        "url": "fakeString",
         "languageISO2": "fakeString",
         "targetMarketISO3": "fakeString",
         "trustMark": {
           "status": "fakeString",
           "validFrom": "fakeString",
           "validTo": "fakeString"
+        },
+        "guarantee": {
+          "mainProtectionCurrency":"fakeString",
+          "maxProtectionAmount":"fakeString",
+          "maxProtectionDuration":"fakeString"
         }
       }
     },
     "message": "SUCCESS",
     "responseInfo": {
-      "apiVersion": "2.4.15"
+      "apiVersion": "1.3.37"
     },
     "status": "SUCCESS"
   }

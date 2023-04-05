@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 30.1.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -25,39 +25,65 @@
 
 package com.etrusted.android.trustbadge.library.model
 
+import com.etrusted.android.trustbadge.library.common.internal.fromString
 import org.json.JSONObject
 import java.util.Date
+import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating.AggregateRatingDistribution
+import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating.AggregateRatingPeriod
+import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating.AggregateRatingPeriod.RatingTrend
 
 internal data class ChannelInfo(
 
-    var week: AggregateRating,
-    var month: AggregateRating,
-    var quarter: AggregateRating,
-    var year: AggregateRating,
-    var overall: AggregateRating
+    val week: AggregateRating,
+    val month: AggregateRating,
+    val quarter: AggregateRating,
+    val year: AggregateRating,
+    val overall: AggregateRating
 ) {
     data class AggregateRating(
-        var count: Int,
-        var rating: Float,
-        var distribution: AggregateRatingDistribution? = null,
-        var period: AggregateRatingPeriod? = null,
+        val count: Int,
+        val rating: Float,
+        val distribution: AggregateRatingDistribution? = null,
+        val period: AggregateRatingPeriod? = null,
     ) {
         data class AggregateRatingDistribution(
-            var oneStar: Int,
-            var twoStars: Int,
-            var threeStars: Int,
-            var fourStars: Int,
-            var fiveStars: Int
-        )
-        data class AggregateRatingPeriod(
-            var start: Date,
-            var end: Date,
-            var firstConsideredReviewSubmission: Date?,
-            var lastConsideredReviewSubmission: Date?,
-            var calculatedAt: Date?,
-            var ratingTrend: RatingTrend?
+            val oneStar: Int?,
+            val twoStars: Int?,
+            val threeStars: Int?,
+            val fourStars: Int?,
+            val fiveStars: Int?
         ) {
-            enum class RatingTrend { NEGATIVE, NEUTRAL, POSITIVE }
+            companion object {
+                internal const val ONE_STAR = "oneStar"
+                internal const val TWO_STAR = "twoStars"
+                internal const val THREE_STAR = "threeStars"
+                internal const val FOUR_STAR = "fourStars"
+                internal const val FIVE_STAR = "fiveStars"
+            }
+        }
+        data class AggregateRatingPeriod(
+            val start: Date,
+            val end: Date,
+            val firstConsideredReviewSubmission: Date?,
+            val lastConsideredReviewSubmission: Date?,
+            val calculatedAt: Date?,
+            val ratingTrend: RatingTrend?
+        ) {
+            enum class RatingTrend(val raw: String) {
+                NEGATIVE("NEGATIVE"), NEUTRAL("NEUTRAL"), POSITIVE("POSITIVE");
+                companion object {
+                    fun forRaw(raw: String): RatingTrend? =
+                        values().firstOrNull { it.raw == raw  }
+                }
+            }
+            companion object {
+                internal const val START = "start"
+                internal const val END = "end"
+                internal const val FIRST_SUBMISSION = "firstConsideredReviewSubmission"
+                internal const val LAST_SUBMISSION = "lastConsideredReviewSubmission"
+                internal const val CALCULATED_AT = "calculatedAt"
+                internal const val RATING_TREND = "ratingTrend"
+            }
         }
     }
 
@@ -70,45 +96,93 @@ internal data class ChannelInfo(
         private const val KEY_COUNT = "count"
         private const val KEY_RATING = "rating"
 
+        private const val KEY_OVERALL_DIST = "distribution"
+        private const val KEY_OVERALL_PERIOD = "period"
 
         fun fromString(body: String): ChannelInfo {
             val bodyJson = JSONObject(body)
+
             val response7days = bodyJson.getJSONObject(KEY_7DAYS)
+            val response7daysDistribution = response7days.optJSONObject(KEY_OVERALL_DIST)
+            val response7daysPeriod = response7days.optJSONObject(KEY_OVERALL_PERIOD)
+
             val response30days = bodyJson.getJSONObject(KEY_30DAYS)
+            val response30daysDistribution = response30days.optJSONObject(KEY_OVERALL_DIST)
+            val response30daysPeriod = response30days.optJSONObject(KEY_OVERALL_PERIOD)
+
             val response90days = bodyJson.getJSONObject(KEY_90DAYS)
+            val response90daysDistribution = response90days.optJSONObject(KEY_OVERALL_DIST)
+            val response90daysPeriod = response90days.optJSONObject(KEY_OVERALL_PERIOD)
+
             val response365days = bodyJson.getJSONObject(KEY_365DAYS)
+            val response365daysDistribution = response365days.optJSONObject(KEY_OVERALL_DIST)
+            val response365daysPeriod = response365days.optJSONObject(KEY_OVERALL_PERIOD)
+
             val responseOverall = bodyJson.getJSONObject(KEY_OVERALL)
+            val responseOverallDistribution = responseOverall.optJSONObject(KEY_OVERALL_DIST)
+            val responseOverallPeriod = responseOverall.optJSONObject(KEY_OVERALL_PERIOD)
 
             return ChannelInfo(
                 week = AggregateRating(
                     count = response7days.getInt(KEY_COUNT),
-                    rating = response7days.getDouble(KEY_RATING).toFloat()
+                    rating = response7days.getDouble(KEY_RATING).toFloat(),
+                    period = response7daysPeriod?.let { AggregateRatingPeriod.fromJson(it) },
+                    distribution = response7daysDistribution?.let { AggregateRatingDistribution
+                        .fromJson(it) }
                 ),
                 month = AggregateRating(
                     count = response30days.getInt(KEY_COUNT),
-                    rating = response30days.getDouble(KEY_RATING).toFloat()
+                    rating = response30days.getDouble(KEY_RATING).toFloat(),
+                    period = response30daysPeriod?.let { AggregateRatingPeriod.fromJson(it) },
+                    distribution = response30daysDistribution?.let { AggregateRatingDistribution
+                        .fromJson(it) }
                 ),
                 quarter = AggregateRating(
                     count = response90days.getInt(KEY_COUNT),
-                    rating = response90days.getDouble(KEY_RATING).toFloat()
+                    rating = response90days.getDouble(KEY_RATING).toFloat(),
+                    period = response90daysPeriod?.let { AggregateRatingPeriod.fromJson(it) },
+                    distribution = response90daysDistribution?.let { AggregateRatingDistribution
+                        .fromJson(it) },
                 ),
                 year = AggregateRating(
                     count = response365days.getInt(KEY_COUNT),
-                    rating = response365days.getDouble(KEY_RATING).toFloat()
+                    rating = response365days.getDouble(KEY_RATING).toFloat(),
+                    period = response365daysPeriod?.let { AggregateRatingPeriod.fromJson(it) },
+                    distribution = response365daysDistribution?.let { AggregateRatingDistribution
+                        .fromJson(it) }
                 ),
                 overall = AggregateRating(
                     count = responseOverall.getInt(KEY_COUNT),
-                    rating = responseOverall.getDouble(KEY_RATING).toFloat()
+                    rating = responseOverall.getDouble(KEY_RATING).toFloat(),
+                    period = responseOverallPeriod?.let {
+                        AggregateRatingPeriod.fromJson(it) },
+                    distribution = responseOverallDistribution?.let { AggregateRatingDistribution
+                        .fromJson(it)
+                    },
                 ),
             )
         }
     }
 }
 
-internal fun ChannelInfo.enrichTrustbadgeDataWithInfo(data: TrustbadgeData): TrustbadgeData {
-    return data.copy(
-        shop = data.shop.copy(
-            rating = this.year.rating
-        )
+internal fun AggregateRatingDistribution.Companion.fromJson(body: JSONObject):
+        AggregateRatingDistribution {
+    return AggregateRatingDistribution(
+        oneStar = body.optInt(ONE_STAR),
+        twoStars = body.optInt(TWO_STAR),
+        threeStars = body.optInt(THREE_STAR),
+        fourStars = body.optInt(FOUR_STAR),
+        fiveStars = body.optInt(FIVE_STAR),
+    )
+}
+
+internal fun AggregateRatingPeriod.Companion.fromJson(body: JSONObject): AggregateRatingPeriod {
+    return AggregateRatingPeriod(
+        start = Date().fromString(body.getString(START)) ?: Date(),
+        end= Date().fromString(body.getString(END)) ?: Date(),
+        firstConsideredReviewSubmission = Date().fromString(body.optString(FIRST_SUBMISSION)),
+        lastConsideredReviewSubmission = Date().fromString(body.optString(LAST_SUBMISSION)),
+        calculatedAt = Date().fromString(body.optString(CALCULATED_AT)),
+        ratingTrend = RatingTrend.forRaw(body.optString(RATING_TREND)),
     )
 }

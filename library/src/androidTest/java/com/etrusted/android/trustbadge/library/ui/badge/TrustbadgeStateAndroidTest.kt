@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 25.2.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -23,6 +23,8 @@
  * SOFTWARE.
  */
 
+@file:OptIn(ExperimentalCoroutinesApi::class)
+
 package com.etrusted.android.trustbadge.library.ui.badge
 
 import androidx.compose.foundation.layout.Column
@@ -31,6 +33,9 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
+import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
 import org.junit.Test
 
@@ -78,5 +83,187 @@ internal class TrustbadgeStateAndroidTest {
 
         // assert
         sut.assertDoesNotExist()
+    }
+
+    @Test
+    fun testExpandWorksFromInvisible() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.INVISIBLE)
+
+        // act
+        sut.expand()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.DEFAULT)
+    }
+
+    @Test
+    fun testExpandWorksFromDefault() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState()
+
+        // act
+        sut.expand()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.EXPANDED)
+    }
+
+    @Test
+    fun testExpandWorksFromExpanded() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED)
+
+        // act
+        sut.expand()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.EXPANDED)
+    }
+
+    @Test
+    fun testExpandWorksFromExpandedAsPopup() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED_AS_POPUP)
+
+        // act
+        sut.expand()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.EXPANDED)
+    }
+
+    @Test
+    fun testRetractWorksFromInvisible() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.INVISIBLE)
+
+        // act
+        sut.retract()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.INVISIBLE)
+    }
+
+    @Test
+    fun testRetractWorksFromDefault() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState()
+
+        // act
+        sut.retract()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.INVISIBLE)
+    }
+
+    @Test
+    fun testRetractWorksFromExpanded() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED)
+
+        // act
+        sut.retract()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.DEFAULT)
+    }
+
+    @Test
+    fun testRetractWorksFromExpandedAsPopup() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED_AS_POPUP)
+
+        // act
+        sut.retract()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.EXPANDED)
+    }
+
+    @Test
+    fun testShowWorksFromDefault() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState()
+
+        // act
+        sut.show()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.DEFAULT)
+    }
+
+    @Test
+    fun testShowWorksFromInvisible() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.INVISIBLE)
+
+        // act
+        sut.show()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.DEFAULT)
+    }
+
+    @Test
+    fun testHideWorksFromInvisible() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.INVISIBLE)
+
+        // act
+        sut.hide()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.INVISIBLE)
+    }
+
+    @Test
+    fun testHideWorksFromDefault() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState()
+
+        // act
+        sut.hide()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.INVISIBLE)
+    }
+
+    @Test
+    fun testHideWorksFromExpanded() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED)
+
+        // act
+        sut.hide()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.INVISIBLE)
+    }
+
+    @Test
+    fun testHideWorksFromExpandedAsPopup() = runTest {
+
+        // arrange
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED_AS_POPUP)
+
+        // act
+        sut.hide()
+
+        // assert
+        assertThat(sut.currentState).isEqualTo(TrustbadgeStateValue.INVISIBLE)
     }
 }

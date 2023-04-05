@@ -12,6 +12,6 @@
 
     <string name="tbadge_t_buyer_protection_independent">Independent Guarantee</string>
     <string name="tbadge_t_buyer_protection_your_purchase">Your purchase is protected up to</string>
-    <string name="tbadge_t_buyer_protection_your_purchase_amount_2500">€2,500</string>
+    <string name="tbadge_t_buyer_protection_your_purchase_amount_2500">€</string>
 
 </resources>

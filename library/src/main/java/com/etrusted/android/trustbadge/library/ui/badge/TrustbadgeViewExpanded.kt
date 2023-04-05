@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 6.12.2022.
- * Copyright (c) 2022 Trusted Shops GmbH
+ * Copyright (c) 2022 Trusted Shops AG
  *
  * MIT License
  *
@@ -47,6 +47,7 @@ internal fun RowScope.ExpandedView(
     state: TrustbadgeState,
     badgeContext: TrustbadgeContext,
     rating: Float?,
+    guaranteeAmount: String,
 ) {
 
     val excellentShopRevs = buildAnnotatedString {
@@ -116,6 +117,9 @@ internal fun RowScope.ExpandedView(
                         append(' ')
                         withStyle(style = MaterialTheme.typography.mobileBodySmallBold.toSpanStyle()) {
                             append(stringResource(id = R.string.tbadge_t_buyer_protection_your_purchase_amount_2500))
+                        }
+                        withStyle(style = MaterialTheme.typography.mobileBodySmallBold.toSpanStyle()) {
+                            append(guaranteeAmount)
                         }
                     })
                 }

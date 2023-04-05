@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 10.1.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -28,7 +28,7 @@ package com.etrusted.android.trustbadge.library.model
 import android.content.Context
 import com.etrusted.android.trustbadge.library.R
 
-internal data class TrustbadgeConfig(
+data class TrustbadgeConfig(
     val clientId: String,
     val clientSecret: String,
 ) {

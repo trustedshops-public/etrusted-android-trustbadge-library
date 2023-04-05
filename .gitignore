@@ -30,4 +30,9 @@ google-services.json
 
 # Android Profiling
 *.hprof
+
+# Other
 app/config.json
+fastlane/report.xml
+app-dist-key.json
+.scannerwork

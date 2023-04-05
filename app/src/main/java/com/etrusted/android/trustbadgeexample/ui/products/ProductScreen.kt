@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 30.11.2022.
- * Copyright (c) 2022 Trusted Shops GmbH
+ * Copyright (c) 2022 Trusted Shops AG
  *
  * MIT License
  *
@@ -55,8 +55,8 @@ internal fun ProductScreen() {
         Trustbadge(
             modifier = Modifier.align(Alignment.BottomStart),
             badgeContext = TrustbadgeContext.TrustMark,
-            tsid = "X330A2E7D449E31E467D2F53A55DDD070",
-            channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
+            tsid = "X2AB6FF7BFF70A04D1D323E039D676EDB",
+            channelId = "chl-7e52920a-2722-4881-9908-ecec98c716e4"
         )
 
     }

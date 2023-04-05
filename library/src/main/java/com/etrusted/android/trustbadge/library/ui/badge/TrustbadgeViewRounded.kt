@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 6.12.2022.
- * Copyright (c) 2022 Trusted Shops GmbH
+ * Copyright (c) 2022 Trusted Shops AG
  *
  * MIT License
  *
@@ -33,7 +33,9 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.common.ImageCircleBuyerProtection
 import com.etrusted.android.trustbadge.library.ui.common.ImageCircleProductIcon
 import com.etrusted.android.trustbadge.library.ui.common.ImageCircleShopIcon
@@ -45,7 +47,7 @@ internal fun RowScope.RoundedView(
     state: TrustbadgeState,
     badgeContext: TrustbadgeContext
 ) {
-    Box (modifier = modifier) {
+    Box (modifier = modifier.testTag(TestTags.TrustbadgeRounded.raw)) {
         this@RoundedView.AnimatedVisibility(
             visible = state.currentState == TrustbadgeStateValue.DEFAULT,
             enter = fadeIn(),
@@ -68,7 +70,12 @@ internal fun RowScope.RoundedView(
                 TrustbadgeContext.BuyerProtection -> {
                     ImageCircleBuyerProtection()
                 }
-                TrustbadgeContext.TrustMark -> {}
+                TrustbadgeContext.TrustMark -> {
+                    // Intentionally left empty since Kotlin requires 'when' expression
+                    // to be exhaustive, it is necessary to add all branches (or 'else').
+                    // In this state, the Trustmark icon remains the same, therefore
+                    // this block remains empty.
+                }
             }
         }
     }

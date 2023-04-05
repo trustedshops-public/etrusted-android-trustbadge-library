@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 26.2.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -28,4 +28,5 @@ package com.etrusted.android.trustbadge.library.common.internal
 internal sealed class TestTags(val raw: String) {
     object Trustbadge: TestTags("tag_trustbadge")
     object TrustbadgeDefault: TestTags("tag_trustbadge_default")
+    object TrustbadgeRounded: TestTags("tag_trustbadge_rounded")
 }

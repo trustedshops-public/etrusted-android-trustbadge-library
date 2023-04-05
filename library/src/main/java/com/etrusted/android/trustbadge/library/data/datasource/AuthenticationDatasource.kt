@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 30.1.2023.
- * Copyright (c) 2022-2023 Trusted Shops GmbH
+ * Copyright (c) 2022-2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -25,26 +25,36 @@
 
 package com.etrusted.android.trustbadge.library.data.datasource
 
+import com.etrusted.android.trustbadge.library.ILibrary
 import com.etrusted.android.trustbadge.library.TrustbadgeLibrary
+import com.etrusted.android.trustbadge.library.common.internal.IUrls
 import com.etrusted.android.trustbadge.library.common.internal.Urls
 import com.etrusted.android.trustbadge.library.common.internal.readStream
 import com.etrusted.android.trustbadge.library.common.internal.setPostParams
 import com.etrusted.android.trustbadge.library.model.AuthenticationToken
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.io.BufferedInputStream
 import java.net.URL
 import javax.net.ssl.HttpsURLConnection
 
+internal interface IAuthenticationDatasource {
+    suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken>
+}
+
+@Suppress("BlockingMethodInNonBlockingContext")
 internal class AuthenticationDatasource(
-    private val library: TrustbadgeLibrary = TrustbadgeLibrary,
-) {
+    private val library: ILibrary = TrustbadgeLibrary,
+    private val urls: IUrls = Urls,
+    private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
+): IAuthenticationDatasource {
 
-    suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken> {
+    override suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken> {
 
-        return withContext(Dispatchers.IO) {
+        return withContext(dispatcher) {
 
-            val url = URL(Urls.authenticationUrl)
+            val url = URL(urls.authenticationUrl())
             val urlConnection = url.openConnection() as HttpsURLConnection
             urlConnection.requestMethod = "POST"
 
@@ -69,18 +79,15 @@ internal class AuthenticationDatasource(
             } catch (e: Exception) {
 
                 val errorStream = BufferedInputStream(urlConnection.errorStream)
-                val errorBody = readStream(errorStream)
+                val errorBody =
+                    try { readStream(errorStream) }
+                    catch (e: Exception) { return@withContext Result.failure(e) }
+                    finally { urlConnection.disconnect() }
 
-                if (errorBody.isNotBlank()) {
-                    Result.failure(Error(errorBody))
-                } else {
-                    Result.failure(e)
-                }
+                if (errorBody.isNotBlank()) { Result.failure(Error(errorBody)) }
+                else { Result.failure(e) }
 
-            } finally {
-
-                urlConnection.disconnect()
-            }
+            } finally { urlConnection.disconnect() }
         }
     }
 }

@@ -11,8 +11,8 @@ android {
         applicationId = "com.etrusted.android.trustbadgeexample"
         minSdk = 26
         targetSdk = 33
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = System.getenv("CIRCLE_BUILD_NUM")?.toIntOrNull() ?: 1
+        versionName = "1.0.${System.getenv("CIRCLE_BUILD_NUM") ?: 0}"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -36,7 +36,8 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
+        val composeCompilerVersion: String by project
+        kotlinCompilerExtensionVersion = composeCompilerVersion
     }
     packagingOptions {
         resources {
@@ -65,8 +66,37 @@ tasks.register("createEmptyConfigFile") {
     }
 }
 
+tasks.register("generateTrustbadgeConfigFile") {
+    doLast {
+        val configFileName = "trustbadge-config.json"
+        File("${rootDir}/$configFileName").apply {
+            createNewFile()
+            val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG")
+            writeText(configContent)
+            println("config file created")
+        }
+    }
+}
+
+tasks.register("generateAppDistKey") {
+    doLast {
+        val jsonFileName = "app-dist-key.json"
+        val fileContent = System.getenv("GOOGLE_APP_DIST_FASTLANE_SERVICE_ACCOUNT")
+        File(rootDir, jsonFileName).apply {
+            if (!exists()) {
+                createNewFile()
+                writeText(fileContent)
+                println("Firebase AppDistribution key generated")
+            } else {
+                println("Firebase AppDistribution key already exists")
+            }
+        }
+    }
+}
+
 val kotlinVersion: String by project
 val activityVersion: String by project
+val composeBomVersion: String by project
 val composeVersion: String by project
 val composeM3Version: String by project
 val composeNavVersion: String by project
@@ -78,18 +108,20 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.1")
 
-    implementation("androidx.activity:activity-compose:$activityVersion")
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    implementation("androidx.compose.material3:material3:$composeM3Version")
+    val composeBom = platform("androidx.compose:compose-bom:$composeBomVersion")
+    implementation(composeBom)
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.ui:ui")
     implementation("androidx.navigation:navigation-compose:$composeNavVersion")
+    implementation("androidx.activity:activity-compose:$activityVersion")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 }

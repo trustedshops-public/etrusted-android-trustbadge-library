@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 30.1.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -27,33 +27,74 @@ package com.etrusted.android.trustbadge.library.ui.badge
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.etrusted.android.trustbadge.library.domain.GetGuaranteeUseCase
+import com.etrusted.android.trustbadge.library.domain.GetTrustbadgeDataUseCase
+import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
+import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
-import com.etrusted.android.trustbadge.library.data.repository.TrustbadgeRepository
-import kotlinx.coroutines.Dispatchers
+import com.etrusted.android.trustbadge.library.model.TrustbadgeData.Shop.Guarantee
+import kotlinx.coroutines.*
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.withContext
 
 private const val TAG = "TrustbadgeVM"
 
-internal class TrustbadgeViewModel: ViewModel() {
+internal interface ITrustbadgeViewModel {
+    val trustbadgeData: StateFlow<TrustbadgeData?>
+    val guarantee: StateFlow<Guarantee?>
+    fun fetchTrustbadgeData(tsId: String, channelId: String)
+    fun fetchGuarantee(tsId: String, channelId: String)
+}
 
-    private val trustbadgeRepo = TrustbadgeRepository()
+internal class TrustbadgeViewModel(
+    coroutineScope: CoroutineScope? = null,
+    private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main,
+    private val getTrustbadgeDataUseCase: ITrustbadgeDataUseCase = GetTrustbadgeDataUseCase(),
+    private val getGuaranteeUseCase: IGuaranteeUseCase = GetGuaranteeUseCase()
+): ViewModel(), ITrustbadgeViewModel {
+
+    // testScope is provided during tests otherwise uses default viewModelScope
+    private var scope: CoroutineScope = coroutineScope ?: viewModelScope
 
     private val _trustbadgeData = MutableStateFlow<TrustbadgeData?>(null)
-    internal val trustbadgeData: StateFlow<TrustbadgeData?>
+    override val trustbadgeData: StateFlow<TrustbadgeData?>
         get() = _trustbadgeData
 
-    internal suspend fun fetchTrustbadgeData(
+    private val _guarantee = MutableStateFlow<Guarantee?>(null)
+    override val guarantee: StateFlow<Guarantee?>
+        get() = _guarantee
+
+    override fun fetchTrustbadgeData(
         tsId: String,
         channelId: String,
     ) {
-        withContext(Dispatchers.IO) {
+        scope.launch {
             try {
-                val resp = trustbadgeRepo.fetchTrustbadgeData(tsid = tsId, channelId = channelId)
+                val resp = getTrustbadgeDataUseCase(tsid = tsId, channelId = channelId)
                 if (resp.isSuccess) {
-                    withContext(Dispatchers.Main) {
+                    withContext(dispatcherMain) {
                         _trustbadgeData.value = resp.getOrNull()
+                    }
+                } else {
+                    Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "error: ${e.message}")
+            }
+        }
+    }
+
+    override fun fetchGuarantee(
+        tsId: String,
+        channelId: String,
+    ) {
+        scope.launch {
+            try {
+                val resp = getGuaranteeUseCase(tsid = tsId, channelId = channelId)
+                if (resp.isSuccess) {
+                    withContext(dispatcherMain) {
+                        _guarantee.value = resp.getOrNull()
                     }
                 } else {
                     Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")

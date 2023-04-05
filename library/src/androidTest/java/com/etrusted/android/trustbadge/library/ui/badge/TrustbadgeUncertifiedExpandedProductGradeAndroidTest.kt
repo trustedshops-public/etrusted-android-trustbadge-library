@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 25.2.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -26,14 +26,17 @@
 package com.etrusted.android.trustbadge.library.ui.badge
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedExpandedProductGrade
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeViewModel
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
+import org.junit.Ignore
 import org.junit.Test
 
 internal class TrustbadgeUncertifiedExpandedProductGradeAndroidTest: TrustbadgeAndroidTest() {
@@ -43,11 +46,14 @@ internal class TrustbadgeUncertifiedExpandedProductGradeAndroidTest: TrustbadgeA
     override fun showContent() {
         composeTestRule.setContent {
 
+            val fakeViewModel = getFakeTrustbadgeViewModel()
             val state = rememberTrustbadgeState()
 
             TrustbadgeTheme {
                 Column {
-                    Trustbadge(
+                    TrustbadgeContent(
+                        modifier = Modifier,
+                        viewModel = fakeViewModel,
                         state = state,
                         badgeContext = TrustbadgeContext.ProductGrade,
                         tsid = "X330A2E7D449E31E467D2F53A55DDD070",
@@ -61,15 +67,15 @@ internal class TrustbadgeUncertifiedExpandedProductGradeAndroidTest: TrustbadgeA
         }
     }
 
+    @Ignore("activate to generate fresh screenshots")
     @Test
     override fun generateScreenshot() {
 
         // arrange
+        showContent()
 
         // act
-        showContent()
-        // wait for expand animation to finish
-        composeTestRule.mainClock.advanceTimeBy(5000)
+        composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
         composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
         val bmp = sut.captureToImage().asAndroidBitmap()
@@ -84,11 +90,10 @@ internal class TrustbadgeUncertifiedExpandedProductGradeAndroidTest: TrustbadgeA
     override fun testScreenshotMatchesGolden() {
 
         // arrange
+        showContent()
 
         // act
-        showContent()
-        // wait for expand animation to finish
-        composeTestRule.mainClock.advanceTimeBy(5000)
+        composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
         composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
 

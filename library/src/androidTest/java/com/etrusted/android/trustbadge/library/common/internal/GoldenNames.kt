@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 27.2.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -33,7 +33,13 @@ package com.etrusted.android.trustbadge.library.common.internal
  */
 internal sealed class GoldenNames(val raw: String) {
     object GoldenTrustbadgeUncertifiedDefault: GoldenNames("screenshot-trustbadge-uncertified-default")
+    object GoldenTrustbadgeUncertifiedDefaultIntegration: GoldenNames("screenshot-trustbadge-uncertified-default-integration")
     object GoldenTrustbadgeUncertifiedExpanded: GoldenNames("screenshot-trustbadge-uncertified-expanded")
+    object GoldenTrustbadgeUncertifiedExpandedIntegration: GoldenNames("screenshot-trustbadge-uncertified-expanded-integration")
     object GoldenTrustbadgeUncertifiedExpandedBuyerProtection: GoldenNames("screenshot-trustbadge-uncertified-expanded-buyer-protection")
+    object GoldenTrustbadgeUncertifiedExpandedBuyerProtectionIntegration: GoldenNames("screenshot-trustbadge-uncertified-expanded-buyer-protection-integration")
     object GoldenTrustbadgeUncertifiedExpandedProductGrade: GoldenNames("screenshot-trustbadge-uncertified-expanded-product-grade")
+    object GoldenTrustbadgeUncertifiedExpandedProductGradeIntegration: GoldenNames("screenshot-trustbadge-uncertified-expanded-product-grade-integration")
+
+    object GoldenTrustbadgeViewRounded: GoldenNames("screenshot-trustbadge-view-rounded")
 }

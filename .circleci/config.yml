@@ -1,6 +1,7 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@3.2.4
+  ruby: circleci/ruby@2.0.0
 
 commands:
   restore_gradle_cache:
@@ -39,7 +40,7 @@ executors:
       image: android:2022.12.1
   android-docker:
     docker:
-      - image: cimg/android:2023.02
+      - image: cimg/android:2023.04
 
 jobs:
   android-test:
@@ -48,25 +49,25 @@ jobs:
     steps:
       - checkout
       - restore_sdkmanager_cache
-      - run:
-          name: Setup sdkmanager
-          command: |
-            (yes || true) | sdkmanager "tools" "platform-tools" "build-tools;33.0.2" "platforms;android-33" "system-images;android-30;google_atd;x86"
-            (yes || true) | sdkmanager --licenses
-      - save_sdkmanager_cache
       - restore_gradle_cache
-      - run: ./gradlew tasks
-      - run: ./gradlew createEmptyConfigFile
-      - run: ./gradlew assembleDebug --stacktrace
-      - save_gradle_cache
+      - ruby/install-deps:
+          with-cache: true
       - run: export CI=true
-      - run: ./gradlew pixel2api30DebugAndroidTest --stacktrace
-      - run: ./gradlew testDebugUnitTest --stacktrace
-      - run: ./gradlew jacocoTestReport --stacktrace
+      - run:
+          name: Fastlane - run all tests with coverage report
+          command: bundle exec fastlane test
+      - run:
+          name: Fastlane - run sonar scanner
+          command: bundle exec fastlane check
+      - save_gradle_cache
+      - save_sdkmanager_cache
       - codecov/upload:
           file: library/build/mergedReportDir/jacocoTestReport/jacocoTestReport.xml
       - store_test_results:
           path: library/build/test-results/testDebugUnitTest
+      - store_artifacts:
+          path: library/build/reports/androidTests/managedDevice/allDevices
+          destination: "test_summary"
       - store_artifacts:
           path: library/build/outputs/managed_device_android_test_additional_output
       - store_artifacts:
@@ -92,6 +93,24 @@ jobs:
           command: |
             ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
 
+  distribute:
+    executor: android-docker
+    steps:
+      - checkout
+      - restore_gradle_cache
+      - run:
+          name: Prepare Fastlane
+          command: |
+            sudo bundle update
+            ./gradlew generateTrustbadgeConfigFile
+            ./gradlew assembleDebug
+      - run:
+          name: Distribute to Firebase AppTester
+          command: bundle exec fastlane distDev
+      - store_artifacts:
+          path: /home/circleci/project/app/build/outputs/apk/debug/app-debug.apk
+          destination: fastlane-output-debug
+
 workflows:
   workflow:
     jobs:
@@ -101,6 +120,14 @@ workflows:
           context:
             - gpg
             - maven-central
+          requires:
+            - android-test
+          filters:
+            branches:
+              ignore:
+                - main
+      - distribute:
+          name: distribute-dev
           requires:
             - android-test
           filters:

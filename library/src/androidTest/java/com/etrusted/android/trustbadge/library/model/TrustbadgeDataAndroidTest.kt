@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 30.1.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -25,8 +25,9 @@
 
 package com.etrusted.android.trustbadge.library.model
 
-import androidx.test.platform.app.InstrumentationRegistry
-import com.etrusted.android.trustbadge.library.common.internal.readJsonFile
+import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
+import com.etrusted.android.trustbadge.library.common.internal.getFakeChannelInfo
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeData
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
@@ -37,12 +38,7 @@ class TrustbadgeDataAndroidTest {
 
         // arrange
         val fakeStringInJsonFile = "fakeString"
-        val jsonPath = "cdn1.api.trustedshops.com/trustmark_good_response.json"
-        val goodData = try {
-            InstrumentationRegistry.getInstrumentation().context.readJsonFile(jsonPath)
-        } catch (e: Exception) {
-            throw Error("$jsonPath not found in android test resources")
-        }
+        val goodData = ServerResponses.TrustbadgeDataGoodResponse.content
 
         // act
         val trustbadge = TrustbadgeData.fromString(goodData)
@@ -56,5 +52,63 @@ class TrustbadgeDataAndroidTest {
         assertThat(trustbadge.shop.trustMark.status).isEqualTo(fakeStringInJsonFile)
         assertThat(trustbadge.shop.trustMark.validFrom).isEqualTo(fakeStringInJsonFile)
         assertThat(trustbadge.shop.trustMark.validTo).isEqualTo(fakeStringInJsonFile)
+    }
+
+    @Test
+    fun testFromStringReturnsCorrectTrustbadgeWithEmptyValidFromToAttributes() {
+
+        // arrange
+        val fakeStringInJsonFile = "fakeString"
+        val goodData = ServerResponses.TrustbadgeDataGoodResponse2.content
+
+        // act
+        val trustbadge = TrustbadgeData.fromString(goodData)
+
+        // assert
+        assertThat(trustbadge.shop.tsid).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.name).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.url).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.languageISO2).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.targetMarketISO3).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.trustMark.status).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.trustMark.validFrom).isEmpty()
+        assertThat(trustbadge.shop.trustMark.validTo).isEmpty()
+    }
+
+    @Test
+    fun testFromStringReturnsCorrectTrustbadgeWithoutValidFromToAttributes() {
+
+        // arrange
+        val fakeStringInJsonFile = "fakeString"
+        val goodData = ServerResponses.TrustbadgeDataGoodResponse3.content
+
+        // act
+        val trustbadge = TrustbadgeData.fromString(goodData)
+
+        // assert
+        assertThat(trustbadge.shop.tsid).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.name).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.url).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.languageISO2).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.targetMarketISO3).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.trustMark.status).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.trustMark.validFrom).isEmpty()
+        assertThat(trustbadge.shop.trustMark.validTo).isEmpty()
+    }
+
+    @Test
+    fun testEnrichTrustbadgeDataWithInfoWorks() {
+        // arrange
+        val fakeRating = 3.57f
+        val fakeChannelInfo = getFakeChannelInfo(fakeRating)
+        val fakeTrustbadgeData = getFakeTrustbadgeData()
+
+        // act
+        val enrichedTrustbadge = fakeTrustbadgeData.enrichWithChannelInfo(fakeChannelInfo)
+
+        // assert
+        assertThat(enrichedTrustbadge.shop.rating).isNotNull()
+        assertThat(enrichedTrustbadge.shop.rating).isEqualTo(fakeRating)
+        assertThat(enrichedTrustbadge.shop.rating).isEqualTo(fakeChannelInfo.year.rating)
     }
 }

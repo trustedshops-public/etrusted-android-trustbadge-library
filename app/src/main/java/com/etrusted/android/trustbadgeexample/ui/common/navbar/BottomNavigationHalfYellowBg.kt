@@ -13,7 +13,7 @@ import com.etrusted.android.trustbadgeexample.R
 
 /*
  * Created by Ali Kabiri on 23.02.2022
- * Copyright (c) 2022 Trusted Shops GmbH. All rights reserved.
+ * Copyright (c) 2022 Trusted Shops AG. All rights reserved.
  */
 
 @Composable

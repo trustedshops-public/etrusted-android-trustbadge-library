@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 27.2.2023.
- * Copyright (c) 2023 Trusted Shops GmbH
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -30,10 +30,14 @@ import java.io.File
 
 @Throws(Exception::class)
 internal fun Context.readJsonFile(jsonFilePath: String) : String {
-    val assetInSt = this.assets.open(jsonFilePath)
-    val fileContents = assetInSt.bufferedReader().use { it.readText() }
-    assetInSt.close()
-    return fileContents
+    try {
+        val assetInSt = this.assets.open(jsonFilePath)
+        val fileContents = assetInSt.bufferedReader().use { it.readText() }
+        assetInSt.close()
+        return fileContents
+    } catch (e: Exception) {
+        throw Error("$jsonFilePath not found in android test resources")
+    }
 }
 
 /**

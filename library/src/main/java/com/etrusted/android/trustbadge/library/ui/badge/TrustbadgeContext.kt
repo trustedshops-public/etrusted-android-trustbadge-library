@@ -1,6 +1,6 @@
 /*
  * Created by Ali Kabiri on 28.11.2022.
- * Copyright (c) 2022 Trusted Shops GmbH
+ * Copyright (c) 2022 Trusted Shops AG
  *
  * MIT License
  *
@@ -25,9 +25,9 @@
 
 package com.etrusted.android.trustbadge.library.ui.badge
 
-sealed class TrustbadgeContext {
-    public object TrustMark: TrustbadgeContext()
-    public object ShopGrade: TrustbadgeContext()
-    internal object ProductGrade: TrustbadgeContext()
-    internal object BuyerProtection: TrustbadgeContext()
+sealed class TrustbadgeContext(val isExpandable: Boolean = false) {
+    object TrustMark: TrustbadgeContext()
+    object ShopGrade: TrustbadgeContext(isExpandable = true)
+    internal object ProductGrade: TrustbadgeContext(isExpandable = true)
+    object BuyerProtection: TrustbadgeContext(isExpandable = true)
 }

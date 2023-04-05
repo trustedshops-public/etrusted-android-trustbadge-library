@@ -87,6 +87,10 @@ android {
     buildFeatures {
         compose = true
     }
+    composeOptions {
+        val composeCompilerVersion: String by project
+        kotlinCompilerExtensionVersion = composeCompilerVersion
+    }
     testOptions {
         animationsDisabled = true
 
@@ -137,7 +141,6 @@ tasks.preBuild {
     dependsOn(tasks.produce)
 }
 
-
 tasks.register("prepareGeneratingFreshGolden") {
     android.defaultConfig.testInstrumentationRunnerArguments["GENERATE_FRESH_GOLDEN"]="true"
 }
@@ -159,7 +162,7 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.trustedshops-public"
             artifactId = "etrusted-android-trustbadge-library"
-            version = "0.0.${System.getenv("CIRCLE_BUILD_NUM") ?: "1"}-SNAPSHOT"
+            version = "0.1.${System.getenv("CIRCLE_BUILD_NUM") ?: "1"}-SNAPSHOT"
 
             afterEvaluate {
                 from(components["release"])
@@ -211,29 +214,38 @@ signing {
 internal val coreKtxVersion: String by project
 internal val activityVersion: String by project
 internal val lifecycleViewModelComposeVersion: String by project
+internal val composeBomVersion: String by project
 internal val composeVersion: String by project
 internal val composeM3Version: String by project
 internal val testJunitVersion: String by project
 internal val testGoogleTruthVersion: String by project
 internal val androidTestJunitVersion: String by project
 internal val androidTestEspressoVersion: String by project
+internal val okhttpVersion: String by project
+internal val kotlinCoroutinesVersion: String by project
 
 dependencies {
 
     implementation("androidx.core:core-ktx:$coreKtxVersion")
     implementation("androidx.activity:activity-compose:$activityVersion")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycleViewModelComposeVersion")
-    implementation("androidx.compose.material3:material3:$composeM3Version")
-    implementation("androidx.compose.ui:ui:$composeVersion")
-    implementation("androidx.compose.ui:ui-tooling-preview:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-tooling:$composeVersion")
+
+    val composeBom = platform("androidx.compose:compose-bom:$composeBomVersion")
+    implementation(composeBom)
+    implementation("androidx.compose.material3:material3")
+    implementation("androidx.compose.ui:ui-tooling-preview")
+    implementation("androidx.compose.ui:ui")
 
     // test dependencies
     testImplementation("junit:junit:$testJunitVersion")
+    androidTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$kotlinCoroutinesVersion")
     androidTestImplementation("com.google.truth:truth:$testGoogleTruthVersion")
     androidTestImplementation("androidx.test.ext:junit:$androidTestJunitVersion")
     androidTestImplementation("androidx.test.espresso:espresso-core:$androidTestEspressoVersion")
+    androidTestImplementation("com.squareup.okhttp3:mockwebserver:$okhttpVersion")
+    androidTestImplementation("com.squareup.okhttp3:okhttp-tls:$okhttpVersion")
     // ui tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:$composeVersion")
+    debugImplementation("androidx.compose.ui:ui-test-manifest")
+    debugImplementation("androidx.compose.ui:ui-tooling")
 }
