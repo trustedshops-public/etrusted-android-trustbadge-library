@@ -88,4 +88,20 @@ internal sealed class ServerResponses {
         override val content: String
             get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }
+
+    object ProductGradeGoodResponse: ServerResponses() {
+        override val path: String
+            get() = "integrations.etrusted.com" +
+                    "/feeds/products/v1/channels/channelid/sku/hexsku/good_response.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
+    }
+
+    object ProductGradeBadResponse: ServerResponses() {
+        override val path: String
+            get() = "integrations.etrusted.com" +
+                    "/feeds/products/v1/channels/channelid/sku/hexsku/bad_response.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
+    }
 }
