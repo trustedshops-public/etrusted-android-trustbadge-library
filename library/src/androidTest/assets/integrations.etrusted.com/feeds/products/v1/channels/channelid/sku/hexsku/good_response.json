@@ -1,0 +1,98 @@
+{
+  "grades": {
+    "7days": {
+      "rating": 5,
+      "count": 1,
+      "distribution": {
+        "oneStar": 0,
+        "twoStars": 0,
+        "threeStars": 0,
+        "fourStars": 0,
+        "fiveStars": 1
+      },
+      "period": {
+        "start": "2022-07-01T00:00:00.000Z",
+        "end": "2022-07-08T23:59:59.999Z",
+        "calculatedAt": "2022-07-08T09:36:05.261Z",
+        "firstConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
+        "lastConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
+        "ratingTrend": "NEUTRAL"
+      }
+    },
+    "30days": {
+      "rating": 5,
+      "count": 1,
+      "distribution": {
+        "oneStar": 0,
+        "twoStars": 0,
+        "threeStars": 0,
+        "fourStars": 0,
+        "fiveStars": 1
+      },
+      "period": {
+        "start": "2022-06-08T00:00:00.000Z",
+        "end": "2022-07-08T23:59:59.999Z",
+        "calculatedAt": "2022-07-08T09:36:05.261Z",
+        "firstConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
+        "lastConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
+        "ratingTrend": "NEUTRAL"
+      }
+    },
+    "90days": {
+      "rating": 5,
+      "count": 4,
+      "distribution": {
+        "oneStar": 0,
+        "twoStars": 0,
+        "threeStars": 0,
+        "fourStars": 0,
+        "fiveStars": 4
+      },
+      "period": {
+        "start": "2022-04-09T00:00:00.000Z",
+        "end": "2022-07-08T23:59:59.999Z",
+        "calculatedAt": "2022-07-08T09:36:05.261Z",
+        "firstConsideredReviewSubmission": "2022-05-02T10:01:35.000Z",
+        "lastConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
+        "ratingTrend": "NEUTRAL"
+      }
+    },
+    "365days": {
+      "rating": 5,
+      "count": 4,
+      "distribution": {
+        "oneStar": 0,
+        "twoStars": 0,
+        "threeStars": 0,
+        "fourStars": 0,
+        "fiveStars": 4
+      },
+      "period": {
+        "start": "2021-07-08T00:00:00.000Z",
+        "end": "2022-07-08T23:59:59.999Z",
+        "calculatedAt": "2022-07-08T09:36:05.261Z",
+        "firstConsideredReviewSubmission": "2022-05-02T10:01:35.000Z",
+        "lastConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
+        "ratingTrend": "NEUTRAL"
+      }
+    },
+    "overall": {
+      "rating": 5,
+      "count": 4,
+      "distribution": {
+        "oneStar": 0,
+        "twoStars": 0,
+        "threeStars": 0,
+        "fourStars": 0,
+        "fiveStars": 4
+      },
+      "period": {
+        "start": "2022-05-02T10:01:35.000Z",
+        "end": "2022-07-08T23:59:59.999Z",
+        "calculatedAt": "2022-07-08T09:36:05.261Z",
+        "firstConsideredReviewSubmission": "2022-05-02T10:01:35.000Z",
+        "lastConsideredReviewSubmission": "2022-07-08T09:35:34.000Z"
+      }
+    }
+  }
+}
