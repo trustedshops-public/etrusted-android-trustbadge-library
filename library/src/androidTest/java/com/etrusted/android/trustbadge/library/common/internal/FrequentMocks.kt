@@ -51,6 +51,7 @@ internal fun getUrlsFor(endpoint: String): IUrls {
         override fun authenticationUrl(env: EnvironmentKey): String = endpoint
         override fun trustbadgeJsonUrl(env: EnvironmentKey): String = endpoint
         override fun channelAggregateRatingUrl(env: EnvironmentKey): String = endpoint
+        override fun productGradeJsonUrl(env: EnvironmentKey): String = endpoint
     }
 }
 

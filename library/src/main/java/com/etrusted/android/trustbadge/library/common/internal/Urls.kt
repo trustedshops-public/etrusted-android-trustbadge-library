@@ -30,15 +30,18 @@ import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey.Co
 internal const val prodChannelsUrl = "https://api.etrusted.com/channels"
 internal const val prodAuthUrl = "https://login.etrusted.com/oauth/token"
 internal const val prodTrustbadgeDataUrl = "https://cdn1.api.trustedshops.com"
+internal const val prodProductGradeUrl = "https://integrations.etrusted.com"
 
 internal const val devChannelsUrl = "https://api.etrusted.koeln/channels"
 internal const val devAuthUrl = "https://login-integr.etrusted.com/oauth/token"
 internal const val devTrustbadgeDataUrl = "https://cdn1.api-dev.trustedshops.com"
+internal const val devProductGradeUrl = "https://integrations.etrusted.koeln"
 
 internal interface IUrls {
     fun authenticationUrl(env: EnvironmentKey = forRawValue(BuildConfig.BUILD_TYPE)): String
     fun trustbadgeJsonUrl(env: EnvironmentKey = forRawValue(BuildConfig.BUILD_TYPE)): String
     fun channelAggregateRatingUrl(env: EnvironmentKey = forRawValue(BuildConfig.BUILD_TYPE)): String
+    fun productGradeJsonUrl(env: EnvironmentKey = forRawValue(BuildConfig.BUILD_TYPE)): String
 }
 
 object Urls: IUrls {
@@ -62,5 +65,12 @@ object Urls: IUrls {
             EnvironmentKey.RELEASE -> prodChannelsUrl
             EnvironmentKey.DEBUG -> devChannelsUrl
             else -> prodChannelsUrl
+        }
+
+    override fun productGradeJsonUrl(env: EnvironmentKey): String
+        = when (env) {
+            EnvironmentKey.RELEASE -> prodProductGradeUrl
+            EnvironmentKey.DEBUG -> devProductGradeUrl
+            else -> prodProductGradeUrl
         }
 }
