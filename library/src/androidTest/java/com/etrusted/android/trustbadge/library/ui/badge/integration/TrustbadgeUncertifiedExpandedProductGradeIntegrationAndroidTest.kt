@@ -57,7 +57,7 @@ internal class TrustbadgeUncertifiedExpandedProductGradeIntegrationAndroidTest: 
                     TrustbadgeContent(
                         modifier = Modifier,
                         state = state,
-                        badgeContext = TrustbadgeContext.ProductGrade,
+                        badgeContext = TrustbadgeContext.ProductGrade(sku = "fakeSKU"),
                         tsid = "X330A2E7D449E31E467D2F53A55DDD070",
                         channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
                     )
