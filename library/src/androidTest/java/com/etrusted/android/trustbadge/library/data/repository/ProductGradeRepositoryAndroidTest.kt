@@ -10,18 +10,23 @@ internal class ProductGradeRepositoryAndroidTest {
     @Test
     fun testFetchProductGradeReturnsSuccessfully() = runTest {
         // arrange
-        val fakeProductGradeDatasource = getFakeProductGradeDetailDatasource()
+        val fakeSKU = "fakeSKU"
+        val expectedHexSku = "66616b65534b55"
+        var hexSKU = ""
+        val fakeProductGradeDatasource = getFakeProductGradeDetailDatasource(spyHexSku = {
+            hexSKU = it
+        })
         val sut = ProductGradeRepository(
             productGradeDatasource = fakeProductGradeDatasource
         )
 
         // act
-        val result = sut.fetchProductGrade("fakeChannelId", "fakeSKU")
+        val result = sut.fetchProductGrade("fakeChannelId", fakeSKU)
 
         // assert
         assertThat(result.isSuccess).isTrue()
         assertThat(result.getOrNull()).isNotNull()
-
+        assertThat(hexSKU).isEqualTo(expectedHexSku)
     }
 
     @Test

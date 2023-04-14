@@ -200,11 +200,15 @@ internal fun getFakeShopGradeDetailDatasource(
 }
 
 internal fun getFakeProductGradeDetailDatasource(
-    result: Result<ProductGrade> = Result.success(getFakeProductGrade())
+    result: Result<ProductGrade> = Result.success(getFakeProductGrade()),
+    spyHexSku: (String) -> Unit = {},
 ): IProductGradeDatasource {
     return object : IProductGradeDatasource {
         override suspend fun fetchProductGrade(channelId: String, hexSku: String):
-                Result<ProductGrade> = result
+                Result<ProductGrade> {
+            spyHexSku(hexSku)
+            return result
+        }
     }
 }
 
