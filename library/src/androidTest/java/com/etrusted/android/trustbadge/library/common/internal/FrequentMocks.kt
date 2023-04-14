@@ -29,6 +29,7 @@ import android.content.Context
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.ILibrary
 import com.etrusted.android.trustbadge.library.data.datasource.IAuthenticationDatasource
+import com.etrusted.android.trustbadge.library.data.datasource.IProductGradeDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.IShopGradeDetailDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.ITrustbadgeDatasource
 import com.etrusted.android.trustbadge.library.data.repository.IChannelInfoRepository
@@ -36,11 +37,8 @@ import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeReposi
 import com.etrusted.android.trustbadge.library.domain.IChannelInfoDataUseCase
 import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
 import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
-import com.etrusted.android.trustbadge.library.model.AuthenticationToken
-import com.etrusted.android.trustbadge.library.model.ChannelInfo
+import com.etrusted.android.trustbadge.library.model.*
 import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating
-import com.etrusted.android.trustbadge.library.model.TrustbadgeConfig
-import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.etrusted.android.trustbadge.library.ui.badge.ITrustbadgeViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -161,6 +159,20 @@ internal fun getFakeChannelInfo(fakeRating: Float = 3.51f): ChannelInfo {
             ))
     )
 }
+internal fun getFakeProductGrade(fakeRating: Float = 3.51f): ProductGrade {
+    val fakeDate = Date()
+    return ProductGrade(
+        year=ProductGrade.AggregateRating(count=5, rating=fakeRating, distribution=null,
+            period=ProductGrade.AggregateRating.AggregateRatingPeriod(
+                start = fakeDate,
+                end = fakeDate,
+                firstConsideredReviewSubmission = fakeDate,
+                lastConsideredReviewSubmission = fakeDate,
+                calculatedAt = fakeDate,
+                ratingTrend = ProductGrade.AggregateRating.AggregateRatingPeriod.RatingTrend.POSITIVE
+        )),
+    )
+}
 
 internal fun getFakeAuthDatasource(
     result: Result<AuthenticationToken> = Result.success(getFakeAuthToken())
@@ -184,6 +196,15 @@ internal fun getFakeShopGradeDetailDatasource(
     return object : IShopGradeDetailDatasource {
         override suspend fun fetchShopGradeDetail(channelId: String, accessToken: String):
                 Result<ChannelInfo> = result
+    }
+}
+
+internal fun getFakeProductGradeDetailDatasource(
+    result: Result<ProductGrade> = Result.success(getFakeProductGrade())
+): IProductGradeDatasource {
+    return object : IProductGradeDatasource {
+        override suspend fun fetchProductGrade(channelId: String, hexSku: String):
+                Result<ProductGrade> = result
     }
 }
 
