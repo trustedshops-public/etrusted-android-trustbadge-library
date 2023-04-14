@@ -86,7 +86,7 @@ internal fun RowScope.ExpandedView(
 
             when (badgeContext) {
 
-                TrustbadgeContext.ShopGrade, TrustbadgeContext.ProductGrade -> {
+                TrustbadgeContext.ShopGrade, is TrustbadgeContext.ProductGrade -> {
                     val starTitle =
                         if (badgeContext == TrustbadgeContext.ShopGrade) excellentShopRevs
                         else excellentProductRevs
