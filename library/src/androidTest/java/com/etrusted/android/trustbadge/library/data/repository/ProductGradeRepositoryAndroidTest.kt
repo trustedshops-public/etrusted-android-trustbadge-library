@@ -2,9 +2,11 @@ package com.etrusted.android.trustbadge.library.data.repository
 
 import com.etrusted.android.trustbadge.library.common.internal.getFakeProductGradeDetailDatasource
 import com.google.common.truth.Truth.assertThat
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 internal class ProductGradeRepositoryAndroidTest {
 
     @Test
