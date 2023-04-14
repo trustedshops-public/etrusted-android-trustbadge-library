@@ -33,6 +33,7 @@ import com.etrusted.android.trustbadge.library.data.datasource.IProductGradeData
 import com.etrusted.android.trustbadge.library.data.datasource.IShopGradeDetailDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.ITrustbadgeDatasource
 import com.etrusted.android.trustbadge.library.data.repository.IChannelInfoRepository
+import com.etrusted.android.trustbadge.library.data.repository.IProductGradeRepository
 import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
 import com.etrusted.android.trustbadge.library.domain.IChannelInfoDataUseCase
 import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
@@ -232,6 +233,13 @@ internal fun getFakeChannelInfoRepository(
 ): IChannelInfoRepository {
     return object : IChannelInfoRepository {
         override suspend fun fetchChannelInfo(channelId: String): Result<ChannelInfo> = result
+    }
+}
+internal fun getFakeProductGradeRepository(
+    result: Result<ProductGrade> = Result.success(getFakeProductGrade())
+): IProductGradeRepository {
+    return object : IProductGradeRepository {
+        override suspend fun fetchProductGrade(channelId: String, sku: String): Result<ProductGrade> = result
     }
 }
 
