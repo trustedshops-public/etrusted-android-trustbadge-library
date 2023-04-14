@@ -35,7 +35,7 @@ import kotlinx.coroutines.test.runTest
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-class ChannelInfoDataUseCaseAndroidTest {
+internal class ChannelInfoDataUseCaseAndroidTest {
 
     @Test
     fun testChannelInfoDataUseCaseReturnsSuccessfully() = runTest {

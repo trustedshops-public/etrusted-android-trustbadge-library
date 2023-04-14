@@ -65,4 +65,16 @@ class UrlsTest {
         assertThat(urlDebugRaw).isEqualTo(devChannelsUrl)
         assertThat(urlUnknownRaw).isEqualTo(prodChannelsUrl)
     }
+
+    @Test
+    fun testProductGradeJsonUrlReturnsCorrectRawValueForEachEnvironment() {
+
+        val urlReleaseRaw = Urls.productGradeJsonUrl(env = EnvironmentKey.RELEASE)
+        val urlDebugRaw = Urls.productGradeJsonUrl(env = EnvironmentKey.DEBUG)
+        val urlUnknownRaw = Urls.productGradeJsonUrl(env = EnvironmentKey.UNKNOWN)
+
+        assertThat(urlReleaseRaw).isEqualTo(prodProductGradeUrl)
+        assertThat(urlDebugRaw).isEqualTo(devProductGradeUrl)
+        assertThat(urlUnknownRaw).isEqualTo(prodProductGradeUrl)
+    }
 }
