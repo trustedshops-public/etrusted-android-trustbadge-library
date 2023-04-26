@@ -36,6 +36,7 @@ import com.etrusted.android.trustbadge.library.data.repository.IChannelInfoRepos
 import com.etrusted.android.trustbadge.library.data.repository.IProductGradeRepository
 import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
 import com.etrusted.android.trustbadge.library.domain.IChannelInfoDataUseCase
+import com.etrusted.android.trustbadge.library.domain.IGetProductGradeUseCase
 import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
 import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
 import com.etrusted.android.trustbadge.library.model.*
@@ -261,6 +262,14 @@ internal fun getFakeGuaranteeUseCase(
     }
 }
 
+internal fun getFakeProductGradeUseCase(
+    result: Result<ProductGrade> = Result.success(getFakeProductGrade())
+): IGetProductGradeUseCase {
+    return object : IGetProductGradeUseCase {
+        override suspend fun invoke(channelId: String, sku: String): Result<ProductGrade> = result
+    }
+}
+
 internal fun getFakeChannelInfoDataUseCase(
     result: Result<ChannelInfo> = Result.success(getFakeChannelInfo())
 ): IChannelInfoDataUseCase {
@@ -271,12 +280,15 @@ internal fun getFakeChannelInfoDataUseCase(
 
 internal fun getFakeTrustbadgeViewModel(
     trustbadgeData: StateFlow<TrustbadgeData?> = MutableStateFlow(getFakeTrustbadgeData()),
-    guarantee: StateFlow<TrustbadgeData.Shop.Guarantee?> = MutableStateFlow(getFakeGuarantee())
+    guarantee: StateFlow<TrustbadgeData.Shop.Guarantee?> = MutableStateFlow(getFakeGuarantee()),
+    productGrade: StateFlow<ProductGrade> = MutableStateFlow(getFakeProductGrade())
 ): ITrustbadgeViewModel {
     return object : ITrustbadgeViewModel {
         override val trustbadgeData: StateFlow<TrustbadgeData?> = trustbadgeData
         override val guarantee: StateFlow<TrustbadgeData.Shop.Guarantee?> = guarantee
+        override val productGrade: StateFlow<ProductGrade?> = productGrade
         override fun fetchTrustbadgeData(tsId: String, channelId: String) {}
         override fun fetchGuarantee(tsId: String, channelId: String) {}
+        override fun fetchProductGrade(channelId: String, sku: String) {}
     }
 }

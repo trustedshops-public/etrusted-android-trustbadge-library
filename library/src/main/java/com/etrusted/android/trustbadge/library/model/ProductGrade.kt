@@ -74,7 +74,7 @@ data class ProductGrade(
                     count = response365days.getInt(KEY_COUNT),
                     rating = response365days.getDouble(KEY_RATING).toFloat(),
                     period = response365daysPeriod?.let {
-                        ProductGrade.AggregateRating.AggregateRatingPeriod.fromJson(
+                        AggregateRating.AggregateRatingPeriod.fromJson(
                             it
                         )
                     },
