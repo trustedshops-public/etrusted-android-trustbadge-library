@@ -25,7 +25,7 @@ internal class ProductGradeDatasource (
         return withContext(dispatcher) {
 
             val url = URL(urls.productGradeJsonUrl() +
-                    "/feeds/products/v1/channels/$channelId/sku/$hexSku/feed.json")
+                    "/feeds/grades/v1/channels/$channelId/products/sku/$hexSku/feed.json")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try{

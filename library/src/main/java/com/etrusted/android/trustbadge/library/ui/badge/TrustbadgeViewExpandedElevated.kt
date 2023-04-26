@@ -13,6 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import com.etrusted.android.trustbadge.library.model.ProductGrade
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.etrusted.android.trustbadge.library.ui.theme.TsBadgeBg
 import com.etrusted.android.trustbadge.library.ui.theme.TsNeutralsGrey50
@@ -22,7 +23,8 @@ internal fun TrustbadgeViewExpandedElevated(
     state: TrustbadgeState,
     badgeContext: TrustbadgeContext,
     trustbadgeData: TrustbadgeData?,
-    guarantee: TrustbadgeData.Shop.Guarantee?
+    guarantee: TrustbadgeData.Shop.Guarantee?,
+    productGrade: ProductGrade?,
 ) {
     ElevatedButton(
         modifier = Modifier
@@ -39,9 +41,11 @@ internal fun TrustbadgeViewExpandedElevated(
     ) {
         ExpandedView(
             modifier = Modifier.align(Alignment.CenterVertically),
-            state = state, badgeContext = badgeContext,
+            state = state,
+            badgeContext = badgeContext,
             rating = trustbadgeData?.shop?.rating,
-            guaranteeAmount = guarantee?.maxProtectionAmount ?: "0"
+            guaranteeAmount = guarantee?.maxProtectionAmount ?: "0",
+            productRating = productGrade?.year?.rating
         )
     }
 }

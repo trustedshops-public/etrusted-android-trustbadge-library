@@ -54,7 +54,7 @@ internal fun ProductScreen() {
 
         Trustbadge(
             modifier = Modifier.align(Alignment.BottomStart),
-            badgeContext = TrustbadgeContext.TrustMark,
+            badgeContext = TrustbadgeContext.ProductGrade(sku = "1234-Ti-Bl"),
             tsid = "X2AB6FF7BFF70A04D1D323E039D676EDB",
             channelId = "chl-7e52920a-2722-4881-9908-ecec98c716e4"
         )
