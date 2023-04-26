@@ -174,4 +174,28 @@ class TrustbadgeViewModelAndroidTest {
         // assert
         assertThat(sut.productGrade.value).isNull()
     }
+
+    @Test
+    fun testFetchProductGradeFailsWhenUseCaseThrows() = runTest {
+
+        // arrange
+        val testDispatcher = StandardTestDispatcher(testScheduler)
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
+        val fakeProductGradeUseCase = getFakeProductGradeUseCase(throwable = Exception("failed"))
+        val sut = TrustbadgeViewModel(
+            coroutineScope = this,
+            dispatcherMain = testDispatcher,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
+            getProductGradeUseCase = fakeProductGradeUseCase,
+        )
+
+        // act
+        sut.fetchProductGrade("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(sut.productGrade.value).isNull()
+    }
 }

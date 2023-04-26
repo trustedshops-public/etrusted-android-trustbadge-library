@@ -263,10 +263,12 @@ internal fun getFakeGuaranteeUseCase(
 }
 
 internal fun getFakeProductGradeUseCase(
-    result: Result<ProductGrade> = Result.success(getFakeProductGrade())
+    result: Result<ProductGrade> = Result.success(getFakeProductGrade()),
+    throwable: Throwable? = null,
 ): IGetProductGradeUseCase {
     return object : IGetProductGradeUseCase {
-        override suspend fun invoke(channelId: String, sku: String): Result<ProductGrade> = result
+        override suspend fun invoke(channelId: String, sku: String): Result<ProductGrade> =
+            throwable?.let { throw it } ?: result
     }
 }
 
