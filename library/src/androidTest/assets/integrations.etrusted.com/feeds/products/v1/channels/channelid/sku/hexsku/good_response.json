@@ -1,98 +1,28 @@
 {
-  "grades": {
-    "7days": {
-      "rating": 5,
-      "count": 1,
-      "distribution": {
-        "oneStar": 0,
-        "twoStars": 0,
-        "threeStars": 0,
-        "fourStars": 0,
-        "fiveStars": 1
-      },
-      "period": {
-        "start": "2022-07-01T00:00:00.000Z",
-        "end": "2022-07-08T23:59:59.999Z",
-        "calculatedAt": "2022-07-08T09:36:05.261Z",
-        "firstConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
-        "lastConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
-        "ratingTrend": "NEUTRAL"
-      }
+  "id": "prt-fake",
+  "name": "fake name",
+  "url": "fake url",
+  "channelId": "fake channel",
+  "accountId": "fake account",
+  "sku": "fake sku",
+  "gtin": "fake gtin",
+  "mpn": "fake mpn",
+  "brand": "fake brand",
+  "image": {
+    "original": {
+      "url": "original url",
+      "width": 0,
+      "height": 0
     },
-    "30days": {
-      "rating": 5,
-      "count": 1,
-      "distribution": {
-        "oneStar": 0,
-        "twoStars": 0,
-        "threeStars": 0,
-        "fourStars": 0,
-        "fiveStars": 1
-      },
-      "period": {
-        "start": "2022-06-08T00:00:00.000Z",
-        "end": "2022-07-08T23:59:59.999Z",
-        "calculatedAt": "2022-07-08T09:36:05.261Z",
-        "firstConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
-        "lastConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
-        "ratingTrend": "NEUTRAL"
-      }
+    "productReviewQuestionnaire": {
+      "url": "productReviewQuestionnaire url",
+      "width": 600,
+      "height": 600
     },
-    "90days": {
-      "rating": 5,
-      "count": 4,
-      "distribution": {
-        "oneStar": 0,
-        "twoStars": 0,
-        "threeStars": 0,
-        "fourStars": 0,
-        "fiveStars": 4
-      },
-      "period": {
-        "start": "2022-04-09T00:00:00.000Z",
-        "end": "2022-07-08T23:59:59.999Z",
-        "calculatedAt": "2022-07-08T09:36:05.261Z",
-        "firstConsideredReviewSubmission": "2022-05-02T10:01:35.000Z",
-        "lastConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
-        "ratingTrend": "NEUTRAL"
-      }
-    },
-    "365days": {
-      "rating": 5,
-      "count": 4,
-      "distribution": {
-        "oneStar": 0,
-        "twoStars": 0,
-        "threeStars": 0,
-        "fourStars": 0,
-        "fiveStars": 4
-      },
-      "period": {
-        "start": "2021-07-08T00:00:00.000Z",
-        "end": "2022-07-08T23:59:59.999Z",
-        "calculatedAt": "2022-07-08T09:36:05.261Z",
-        "firstConsideredReviewSubmission": "2022-05-02T10:01:35.000Z",
-        "lastConsideredReviewSubmission": "2022-07-08T09:35:34.000Z",
-        "ratingTrend": "NEUTRAL"
-      }
-    },
-    "overall": {
-      "rating": 5,
-      "count": 4,
-      "distribution": {
-        "oneStar": 0,
-        "twoStars": 0,
-        "threeStars": 0,
-        "fourStars": 0,
-        "fiveStars": 4
-      },
-      "period": {
-        "start": "2022-05-02T10:01:35.000Z",
-        "end": "2022-07-08T23:59:59.999Z",
-        "calculatedAt": "2022-07-08T09:36:05.261Z",
-        "firstConsideredReviewSubmission": "2022-05-02T10:01:35.000Z",
-        "lastConsideredReviewSubmission": "2022-07-08T09:35:34.000Z"
-      }
+    "hubPage": {
+      "url": "hubPage url",
+      "width": 240,
+      "height": 240
     }
   }
 }

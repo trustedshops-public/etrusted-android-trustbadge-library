@@ -3,7 +3,7 @@ package com.etrusted.android.trustbadge.library.data.datasource
 import com.etrusted.android.trustbadge.library.common.internal.IUrls
 import com.etrusted.android.trustbadge.library.common.internal.Urls
 import com.etrusted.android.trustbadge.library.common.internal.readStream
-import com.etrusted.android.trustbadge.library.model.ProductGrade
+import com.etrusted.android.trustbadge.library.model.ProductData
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -11,27 +11,27 @@ import java.io.BufferedInputStream
 import java.net.HttpURLConnection
 import java.net.URL
 
-internal interface IProductGradeDatasource {
-    suspend fun fetchProductGrade(channelId: String, hexSku: String): Result<ProductGrade>
+internal interface IProductDataDatasource {
+    suspend fun fetchProductData(channelId: String, hexSku: String): Result<ProductData>
 }
 
 @Suppress("BlockingMethodInNonBlockingContext")
-internal class ProductGradeDatasource (
+internal class ProductDataDatasource (
     private val urls: IUrls = Urls,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
-): IProductGradeDatasource {
+): IProductDataDatasource {
 
-    override suspend fun fetchProductGrade(channelId: String, hexSku: String): Result<ProductGrade> {
+    override suspend fun fetchProductData(channelId: String, hexSku: String): Result<ProductData> {
         return withContext(dispatcher) {
-            
+
             val url = URL(urls.productDataJsonUrl() +
-                    "/feeds/grades/v1/channels/$channelId/products/sku/$hexSku/feed.json")
+                    "/feeds/products/v1/channels/$channelId/sku/$hexSku/feed.json")
             val urlConnection = url.openConnection() as HttpURLConnection
 
             try{
                 val inputStream = BufferedInputStream(urlConnection.inputStream)
                 val body = readStream(inputStream)
-                val tBadgeData = ProductGrade.fromString(body)
+                val tBadgeData = ProductData.fromString(body)
                 Result.success(tBadgeData)
 
             } catch (e: Exception) {

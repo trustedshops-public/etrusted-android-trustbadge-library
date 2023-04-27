@@ -69,12 +69,12 @@ class UrlsTest {
     @Test
     fun testProductGradeJsonUrlReturnsCorrectRawValueForEachEnvironment() {
 
-        val urlReleaseRaw = Urls.productGradeJsonUrl(env = EnvironmentKey.RELEASE)
-        val urlDebugRaw = Urls.productGradeJsonUrl(env = EnvironmentKey.DEBUG)
-        val urlUnknownRaw = Urls.productGradeJsonUrl(env = EnvironmentKey.UNKNOWN)
+        val urlReleaseRaw = Urls.productDataJsonUrl(env = EnvironmentKey.RELEASE)
+        val urlDebugRaw = Urls.productDataJsonUrl(env = EnvironmentKey.DEBUG)
+        val urlUnknownRaw = Urls.productDataJsonUrl(env = EnvironmentKey.UNKNOWN)
 
-        assertThat(urlReleaseRaw).isEqualTo(prodProductGradeUrl)
-        assertThat(urlDebugRaw).isEqualTo(devProductGradeUrl)
-        assertThat(urlUnknownRaw).isEqualTo(prodProductGradeUrl)
+        assertThat(urlReleaseRaw).isEqualTo(prodProductDataUrl)
+        assertThat(urlDebugRaw).isEqualTo(devProductDataUrl)
+        assertThat(urlUnknownRaw).isEqualTo(prodProductDataUrl)
     }
 }
