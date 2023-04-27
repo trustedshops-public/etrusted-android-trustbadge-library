@@ -11,44 +11,44 @@ import org.json.JSONException
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
-internal class ProductGradeDatasourceAndroidTest {
+internal class ProductDataDatasourceAndroidTest {
 
 
     @Test
-    fun testFetchShopGradeDetailReturnsSuccessfully() = runTest {
+    fun testFetchShopDataDetailReturnsSuccessfully() = runTest {
 
         // arrange
-        val goodData = ServerResponses.ProductGradeGoodResponse.content
+        val goodData = ServerResponses.ProductDataGoodResponse.content
         val server = MockWebServer()
         server.enqueue(MockResponse().apply { setBody(goodData) })
         server.start()
         val mockUrl = server.url("")
         val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
         val mockUrls = getUrlsFor(mockUrlRoot)
-        val sut = ProductGradeDatasource(urls = mockUrls)
+        val sut = ProductDataDatasource(urls = mockUrls)
 
         // act
-        val result = sut.fetchProductGrade("fakeChannelId", "fakeHexSku")
+        val result = sut.fetchProductData("fakeChannelId", "fakeHexSku")
 
         // assert
         assertThat(result.isSuccess).isTrue()
     }
 
     @Test
-    fun testFetchShopGradeDetailFailsCorrectly() = runTest {
+    fun testFetchShopDataDetailFailsCorrectly() = runTest {
 
         // arrange
-        val badData = ServerResponses.ProductGradeBadResponse.content
+        val badData = ServerResponses.ProductDataBadResponse.content
         val server = MockWebServer()
         server.enqueue(MockResponse().apply { setBody(badData) })
         server.start()
         val mockUrl = server.url("")
         val mockUrlRoot = "http://${mockUrl.host}:${mockUrl.port}/"
         val mockUrls = getUrlsFor(mockUrlRoot)
-        val sut = ProductGradeDatasource(urls = mockUrls)
+        val sut = ProductDataDatasource(urls = mockUrls)
 
         // act
-        val result = sut.fetchProductGrade("fakeChannelId", "fakeHexSku")
+        val result = sut.fetchProductData("fakeChannelId", "fakeHexSku")
 
         // assert
         assertThat(result.isFailure).isTrue()
