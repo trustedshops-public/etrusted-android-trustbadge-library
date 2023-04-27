@@ -28,10 +28,12 @@ package com.etrusted.android.trustbadge.library.ui.badge
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.etrusted.android.trustbadge.library.domain.*
 import com.etrusted.android.trustbadge.library.domain.GetGuaranteeUseCase
 import com.etrusted.android.trustbadge.library.domain.GetTrustbadgeDataUseCase
 import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
 import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
+import com.etrusted.android.trustbadge.library.model.ProductGrade
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData.Shop.Guarantee
 import kotlinx.coroutines.*
@@ -43,15 +45,18 @@ private const val TAG = "TrustbadgeVM"
 internal interface ITrustbadgeViewModel {
     val trustbadgeData: StateFlow<TrustbadgeData?>
     val guarantee: StateFlow<Guarantee?>
+    val productGrade: StateFlow<ProductGrade?>
     fun fetchTrustbadgeData(tsId: String, channelId: String)
     fun fetchGuarantee(tsId: String, channelId: String)
+    fun fetchProductGrade(channelId: String, sku: String)
 }
 
 internal class TrustbadgeViewModel(
     coroutineScope: CoroutineScope? = null,
     private val dispatcherMain: CoroutineDispatcher = Dispatchers.Main,
     private val getTrustbadgeDataUseCase: ITrustbadgeDataUseCase = GetTrustbadgeDataUseCase(),
-    private val getGuaranteeUseCase: IGuaranteeUseCase = GetGuaranteeUseCase()
+    private val getGuaranteeUseCase: IGuaranteeUseCase = GetGuaranteeUseCase(),
+    private val getProductGradeUseCase: IGetProductGradeUseCase = GetProductGradeUseCase(),
 ): ViewModel(), ITrustbadgeViewModel {
 
     // testScope is provided during tests otherwise uses default viewModelScope
@@ -64,6 +69,10 @@ internal class TrustbadgeViewModel(
     private val _guarantee = MutableStateFlow<Guarantee?>(null)
     override val guarantee: StateFlow<Guarantee?>
         get() = _guarantee
+
+    private val _productGrade = MutableStateFlow<ProductGrade?>(null)
+    override val productGrade: StateFlow<ProductGrade?>
+        get() = _productGrade
 
     override fun fetchTrustbadgeData(
         tsId: String,
@@ -95,6 +104,26 @@ internal class TrustbadgeViewModel(
                 if (resp.isSuccess) {
                     withContext(dispatcherMain) {
                         _guarantee.value = resp.getOrNull()
+                    }
+                } else {
+                    Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "error: ${e.message}")
+            }
+        }
+    }
+
+    override fun fetchProductGrade(
+        channelId: String,
+        sku: String,
+    ) {
+        scope.launch {
+            try {
+                val resp = getProductGradeUseCase(channelId = channelId, sku = sku)
+                if (resp.isSuccess) {
+                    withContext(dispatcherMain) {
+                        _productGrade.value = resp.getOrNull()
                     }
                 } else {
                     Log.e(TAG, "error: ${resp.exceptionOrNull()?.message}")
