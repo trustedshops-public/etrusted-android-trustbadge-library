@@ -9,7 +9,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
+import coil.compose.AsyncImagePainter
+import coil.compose.SubcomposeAsyncImage
+import coil.compose.SubcomposeAsyncImageContent
 import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
 
@@ -26,18 +28,24 @@ internal fun ImageCircleGeneric(
             modifier = Modifier.size(58.dp)
         ) {
             val imgModifier = Modifier.fillMaxSize().align(Alignment.Center)
-            url?.let {
-                AsyncImage(
-                    modifier = imgModifier,
-                    model = url,
-                    contentDescription = contentDescription
-                )
-            } ?: run {
-                Image(
-                    modifier = imgModifier,
-                    painter = painterResource(id = drawableId),
-                    contentDescription = contentDescription
-                )
+            SubcomposeAsyncImage(
+                modifier = imgModifier,
+                model = url,
+                contentDescription = contentDescription,
+            ) {
+                when (painter.state) {
+                    is AsyncImagePainter.State.Loading, is AsyncImagePainter.State.Error -> {
+                        // placeholder image
+                        Image(
+                            modifier = imgModifier,
+                            painter = painterResource(id = drawableId),
+                            contentDescription = contentDescription
+                        )
+                    }
+                    else -> {
+                        SubcomposeAsyncImageContent()
+                    }
+                }
             }
         }
     }
