@@ -37,10 +37,7 @@ import com.etrusted.android.trustbadge.library.data.repository.IChannelInfoRepos
 import com.etrusted.android.trustbadge.library.data.repository.IProductDataRepository
 import com.etrusted.android.trustbadge.library.data.repository.IProductGradeRepository
 import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
-import com.etrusted.android.trustbadge.library.domain.IChannelInfoDataUseCase
-import com.etrusted.android.trustbadge.library.domain.IGetProductGradeUseCase
-import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
-import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
+import com.etrusted.android.trustbadge.library.domain.*
 import com.etrusted.android.trustbadge.library.model.*
 import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating
 import com.etrusted.android.trustbadge.library.ui.badge.ITrustbadgeViewModel
@@ -345,6 +342,16 @@ internal fun getFakeProductGradeUseCase(
     }
 }
 
+internal fun getFakeProductDataUseCase(
+    result: Result<ProductData> = Result.success(getFakeProductData()),
+    throwable: Throwable? = null,
+): IGetProductDataUseCase {
+    return object : IGetProductDataUseCase {
+        override suspend fun invoke(channelId: String, sku: String): Result<ProductData> =
+            throwable?.let { throw it } ?: result
+    }
+}
+
 internal fun getFakeChannelInfoDataUseCase(
     result: Result<ChannelInfo> = Result.success(getFakeChannelInfo())
 ): IChannelInfoDataUseCase {
@@ -356,14 +363,18 @@ internal fun getFakeChannelInfoDataUseCase(
 internal fun getFakeTrustbadgeViewModel(
     trustbadgeData: StateFlow<TrustbadgeData?> = MutableStateFlow(getFakeTrustbadgeData()),
     guarantee: StateFlow<TrustbadgeData.Shop.Guarantee?> = MutableStateFlow(getFakeGuarantee()),
-    productGrade: StateFlow<ProductGrade> = MutableStateFlow(getFakeProductGrade())
+    productGrade: StateFlow<ProductGrade> = MutableStateFlow(getFakeProductGrade()),
+    productData: StateFlow<ProductData> = MutableStateFlow(getFakeProductData())
 ): ITrustbadgeViewModel {
     return object : ITrustbadgeViewModel {
         override val trustbadgeData: StateFlow<TrustbadgeData?> = trustbadgeData
         override val guarantee: StateFlow<TrustbadgeData.Shop.Guarantee?> = guarantee
         override val productGrade: StateFlow<ProductGrade?> = productGrade
+        override val productData: StateFlow<ProductData?> = productData
+
         override fun fetchTrustbadgeData(tsId: String, channelId: String) {}
         override fun fetchGuarantee(tsId: String, channelId: String) {}
         override fun fetchProductGrade(channelId: String, sku: String) {}
+        override fun fetchProductDetail(channelId: String, sku: String) {}
     }
 }
