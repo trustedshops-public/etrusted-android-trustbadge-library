@@ -37,7 +37,7 @@ internal fun TrustbadgeViewExpandedElevated(
         border = BorderStroke(1.dp, MaterialTheme.colorScheme.TsNeutralsGrey50),
         colors = ButtonDefaults.elevatedButtonColors(
             containerColor = MaterialTheme.colorScheme.TsBadgeBg
-        )
+        ),
     ) {
         ExpandedView(
             modifier = Modifier.align(Alignment.CenterVertically),
@@ -45,7 +45,7 @@ internal fun TrustbadgeViewExpandedElevated(
             badgeContext = badgeContext,
             rating = trustbadgeData?.shop?.rating,
             guaranteeAmount = guarantee?.maxProtectionAmount ?: "0",
-            productRating = productGrade?.year?.rating
+            productRating = productGrade?.year?.rating,
         )
     }
 }

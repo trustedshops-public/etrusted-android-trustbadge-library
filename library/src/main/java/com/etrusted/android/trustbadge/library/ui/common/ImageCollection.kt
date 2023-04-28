@@ -9,6 +9,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.AsyncImage
 import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
 
@@ -18,18 +19,26 @@ internal fun ImageCircleGeneric(
     modifier: Modifier = Modifier,
     drawableId: Int,
     contentDescription: String,
+    url: String? = null,
 ) {
     Box(modifier = modifier.padding(4.dp)) {
         Box(
             modifier = Modifier.size(58.dp)
         ) {
-            Image(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .align(Alignment.Center),
-                painter = painterResource(id = drawableId),
-                contentDescription = contentDescription
-            )
+            val imgModifier = Modifier.fillMaxSize().align(Alignment.Center)
+            url?.let {
+                AsyncImage(
+                    modifier = imgModifier,
+                    model = url,
+                    contentDescription = contentDescription
+                )
+            } ?: run {
+                Image(
+                    modifier = imgModifier,
+                    painter = painterResource(id = drawableId),
+                    contentDescription = contentDescription
+                )
+            }
         }
     }
 }
@@ -71,11 +80,13 @@ fun ImageCircleShopIcon(
 @Composable
 fun ImageCircleProductIcon(
     modifier: Modifier = Modifier,
+    url: String? = null,
 ) {
     ImageCircleGeneric(
         modifier = modifier,
         drawableId = R.drawable.ic_store,
-        contentDescription = stringResource(id = R.string.tbadge_ic_product_description)
+        contentDescription = stringResource(id = R.string.tbadge_ic_product_description),
+        url = url,
     )
 }
 

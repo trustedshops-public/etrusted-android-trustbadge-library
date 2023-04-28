@@ -223,6 +223,7 @@ internal val androidTestJunitVersion: String by project
 internal val androidTestEspressoVersion: String by project
 internal val okhttpVersion: String by project
 internal val kotlinCoroutinesVersion: String by project
+internal val coilVersion: String by project
 
 dependencies {
 
@@ -235,6 +236,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.ui:ui")
+    implementation("io.coil-kt:coil-compose:$coilVersion")
 
     // test dependencies
     testImplementation("junit:junit:$testJunitVersion")

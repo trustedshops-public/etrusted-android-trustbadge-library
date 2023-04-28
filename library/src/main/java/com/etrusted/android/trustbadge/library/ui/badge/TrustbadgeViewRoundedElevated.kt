@@ -10,12 +10,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
+import com.etrusted.android.trustbadge.library.model.ProductData
 import com.etrusted.android.trustbadge.library.ui.theme.TsBadgeBg
 
 @Composable
 internal fun TrustbadgeViewRoundedElevated(
     state: TrustbadgeState,
-    badgeContext: TrustbadgeContext
+    badgeContext: TrustbadgeContext,
+    productData: ProductData? = null,
 ) {
     ElevatedButton(
         modifier = Modifier
@@ -29,7 +31,9 @@ internal fun TrustbadgeViewRoundedElevated(
 
         RoundedView(
             modifier = Modifier.testTag(TestTags.TrustbadgeDefault.raw),
-            state = state, badgeContext = badgeContext
+            state = state,
+            badgeContext = badgeContext,
+            imageUrl = productData?.image?.original?.url,
         )
     }
 }
