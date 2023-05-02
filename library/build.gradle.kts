@@ -248,6 +248,7 @@ dependencies {
     androidTestImplementation("com.squareup.okhttp3:okhttp-tls:$okhttpVersion")
     // ui tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
+    androidTestImplementation("io.coil-kt:coil-test:$coilVersion")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     debugImplementation("androidx.compose.ui:ui-tooling")
 }
