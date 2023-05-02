@@ -45,5 +45,5 @@ internal sealed class GoldenNames(val raw: String) {
 
     // image collection
     object GoldenImageCircleGeneric: GoldenNames("screenshot-image-circle-generic")
-    object GoldenImageCircleGenericFromUrl: GoldenNames("image-circle-generic-from-url")
+    object GoldenImageCircleGenericFromUrl: GoldenNames("screenshot-circle-generic-from-url")
 }
