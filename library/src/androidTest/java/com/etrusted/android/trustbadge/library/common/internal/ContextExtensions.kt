@@ -40,6 +40,18 @@ internal fun Context.readJsonFile(jsonFilePath: String) : String {
     }
 }
 
+@Throws(Exception::class)
+internal fun Context.readBytes(filePath: String) : ByteArray {
+    try {
+        val assetInSt = this.assets.open(filePath)
+        val fileContents = assetInSt.readBytes()
+        assetInSt.close()
+        return fileContents
+    } catch (e: Exception) {
+        throw Error("$filePath not found in android test resources")
+    }
+}
+
 /**
  * Returns a [File] with a path to additional test output directory of the emulator
  * everything stored under this directory will be available in the build folder under:

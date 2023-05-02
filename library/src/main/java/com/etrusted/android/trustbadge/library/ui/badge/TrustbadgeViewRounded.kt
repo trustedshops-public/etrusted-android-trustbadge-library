@@ -45,7 +45,8 @@ import com.etrusted.android.trustbadge.library.ui.common.ImageCircleSeal
 internal fun RowScope.RoundedView(
     modifier: Modifier = Modifier,
     state: TrustbadgeState,
-    badgeContext: TrustbadgeContext
+    badgeContext: TrustbadgeContext,
+    imageUrl: String? = null
 ) {
     Box (modifier = modifier.testTag(TestTags.TrustbadgeRounded.raw)) {
         this@RoundedView.AnimatedVisibility(
@@ -65,7 +66,7 @@ internal fun RowScope.RoundedView(
                     ImageCircleShopIcon()
                 }
                 is TrustbadgeContext.ProductGrade -> {
-                    ImageCircleProductIcon()
+                    ImageCircleProductIcon(url = imageUrl)
                 }
                 TrustbadgeContext.BuyerProtection -> {
                     ImageCircleBuyerProtection()

@@ -23,7 +23,7 @@ internal class ProductGradeDatasource (
 
     override suspend fun fetchProductGrade(channelId: String, hexSku: String): Result<ProductGrade> {
         return withContext(dispatcher) {
-
+            
             val url = URL(urls.productDataJsonUrl() +
                     "/feeds/grades/v1/channels/$channelId/products/sku/$hexSku/feed.json")
             val urlConnection = url.openConnection() as HttpURLConnection

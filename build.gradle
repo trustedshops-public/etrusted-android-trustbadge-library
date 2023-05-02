@@ -11,6 +11,7 @@ buildscript {
         composeM3Version = "1.0.1"
         composeNavVersion = "2.5.3"
         activityVersion = "1.6.1"
+        coilVersion = "2.3.0"
 
         okhttpVersion = "4.10.0" // only used for tests
     }

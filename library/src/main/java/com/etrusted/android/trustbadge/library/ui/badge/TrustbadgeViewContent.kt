@@ -51,19 +51,35 @@ internal fun TrustbadgeContent(
 ) {
     val trustbadgeData by viewModel.trustbadgeData.collectAsState()
     val guarantee by viewModel.guarantee.collectAsState()
+    val productGrade by viewModel.productGrade.collectAsState()
+    val productData by viewModel.productData.collectAsState()
 
     AnimatedVisibility(
         modifier = modifier.testTag(TestTags.Trustbadge.raw),
         visible = state.currentState != TrustbadgeStateValue.INVISIBLE
     ) {
 
-        TrustbadgeViewExpandedElevated(state, badgeContext, trustbadgeData, guarantee)
-        TrustbadgeViewRoundedElevated(state, badgeContext)
+        TrustbadgeViewExpandedElevated(
+            state = state,
+            badgeContext = badgeContext,
+            trustbadgeData = trustbadgeData,
+            guarantee = guarantee,
+            productGrade = productGrade,
+        )
+        TrustbadgeViewRoundedElevated(
+            state = state,
+            badgeContext = badgeContext,
+            productData = productData,
+        )
     }
 
     LaunchedEffect(null) {
         viewModel.fetchTrustbadgeData(tsid, channelId)
         viewModel.fetchGuarantee(tsid, channelId)
+        if (badgeContext is TrustbadgeContext.ProductGrade) {
+            viewModel.fetchProductGrade(channelId, badgeContext.sku)
+            viewModel.fetchProductDetail(channelId, badgeContext.sku)
+        }
 
         // automatically show the expanded state only if the context is not set to TRUSTMARK
         // The TRUSTMARK state only shows the badge in circle form
