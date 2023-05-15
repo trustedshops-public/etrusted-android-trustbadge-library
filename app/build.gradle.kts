@@ -84,6 +84,18 @@ tasks.register("generateTrustbadgeConfigFile") {
     }
 }
 
+tasks.register("generateTrustbadgeConfigFileTest") {
+    doLast {
+        val configFileName = "trustbadge-config.json"
+        File("${rootDir}/$configFileName").apply {
+            createNewFile()
+            val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG_TEST")
+            writeText(configContent)
+            println("config file created")
+        }
+    }
+}
+
 tasks.register("generateAppDistKey") {
     doLast {
         val jsonFileName = "app-dist-key.json"
