@@ -120,6 +120,8 @@ jobs:
           name: Prepare Fastlane
           command: |
             sudo bundle update
+            ./gradlew generateTrustbadgeConfigFile
+            ./gradlew assembleDebug
       - run:
           name: Distribute to Firebase AppTester
           command: bundle exec fastlane distTest
@@ -153,10 +155,8 @@ workflows:
                 - develop
       - distribute-test:
           name: distribute-test
-#          requires:
-#            - android-test
-#          filters:
-#            branches:
-#              ignore:
-#                - main
-#                - develop
+          requires:
+            - android-test
+          filters:
+            branches:
+              only: develop

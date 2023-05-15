@@ -91,7 +91,7 @@ tasks.register("generateTrustbadgeConfigFileTest") {
             createNewFile()
             val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG_TEST")
             writeText(configContent)
-            println("config file created")
+            println("config file created for test stage")
         }
     }
 }
