@@ -48,7 +48,7 @@ platform :android do
     firebase_app_distribution(
         service_credentials_file: ENV['APP_DIST_SERVICE_ACCOUNT_PATH'],
         app: "1:849831422549:android:f5631aa35a79fb9e5a02dc",
-        groups: "dev",
+        groups: "dev, test",
         release_notes: "",
     )
   end
