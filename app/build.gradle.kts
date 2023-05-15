@@ -24,6 +24,12 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+        create("debugTestStage") {
+            applicationIdSuffix = ".test.debug"
+            signingConfig = signingConfigs.getByName("debug")
+            enableUnitTestCoverage = true
+            buildConfigField("String", "STAGE", "\"debugTestStage\"")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
