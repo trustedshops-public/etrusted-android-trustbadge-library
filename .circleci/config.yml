@@ -120,7 +120,7 @@ jobs:
           name: Prepare Fastlane
           command: |
             sudo bundle update
-            ./gradlew generateTrustbadgeConfigFile
+            ./gradlew generateTrustbadgeConfigFileTest
             ./gradlew assembleDebug
       - run:
           name: Distribute to Firebase AppTester
