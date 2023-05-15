@@ -57,6 +57,10 @@ data class TrustbadgeData(
             val trustMarkJson = shopJson.getJSONObject(KEY_TRUST_MARK)
             val guaranteeJson = shopJson.optJSONObject(KEY_GUARANTEE)
 
+            val currencyRaw = guaranteeJson?.optString(
+                KEY_MAIN_PROTECTION_CURRENCY, "") ?: ""
+            val currencyCode: CurrencyCode? = CurrencyCode.forRaw(currencyRaw)
+
             return TrustbadgeData(
                 shop = Shop(
 
@@ -73,8 +77,7 @@ data class TrustbadgeData(
                     ),
 
                     guarantee = Shop.Guarantee(
-                        mainProtectionCurrency = guaranteeJson?.optString(
-                            KEY_MAIN_PROTECTION_CURRENCY, "") ?: "",
+                        mainProtectionCurrency = currencyCode?.symbol ?: "",
                         maxProtectionAmount = guaranteeJson?.optString(
                             KEY_MAX_PROTECTION_AMOUNT, "0") ?: "0",
                         maxProtectionDuration = guaranteeJson?.optString(
