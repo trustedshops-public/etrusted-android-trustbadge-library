@@ -36,6 +36,7 @@ class TrustbadgeDataGuaranteeAndroidTest {
 
         // arrange
         val fakeStringInJsonFile = "fakeString"
+        val expectedCurrencySymbol = "€"
         val goodData = ServerResponses.TrustbadgeDataGoodResponse.content
 
         // act
@@ -43,7 +44,7 @@ class TrustbadgeDataGuaranteeAndroidTest {
 
         // assert
         assertThat(trustbadge.shop.guarantee).isNotNull()
-        assertThat(trustbadge.shop.guarantee.mainProtectionCurrency).isEqualTo(fakeStringInJsonFile)
+        assertThat(trustbadge.shop.guarantee.mainProtectionCurrency).isEqualTo(expectedCurrencySymbol)
         assertThat(trustbadge.shop.guarantee.maxProtectionAmount).isEqualTo(fakeStringInJsonFile)
         assertThat(trustbadge.shop.guarantee.maxProtectionDuration).isEqualTo(fakeStringInJsonFile)
     }
