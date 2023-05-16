@@ -155,8 +155,8 @@ workflows:
                 - develop
       - distribute-test:
           name: distribute-test
-#          requires:
-#            - android-test
-#          filters:
-#            branches:
-#              only: develop
+          requires:
+            - android-test
+          filters:
+            branches:
+              only: develop
