@@ -27,6 +27,7 @@ package com.etrusted.android.trustbadge.library.common.internal
 
 enum class EnvironmentKey (val rawValue: String) {
     RELEASE("release"),
+    TEST("debugTestStage"),
     DEBUG("debug"),
     UNKNOWN("unknown");
     companion object {

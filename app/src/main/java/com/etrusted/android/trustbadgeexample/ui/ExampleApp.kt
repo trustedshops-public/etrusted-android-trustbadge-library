@@ -35,6 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey
+import com.etrusted.android.trustbadgeexample.BuildConfig
 import com.etrusted.android.trustbadgeexample.ui.checkout.CheckoutScreen
 import com.etrusted.android.trustbadgeexample.ui.common.navbar.BottomNavBar
 import com.etrusted.android.trustbadgeexample.ui.home.HomeScreen
@@ -46,6 +48,7 @@ import com.etrusted.android.trustbadgeexample.ui.theme.TrustbadgeExampleTheme
 @Composable
 internal fun ExampleApp() {
 
+    val env = EnvironmentKey.forRawValue(BuildConfig.BUILD_TYPE)
     val navController = rememberNavController()
 
     Scaffold(
@@ -56,13 +59,13 @@ internal fun ExampleApp() {
         Surface(modifier = Modifier.padding(it)) {
             NavHost(navController = navController, startDestination = Screens.Home.route) {
                 composable(Screens.Home.route) {
-                    HomeScreen()
+                    HomeScreen(env)
                 }
                 composable(Screens.Checkout.route) {
-                    CheckoutScreen()
+                    CheckoutScreen(env)
                 }
                 composable(Screens.Products.route) {
-                    ProductScreen()
+                    ProductScreen(env)
                 }
                 composable(Screens.Profile.route) {
                     ProfileScreen()

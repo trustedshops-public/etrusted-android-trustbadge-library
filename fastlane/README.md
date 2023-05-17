@@ -37,7 +37,15 @@ Runs sonar scanner
 [bundle exec] fastlane android distDev
 ```
 
-Deploy to Firebase AppTester channel
+Deploy to Firebase AppTester DEV channel
+
+### android distTest
+
+```sh
+[bundle exec] fastlane android distTest
+```
+
+Deploy to Firebase AppTester TEST channel
 
 ----
 

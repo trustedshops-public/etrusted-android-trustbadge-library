@@ -62,6 +62,21 @@ android {
             resValue("string", keyClientId, properties.getProperty(keyClientId))
             resValue("string", keyClientSecret, properties.getProperty(keyClientSecret))
         }
+        create("debugTestStage") {
+            createEmptyPropFileIfNoneProvided()
+
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+
+            // load properties
+            val propertiesFile = project.file(propFileName)
+            val properties = Properties()
+            properties.load(FileInputStream(propertiesFile))
+
+            // produce rest values available to the library
+            resValue("string", keyClientId, properties.getProperty(keyClientId))
+            resValue("string", keyClientSecret, properties.getProperty(keyClientSecret))
+        }
         named("debug") {
             createEmptyPropFileIfNoneProvided()
             enableUnitTestCoverage = true

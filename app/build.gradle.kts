@@ -24,6 +24,12 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
+        create("debugTestStage") {
+            applicationIdSuffix = ".test.debug"
+            signingConfig = signingConfigs.getByName("debug")
+            enableUnitTestCoverage = true
+            buildConfigField("String", "STAGE", "\"debugTestStage\"")
+        }
     }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
@@ -74,6 +80,18 @@ tasks.register("generateTrustbadgeConfigFile") {
             val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG")
             writeText(configContent)
             println("config file created")
+        }
+    }
+}
+
+tasks.register("generateTrustbadgeConfigFileTest") {
+    doLast {
+        val configFileName = "trustbadge-config.json"
+        File("${rootDir}/$configFileName").apply {
+            createNewFile()
+            val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG_TEST")
+            writeText(configContent)
+            println("config file created for test stage")
         }
     }
 }

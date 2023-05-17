@@ -32,6 +32,11 @@ internal const val prodAuthUrl = "https://login.etrusted.com/oauth/token"
 internal const val prodTrustbadgeDataUrl = "https://cdn1.api.trustedshops.com"
 internal const val prodProductDataUrl = "https://integrations.etrusted.com"
 
+internal const val testChannelsUrl = "https://api.etrusted.site/channels"
+internal const val testAuthUrl = "https://login-qa.etrusted.com/oauth/token"
+internal const val testTrustbadgeDataUrl = "https://cdn1.api-qa.trustedshops.com"
+internal const val testProductDataUrl = "https://integrations.etrusted.site"
+
 internal const val devChannelsUrl = "https://api.etrusted.koeln/channels"
 internal const val devAuthUrl = "https://login-integr.etrusted.com/oauth/token"
 internal const val devTrustbadgeDataUrl = "https://cdn1.api-dev.trustedshops.com"
@@ -49,6 +54,7 @@ object Urls: IUrls {
     override fun authenticationUrl(env: EnvironmentKey): String
         = when (env) {
             EnvironmentKey.RELEASE -> prodAuthUrl
+            EnvironmentKey.TEST -> testAuthUrl
             EnvironmentKey.DEBUG -> devAuthUrl
             else -> prodAuthUrl
         }
@@ -56,6 +62,7 @@ object Urls: IUrls {
     override fun trustbadgeJsonUrl(env: EnvironmentKey): String
         = when (env) {
             EnvironmentKey.RELEASE -> prodTrustbadgeDataUrl
+            EnvironmentKey.TEST -> testTrustbadgeDataUrl
             EnvironmentKey.DEBUG -> devTrustbadgeDataUrl
             else -> prodTrustbadgeDataUrl
         }
@@ -63,6 +70,7 @@ object Urls: IUrls {
     override fun channelAggregateRatingUrl(env: EnvironmentKey): String
         = when (env) {
             EnvironmentKey.RELEASE -> prodChannelsUrl
+            EnvironmentKey.TEST -> testChannelsUrl
             EnvironmentKey.DEBUG -> devChannelsUrl
             else -> prodChannelsUrl
         }
@@ -70,6 +78,7 @@ object Urls: IUrls {
     override fun productDataJsonUrl(env: EnvironmentKey): String
         = when (env) {
             EnvironmentKey.RELEASE -> prodProductDataUrl
+            EnvironmentKey.TEST -> testProductDataUrl
             EnvironmentKey.DEBUG -> devProductDataUrl
             else -> prodProductDataUrl
         }
