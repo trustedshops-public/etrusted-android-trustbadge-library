@@ -39,18 +39,22 @@ import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey
 import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey.DEBUG
 import com.etrusted.android.trustbadge.library.ui.badge.Trustbadge
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
+import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
+import com.etrusted.android.trustbadgeexample.ui.common.HideBadgeOnScroll
 import com.etrusted.android.trustbadgeexample.ui.common.ImageScrHome
 
 @Composable
 fun HomeScreen(
     env: EnvironmentKey,
 ) {
+    val scrollState = rememberScrollState()
+    val badgeState = rememberTrustbadgeState()
 
     Box(modifier = Modifier.fillMaxSize()) {
 
         Column(
             Modifier
-                .verticalScroll(rememberScrollState())
+                .verticalScroll(scrollState)
                 .fillMaxWidth()
         ) {
             ImageScrHome()
@@ -60,6 +64,7 @@ fun HomeScreen(
             DEBUG -> {
                 Trustbadge(
                     modifier = Modifier.align(Alignment.BottomStart),
+                    state = badgeState,
                     badgeContext = TrustbadgeContext.ShopGrade,
                     tsid = "X2AB6FF7BFF70A04D1D323E039D676EDB",
                     channelId = "chl-7e52920a-2722-4881-9908-ecec98c716e4"
@@ -68,6 +73,7 @@ fun HomeScreen(
             else -> {
                 Trustbadge(
                     modifier = Modifier.align(Alignment.BottomStart),
+                    state = badgeState,
                     badgeContext = TrustbadgeContext.ShopGrade,
                     tsid = "X079198F3BC11FA13F8980EB6879E2677",
                     channelId = "chl-b38b62ee-1e62-4a9f-9381-0ece0909b038"
@@ -76,6 +82,7 @@ fun HomeScreen(
         }
     }
 
+    HideBadgeOnScroll(scrollState = scrollState, badgeState = badgeState)
 }
 
 @Composable
