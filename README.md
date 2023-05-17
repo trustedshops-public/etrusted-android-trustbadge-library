@@ -148,9 +148,19 @@ Trustbadge(
     tsid = "X330A2E7D449E31E467D2F53A55DDD070",
     channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
 )
+
+// then badgeState can be used in desired events
+LaunchedEffect(null) {
+    
+    // show the badge
+    badgeState.show()
+
+    // hide the badge
+    badgeState.hide()
+}
 ```
 
-For example, hide the badge when the user scrolls using the badge state and scroll state:
+For example, hide the badge when the user scrolls using the badge state and scroll state of a column:
 ```
 @Composable
 internal fun HideBadgeOnScroll(
@@ -167,6 +177,7 @@ internal fun HideBadgeOnScroll(
     }
 }
 ```
+<img src="docs/img/hide_on_scroll.gif" height="100">
 
 For full example of hiding the badge when the user scrolls, see [`HomeScreen.kt`](app/src/main/java/com/etrusted/android/trustbadgeexample/ui/home/HomeScreen.kt) in the example app.
 
