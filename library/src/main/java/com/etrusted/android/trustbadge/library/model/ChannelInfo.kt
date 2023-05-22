@@ -88,6 +88,8 @@ internal data class ChannelInfo(
     }
 
     companion object {
+        private const val KEY_GRADES = "grades"
+
         private const val KEY_7DAYS = "7days"
         private const val KEY_30DAYS = "30days"
         private const val KEY_90DAYS = "90days"
@@ -101,24 +103,25 @@ internal data class ChannelInfo(
 
         fun fromString(body: String): ChannelInfo {
             val bodyJson = JSONObject(body)
+            val gradesJson = bodyJson.getJSONObject(KEY_GRADES)
 
-            val response7days = bodyJson.getJSONObject(KEY_7DAYS)
+            val response7days = gradesJson.getJSONObject(KEY_7DAYS)
             val response7daysDistribution = response7days.optJSONObject(KEY_OVERALL_DIST)
             val response7daysPeriod = response7days.optJSONObject(KEY_OVERALL_PERIOD)
 
-            val response30days = bodyJson.getJSONObject(KEY_30DAYS)
+            val response30days = gradesJson.getJSONObject(KEY_30DAYS)
             val response30daysDistribution = response30days.optJSONObject(KEY_OVERALL_DIST)
             val response30daysPeriod = response30days.optJSONObject(KEY_OVERALL_PERIOD)
 
-            val response90days = bodyJson.getJSONObject(KEY_90DAYS)
+            val response90days = gradesJson.getJSONObject(KEY_90DAYS)
             val response90daysDistribution = response90days.optJSONObject(KEY_OVERALL_DIST)
             val response90daysPeriod = response90days.optJSONObject(KEY_OVERALL_PERIOD)
 
-            val response365days = bodyJson.getJSONObject(KEY_365DAYS)
+            val response365days = gradesJson.getJSONObject(KEY_365DAYS)
             val response365daysDistribution = response365days.optJSONObject(KEY_OVERALL_DIST)
             val response365daysPeriod = response365days.optJSONObject(KEY_OVERALL_PERIOD)
 
-            val responseOverall = bodyJson.getJSONObject(KEY_OVERALL)
+            val responseOverall = gradesJson.getJSONObject(KEY_OVERALL)
             val responseOverallDistribution = responseOverall.optJSONObject(KEY_OVERALL_DIST)
             val responseOverallPeriod = responseOverall.optJSONObject(KEY_OVERALL_PERIOD)
 

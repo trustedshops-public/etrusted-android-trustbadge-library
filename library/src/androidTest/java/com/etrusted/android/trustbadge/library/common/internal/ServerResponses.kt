@@ -33,16 +33,16 @@ internal sealed class ServerResponses {
 
     object ChannelInfoGoodResponse: ServerResponses() {
         override val path: String
-            get() = "api.etrusted.com" +
-                "/channels/channelid/service-reviews/aggregate-rating/good_response.json"
+            get() = "integrations.etrusted.com" +
+                "/feeds/grades/v1/channels/channelId/touchpoints/all/feedjson/good_response.json"
         override val content: String
             get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }
 
     object ChannelInfoBadResponse: ServerResponses() {
         override val path: String
-            get() = "api.etrusted.com" +
-                    "/channels/channelid/service-reviews/aggregate-rating/bad_response.json"
+            get() = "integrations.etrusted.com" +
+                    "/feeds/grades/v1/channels/channelId/touchpoints/all/feedjson/bad_response.json"
         override val content: String
             get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }

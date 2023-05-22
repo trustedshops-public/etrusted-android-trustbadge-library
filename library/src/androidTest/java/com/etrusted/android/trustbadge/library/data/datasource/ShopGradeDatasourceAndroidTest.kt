@@ -51,7 +51,7 @@ internal class ShopGradeDatasourceAndroidTest {
         val sut = ShopGradeDetailDatasource(urls = mockUrls)
 
         // act
-        val result = sut.fetchShopGradeDetail("fakeChannelId", "fakeAccessToken")
+        val result = sut.fetchShopGradeDetail("fakeChannelId")
 
         // assert
         assertThat(result.isSuccess).isTrue()
@@ -71,7 +71,7 @@ internal class ShopGradeDatasourceAndroidTest {
         val sut = ShopGradeDetailDatasource(urls = mockUrls)
 
         // act
-        val result = sut.fetchShopGradeDetail("fakeChannelId", "fakeAccessToken")
+        val result = sut.fetchShopGradeDetail("fakeChannelId")
 
         // assert
         assertThat(result.isFailure).isTrue()

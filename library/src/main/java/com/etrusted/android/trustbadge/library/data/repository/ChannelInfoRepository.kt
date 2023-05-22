@@ -25,8 +25,6 @@
 
 package com.etrusted.android.trustbadge.library.data.repository
 
-import com.etrusted.android.trustbadge.library.data.datasource.AuthenticationDatasource
-import com.etrusted.android.trustbadge.library.data.datasource.IAuthenticationDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.IShopGradeDetailDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.ShopGradeDetailDatasource
 import com.etrusted.android.trustbadge.library.model.ChannelInfo
@@ -44,7 +42,6 @@ internal interface IChannelInfoRepository {
  */
 internal class ChannelInfoRepository
 constructor(
-    private val authenticationDatasource: IAuthenticationDatasource = AuthenticationDatasource(),
     private val shopGradeDetailDatasource: IShopGradeDetailDatasource = ShopGradeDetailDatasource(),
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO,
 ): IChannelInfoRepository {
@@ -56,12 +53,9 @@ constructor(
 
         return withContext(dispatcher) {
 
-            val token = authenticationDatasource.getAccessTokenUsingSecret().getOrElse {
-                return@withContext Result.failure(it)
-            }
             return@withContext shopGradeDetailDatasource.fetchShopGradeDetail(
                     channelId = channelId,
-                    accessToken = token.accessToken)
+            )
         }
     }
 }
