@@ -20,12 +20,12 @@ In case of an expired certificate, the Trustmark widgets is presented like the f
 <img src="docs/img/screenshot-trustbadge-uncertified-default.png" height="90">
 
 The `ShopGrade` widget expands to show shop rating and status with a simple animation. Currently, the widget shows the aggregate rating and the shop status.
-In the future, the widget will also show the the shop reviews.
+In the future, the widget will also show the shop reviews.
 
 <img src="docs/img/shop_grade.gif" height="100">
 
 The `ProductGrade` widget expands to show product rating with a simple animation. Currently, the widget shows the single product rating for a given `SKU` (See the step: **Implement the dependency**).
-In the future, the widget will also show the the product reviews.
+In the future, the widget will also show the product reviews.
 
 <img src="docs/img/product_grade.gif" height="100">
 
