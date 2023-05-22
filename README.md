@@ -40,34 +40,12 @@ The `BuyerProtection` widget shows the amount of protection for the consumers' p
 - Your `channelId` and `TSID`
   For more info about how to get `channelId` and `TSID` read the [Getting the `channelId` and `TSID`]() sections (last section in this document).
 
-You can add the Trustbadge widget to your Android project in 5 steps:
+You can add the Trustbadge widget to your Android project in 2 steps:
 
-1. [📝 Get your `client_id` and `client_secret`](#1-📝-get-your-client_id-and-client_secret)
-2. [🛠️ Copy the configuration file](#2-🛠️-copy-the-configuration-file)
-3. [🐘 Implement the dependency](#3-🐘-implement-the-dependency)
-4. [⚙️ Configure the library](#4-⚙️-configure-the-library)
-5. [🚀 Show the widget](#5-🚀-show-the-widget)
+1. [🐘 Implement the dependency](#1-🐘-implement-the-dependency)
+2. [🚀 Show the widget](#2-🚀-show-the-widget)
 
-### 1. 📝 Get your `client_id` and `client_secret`
-- Navigate to [eTrustd Control Center](https://app.etrusted.com) on your browser
-- Navigate to `Settings > SSO Clients MAnagement`
-- Click on `Create new client` and follow the steps to get a set of `client_id` and `client_secret`.
-- Note them down as you will need it in the next step.
-
-### 2. 🛠️ Copy the configuration file
-- Create an empty file named `trustbadge-config.json` under root directory of your android project.
-- Add the following json template inside the file:
-```
-{
-  "client_id": "(Your client id)",
-  "client_secret": "(Your client secret)"
-}
-```
-- Replace `(Your client id)` with your client id from the eTrusted control center
-- Replace `(Your client secret)` with your client secret from the eTrusted control center
-- Save the file.
-
-### 3. 🐘 Implement the dependency
+### 1. 🐘 Implement the dependency
 - In your `app` module's `build.gradle` file, add the following line in your dependencies block:
 ```
 dependencies {
@@ -77,11 +55,7 @@ dependencies {
 - replace (version) with the latest version of the library. (See the releases page).
 - Sync the project and make sure it is successful. If it is not, please make sure that the configuration file is placed under project root directory (e.g. not inside the `app` module's directory)
 
-### 4. ⚙️ Configure the library
-- Once the dependency is added and the gradle sync is successful, add the following line in the launcher activity (e.g. MainActivity). It needs to be called once during the app startup before using the Trustbage library's widgets.
-- Now your project is ready to use the widget!
-
-### 5. 🚀 Show the widget:
+### 2. 🚀 Show the widget:
 We recommend using Jetpack Compose to show the widget in your app.
 
 ---
@@ -221,7 +195,7 @@ override fun onCreateView(
             setContent {
                 // In Compose world
                 Trustbadge(
-                    badgeContext = TrustbadgeContext.SHOP_GRADE,
+                    badgeContext = TrustbadgeContext.ShopGrade,
                     tsid = "X330A2E7D449E31E467D2F53A55DDD070",
                     channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
                 )
@@ -242,6 +216,7 @@ You can simply pass either of the following options to set your desired `badgeCo
 ```
 - TrustbadgeContext.TrustMark
 - TrustbadgeContext.ShopGrade
+- TrustbadgeContext.ProductGrade
 - TrustbadgeContext.BuyerProtection
 ```
 
