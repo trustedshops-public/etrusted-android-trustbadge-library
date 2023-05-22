@@ -19,14 +19,19 @@ In case of an expired certificate, the Trustmark widgets is presented like the f
 
 <img src="docs/img/screenshot-trustbadge-uncertified-default.png" height="90">
 
-The `ShopGrade` widget expands to show shop rating and status with a nice animation effect. Currently, the widget shows the aggregate rating and the shop status.
-In the future, the widget will also show the the shop reviews.
+The `ShopGrade` widget expands to show shop rating and status with a simple animation. Currently, the widget shows the aggregate rating and the shop status.
+In the future, the widget will also show the shop reviews.
 
-<img src="docs/img/screenshot-trustbadge-uncertified-expanded.png" height="100">
+<img src="docs/img/shop_grade.gif" height="100">
+
+The `ProductGrade` widget expands to show product rating with a simple animation. Currently, the widget shows the single product rating for a given `SKU` (See the step: **Implement the dependency**).
+In the future, the widget will also show the product reviews.
+
+<img src="docs/img/product_grade.gif" height="100">
 
 The `BuyerProtection` widget shows the amount of protection for the consumers' purchase. It can be shown in the checkout screen for that purpose.
 
-<img src="docs/img/screenshot-trustbadge-uncertified-expanded-buyer-protection.png" height="100">
+<img src="docs/img/guarantee.gif" height="100">
 
 
 ## Usage
@@ -82,14 +87,101 @@ We recommend using Jetpack Compose to show the widget in your app.
 ---
 #### Jetpack Compose Sample (Fastest):
 
-Simple use the Trustbadge Compose function anywhere in your composables. You can also use a Compose `modifier` to modify the widget.
+<br />
+
+Use the Trustbadge Compose function anywhere in your composables:
+Example of showing the `ShopGrade` widget:
 ```
 Trustbadge(
-    badgeContext = TrustbadgeContext.SHOP_GRADE,
+    badgeContext = TrustbadgeContext.ShopGrade,
     tsid = "X330A2E7D449E31E467D2F53A55DDD070",
     channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
 )
 ```
+<img src="docs/img/shop_grade.gif" height="100">
+
+<br />
+
+For `ProductGrade`, it is required to provide the product `sku` as well, that way the widget shows the rating for a product with given `sku`:
+```
+Trustbadge(
+    badgeContext = TrustbadgeContext.ProductGrade(sku = "1234-Ti-Bl"),
+    tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+    channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
+)
+```
+<img src="docs/img/product_grade.gif" height="100">
+
+<br />
+
+Showing `BuyerProtection` widget, is also similar to the `ShopGrade`:
+```
+Trustbadge(
+    badgeContext = TrustbadgeContext.BuyerProtection,
+    tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+    channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
+)
+```
+<img src="docs/img/guarantee.gif" height="100">
+
+<br />
+
+Align the badge anywhere in its parent using a standard `Modifier`. For example:
+```
+Trustbadge(
+    modifier = Modifier.align(Alignment.BottomStart),
+    badgeContext = TrustbadgeContext.ShopGrade,
+    tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+    channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
+)
+```
+
+<br />
+
+Control hiding or showing the badge using the `TrustbadgeState`:
+```
+val badgeState = rememberTrustbadgeState()
+
+Trustbadge(
+    state = badgeState,
+    badgeContext = TrustbadgeContext.ShopGrade,
+    tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+    channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
+)
+
+// then badgeState can be used in desired events
+LaunchedEffect(null) {
+    
+    // show the badge
+    badgeState.show()
+
+    // hide the badge
+    badgeState.hide()
+}
+```
+
+For example, hide the badge when the user scrolls using the badge state and scroll state of a column:
+```
+@Composable
+internal fun HideBadgeOnScroll(
+    scrollState: ScrollState,
+    badgeState: TrustbadgeState
+) {
+    if (scrollState.value == 0) {
+        badgeState.show()
+    } else {
+        LaunchedEffect(null) {
+            delay(1000)
+            badgeState.hide()
+        }
+    }
+}
+```
+<img src="docs/img/hide_on_scroll.gif" height="100">
+
+For full example of hiding the badge when the user scrolls, see [`HomeScreen.kt`](app/src/main/java/com/etrusted/android/trustbadgeexample/ui/home/HomeScreen.kt) in the example app.
+
+<br />
 
 ---
 #### Legacy XML Sample (Requires more configuration):
