@@ -1,90 +1,92 @@
 {
-  "7days": {
-    "count": 0,
-    "rating": 0,
-    "period": {
-      "start": "2023-01-23T00:00:00.000Z",
-      "end": "2023-01-30T23:59:59.999Z",
-      "calculatedAt": "2023-01-30T04:06:41.971Z"
+  "grades": {
+    "7days": {
+      "count": 0,
+      "rating": 0,
+      "period": {
+        "start": "2023-01-23T00:00:00.000Z",
+        "end": "2023-01-30T23:59:59.999Z",
+        "calculatedAt": "2023-01-30T04:06:41.971Z"
+      },
+      "distribution": {
+        "oneStar": 0,
+        "twoStars": 0,
+        "threeStars": 0,
+        "fourStars": 0,
+        "fiveStars": 0
+      }
     },
-    "distribution": {
-      "oneStar": 0,
-      "twoStars": 0,
-      "threeStars": 0,
-      "fourStars": 0,
-      "fiveStars": 0
-    }
-  },
-  "30days": {
-    "count": 0,
-    "rating": 0,
-    "period": {
-      "start": "2022-12-31T00:00:00.000Z",
-      "end": "2023-01-30T23:59:59.999Z",
-      "calculatedAt": "2023-01-30T04:06:41.971Z"
+    "30days": {
+      "count": 0,
+      "rating": 0,
+      "period": {
+        "start": "2022-12-31T00:00:00.000Z",
+        "end": "2023-01-30T23:59:59.999Z",
+        "calculatedAt": "2023-01-30T04:06:41.971Z"
+      },
+      "distribution": {
+        "oneStar": 0,
+        "twoStars": 0,
+        "threeStars": 0,
+        "fourStars": 0,
+        "fiveStars": 0
+      }
     },
-    "distribution": {
-      "oneStar": 0,
-      "twoStars": 0,
-      "threeStars": 0,
-      "fourStars": 0,
-      "fiveStars": 0
-    }
-  },
-  "90days": {
-    "count": 2,
-    "rating": 3.5,
-    "period": {
-      "start": "2022-11-01T00:00:00.000Z",
-      "end": "2023-01-30T23:59:59.999Z",
-      "lastConsideredReviewSubmission": "2022-12-20T20:44:28.000Z",
-      "firstConsideredReviewSubmission": "2022-12-05T20:42:20.000Z",
-      "calculatedAt": "2023-01-30T04:06:41.971Z",
-      "ratingTrend": "NEUTRAL"
+    "90days": {
+      "count": 2,
+      "rating": 3.5,
+      "period": {
+        "start": "2022-11-01T00:00:00.000Z",
+        "end": "2023-01-30T23:59:59.999Z",
+        "lastConsideredReviewSubmission": "2022-12-20T20:44:28.000Z",
+        "firstConsideredReviewSubmission": "2022-12-05T20:42:20.000Z",
+        "calculatedAt": "2023-01-30T04:06:41.971Z",
+        "ratingTrend": "NEUTRAL"
+      },
+      "distribution": {
+        "oneStar": 0,
+        "twoStars": 1,
+        "threeStars": 0,
+        "fourStars": 0,
+        "fiveStars": 1
+      }
     },
-    "distribution": {
-      "oneStar": 0,
-      "twoStars": 1,
-      "threeStars": 0,
-      "fourStars": 0,
-      "fiveStars": 1
-    }
-  },
-  "365days": {
-    "count": 5,
-    "rating": 4.4,
-    "period": {
-      "start": "2022-01-30T00:00:00.000Z",
-      "end": "2023-01-30T23:59:59.999Z",
-      "lastConsideredReviewSubmission": "2022-12-20T20:44:28.000Z",
-      "firstConsideredReviewSubmission": "2022-02-21T18:16:37.000Z",
-      "calculatedAt": "2023-01-30T04:06:41.971Z",
-      "ratingTrend": "POSITIVE"
+    "365days": {
+      "count": 5,
+      "rating": 4.4,
+      "period": {
+        "start": "2022-01-30T00:00:00.000Z",
+        "end": "2023-01-30T23:59:59.999Z",
+        "lastConsideredReviewSubmission": "2022-12-20T20:44:28.000Z",
+        "firstConsideredReviewSubmission": "2022-02-21T18:16:37.000Z",
+        "calculatedAt": "2023-01-30T04:06:41.971Z",
+        "ratingTrend": "POSITIVE"
+      },
+      "distribution": {
+        "oneStar": 0,
+        "twoStars": 1,
+        "threeStars": 0,
+        "fourStars": 0,
+        "fiveStars": 4
+      }
     },
-    "distribution": {
-      "oneStar": 0,
-      "twoStars": 1,
-      "threeStars": 0,
-      "fourStars": 0,
-      "fiveStars": 4
-    }
-  },
-  "overall": {
-    "count": 70,
-    "rating": 3.51,
-    "period": {
-      "start": "2019-10-16T06:31:53.000Z",
-      "end": "2023-01-30T23:59:59.999Z",
-      "lastConsideredReviewSubmission": "2022-12-20T20:44:28.000Z",
-      "firstConsideredReviewSubmission": "2019-10-16T06:31:53.000Z",
-      "calculatedAt": "2023-01-30T04:06:41.971Z"
-    },
-    "distribution": {
-      "oneStar": 7,
-      "twoStars": 20,
-      "threeStars": 3,
-      "fourStars": 10,
-      "fiveStars": 30
+    "overall": {
+      "count": 70,
+      "rating": 3.51,
+      "period": {
+        "start": "2019-10-16T06:31:53.000Z",
+        "end": "2023-01-30T23:59:59.999Z",
+        "lastConsideredReviewSubmission": "2022-12-20T20:44:28.000Z",
+        "firstConsideredReviewSubmission": "2019-10-16T06:31:53.000Z",
+        "calculatedAt": "2023-01-30T04:06:41.971Z"
+      },
+      "distribution": {
+        "oneStar": 7,
+        "twoStars": 20,
+        "threeStars": 3,
+        "fourStars": 10,
+        "fiveStars": 30
+      }
     }
   }
 }
