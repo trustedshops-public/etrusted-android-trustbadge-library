@@ -81,7 +81,6 @@ jobs:
       - run:
           name: Prepare for release
           command: |
-            ./gradlew createEmptyConfigFile
             ./gradlew generatePomFileForReleasePublication
       - run:
           name: Import GPG key
@@ -102,7 +101,6 @@ jobs:
           name: Prepare Fastlane
           command: |
             sudo bundle update
-            ./gradlew generateTrustbadgeConfigFile
             ./gradlew assembleDebug
       - run:
           name: Distribute to Firebase AppTester
@@ -120,7 +118,6 @@ jobs:
           name: Prepare Fastlane
           command: |
             sudo bundle update
-            ./gradlew generateTrustbadgeConfigFileTest
             ./gradlew assembleDebug
       - run:
           name: Distribute to Firebase AppTester
