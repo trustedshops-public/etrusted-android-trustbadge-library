@@ -37,7 +37,7 @@ import java.net.HttpURLConnection
 import java.net.URL
 
 internal interface IShopGradeDetailDatasource {
-    suspend fun fetchShopGradeDetail(channelId: String, accessToken: String): Result<ChannelInfo>
+    suspend fun fetchShopGradeDetail(channelId: String): Result<ChannelInfo>
 }
 
 @Suppress("BlockingMethodInNonBlockingContext")
@@ -48,7 +48,6 @@ internal class ShopGradeDetailDatasource(
 
     override suspend fun fetchShopGradeDetail(
         channelId: String,
-        accessToken: String,
     ): Result<ChannelInfo> {
 
         return withContext(dispatcher) {
@@ -56,7 +55,6 @@ internal class ShopGradeDetailDatasource(
             val url = URL(urls.channelAggregateRatingUrl() +
                     "/feeds/grades/v1/channels/$channelId/touchpoints/all/feed.json")
             val urlConnection = url.openConnection() as HttpURLConnection
-            urlConnection.setRequestProperty("Authorization", "Bearer $accessToken")
 
             try {
 

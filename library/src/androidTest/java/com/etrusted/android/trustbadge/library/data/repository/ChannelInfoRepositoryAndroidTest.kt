@@ -25,7 +25,6 @@
 
 package com.etrusted.android.trustbadge.library.data.repository
 
-import com.etrusted.android.trustbadge.library.common.internal.getFakeAuthDatasource
 import com.etrusted.android.trustbadge.library.common.internal.getFakeShopGradeDetailDatasource
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -38,10 +37,8 @@ internal class ChannelInfoRepositoryAndroidTest {
     @Test
     fun testFetchChannelInfoReturnsSuccessfully() = runTest {
         // arrange
-        val fakeAuthDatasource = getFakeAuthDatasource()
         val fakeShopGradeDetailDatasource = getFakeShopGradeDetailDatasource()
         val sut = ChannelInfoRepository(
-            authenticationDatasource = fakeAuthDatasource,
             shopGradeDetailDatasource = fakeShopGradeDetailDatasource,
         )
 
@@ -56,34 +53,10 @@ internal class ChannelInfoRepositoryAndroidTest {
     fun testFetchChannelInfoFails() = runTest {
         // arrange
         val fakeMsg = "failed"
-        val fakeAuthDatasource = getFakeAuthDatasource()
         val fakeShopGradeDetailDatasource = getFakeShopGradeDetailDatasource(
             result = Result.failure(Throwable(fakeMsg))
         )
         val sut = ChannelInfoRepository(
-            authenticationDatasource = fakeAuthDatasource,
-            shopGradeDetailDatasource = fakeShopGradeDetailDatasource,
-        )
-
-        // act
-        val result = sut.fetchChannelInfo("fakeChannelId")
-
-        // assert
-        assertThat(result.isFailure).isTrue()
-        assertThat(result.exceptionOrNull()).isNotNull()
-        assertThat(result.exceptionOrNull()?.message).isEqualTo(fakeMsg)
-    }
-
-    @Test
-    fun testFetchChannelInfoFailsWithAuthError() = runTest {
-        // arrange
-        val fakeMsg = "failed"
-        val fakeAuthDatasource = getFakeAuthDatasource(
-            result = Result.failure(Throwable(fakeMsg))
-        )
-        val fakeShopGradeDetailDatasource = getFakeShopGradeDetailDatasource()
-        val sut = ChannelInfoRepository(
-            authenticationDatasource = fakeAuthDatasource,
             shopGradeDetailDatasource = fakeShopGradeDetailDatasource,
         )
 

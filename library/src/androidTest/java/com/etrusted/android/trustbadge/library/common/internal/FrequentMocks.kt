@@ -25,10 +25,6 @@
 
 package com.etrusted.android.trustbadge.library.common.internal
 
-import android.content.Context
-import androidx.test.platform.app.InstrumentationRegistry
-import com.etrusted.android.trustbadge.library.ILibrary
-import com.etrusted.android.trustbadge.library.data.datasource.IAuthenticationDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.IProductDataDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.IProductGradeDatasource
 import com.etrusted.android.trustbadge.library.data.datasource.IShopGradeDetailDatasource
@@ -37,13 +33,20 @@ import com.etrusted.android.trustbadge.library.data.repository.IChannelInfoRepos
 import com.etrusted.android.trustbadge.library.data.repository.IProductDataRepository
 import com.etrusted.android.trustbadge.library.data.repository.IProductGradeRepository
 import com.etrusted.android.trustbadge.library.data.repository.ITrustbadgeRepository
-import com.etrusted.android.trustbadge.library.domain.*
-import com.etrusted.android.trustbadge.library.model.*
+import com.etrusted.android.trustbadge.library.domain.IChannelInfoDataUseCase
+import com.etrusted.android.trustbadge.library.domain.IGetProductDataUseCase
+import com.etrusted.android.trustbadge.library.domain.IGetProductGradeUseCase
+import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
+import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
+import com.etrusted.android.trustbadge.library.model.ChannelInfo
 import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating
+import com.etrusted.android.trustbadge.library.model.ProductData
+import com.etrusted.android.trustbadge.library.model.ProductGrade
+import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.etrusted.android.trustbadge.library.ui.badge.ITrustbadgeViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import java.util.*
+import java.util.Date
 
 internal fun getUrlsFor(endpoint: String): IUrls {
     return object : IUrls {
@@ -52,21 +55,6 @@ internal fun getUrlsFor(endpoint: String): IUrls {
         override fun channelAggregateRatingUrl(env: EnvironmentKey): String = endpoint
         override fun productDataJsonUrl(env: EnvironmentKey): String = endpoint
     }
-}
-
-internal fun getFakeLibrary(): ILibrary {
-    return object : ILibrary {
-        override var config = TrustbadgeConfig("fakeId", "fakeSecret")
-        override fun configure(context: Context): ILibrary {
-            return this
-        }
-    }
-}
-
-internal fun getFakeCertificate(): String {
-    return InstrumentationRegistry.getInstrumentation().context.readJsonFile(
-        "certificates/instrumentation_cert.pem"
-    )
 }
 
 internal fun getFakeTrustbadgeData(
@@ -104,21 +92,6 @@ internal fun getFakeGuarantee(
         mainProtectionCurrency = fakeString,
         maxProtectionAmount = maxProtectionAmount,
         maxProtectionDuration = fakeString,
-    )
-}
-
-internal fun getFakeAuthToken(): AuthenticationToken {
-    val fakeString = "fakeString"
-    val fakeInt = 123
-    val fakeDate = Date()
-    return AuthenticationToken(
-        accessToken = fakeString,
-        expiresIn = fakeInt,
-        refreshExpiresIn = fakeInt,
-        tokenType = fakeString,
-        scope = fakeString,
-        notBeforePolicy = fakeInt,
-        latestAuthenticationTimestamp = fakeDate,
     )
 }
 
@@ -219,14 +192,6 @@ internal fun getFakeProductData(): ProductData {
     )
 }
 
-internal fun getFakeAuthDatasource(
-    result: Result<AuthenticationToken> = Result.success(getFakeAuthToken())
-): IAuthenticationDatasource {
-    return object : IAuthenticationDatasource {
-        override suspend fun getAccessTokenUsingSecret(): Result<AuthenticationToken> = result
-    }
-}
-
 internal fun getFakeTrustbadgeDatasource(
     result: Result<TrustbadgeData> = Result.success(getFakeTrustbadgeData())
 ): ITrustbadgeDatasource {
@@ -239,7 +204,7 @@ internal fun getFakeShopGradeDetailDatasource(
     result: Result<ChannelInfo> = Result.success(getFakeChannelInfo())
 ): IShopGradeDetailDatasource {
     return object : IShopGradeDetailDatasource {
-        override suspend fun fetchShopGradeDetail(channelId: String, accessToken: String):
+        override suspend fun fetchShopGradeDetail(channelId: String):
                 Result<ChannelInfo> = result
     }
 }
