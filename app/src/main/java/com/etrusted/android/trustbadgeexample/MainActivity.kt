@@ -28,18 +28,16 @@ package com.etrusted.android.trustbadgeexample
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.etrusted.android.trustbadge.library.TrustbadgeLibrary
 import com.etrusted.android.trustbadgeexample.ui.ExampleApp
 import com.etrusted.android.trustbadgeexample.ui.theme.TrustbadgeExampleTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        TrustbadgeLibrary.configure(this)
         setContent {
             TrustbadgeExampleTheme {
                 // A surface container using the 'background' color from the theme

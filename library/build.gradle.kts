@@ -7,7 +7,6 @@ version = "0.0.${System.getenv("CIRCLE_BUILD_NUM") ?: "1"}-SNAPSHOT"
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("de.trustedshops.gradle.trustbadge.config.produce") version "0.0.03"
     id("jacoco")
     `maven-publish`
     signing
@@ -30,66 +29,20 @@ android {
 
     buildTypes {
 
-        val propFileName = "trustbadge.properties"
-        val keyClientId = "client_id"
-        val keyClientSecret = "client_secret"
-
-        /**
-         * Create an empty properties file if non provided
-         * to avoid failing builds
-         */
-        fun createEmptyPropFileIfNoneProvided() {
-            File("${project.projectDir}/$propFileName").apply {
-                if (!exists()) {
-                    createNewFile()
-                    writeText("$keyClientId=\n$keyClientSecret=")
-                }
-            }
-        }
-
         named("release") {
-            createEmptyPropFileIfNoneProvided()
 
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
-            // load properties
-            val propertiesFile = project.file(propFileName)
-            val properties = Properties()
-            properties.load(FileInputStream(propertiesFile))
-
-            // produce rest values available to the library
-            resValue("string", keyClientId, properties.getProperty(keyClientId))
-            resValue("string", keyClientSecret, properties.getProperty(keyClientSecret))
         }
         create("debugTestStage") {
-            createEmptyPropFileIfNoneProvided()
 
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-
-            // load properties
-            val propertiesFile = project.file(propFileName)
-            val properties = Properties()
-            properties.load(FileInputStream(propertiesFile))
-
-            // produce rest values available to the library
-            resValue("string", keyClientId, properties.getProperty(keyClientId))
-            resValue("string", keyClientSecret, properties.getProperty(keyClientSecret))
         }
         named("debug") {
-            createEmptyPropFileIfNoneProvided()
+
             enableUnitTestCoverage = true
             enableAndroidTestCoverage = true
-
-            // load properties
-            val propertiesFile = project.file(propFileName)
-            val properties = Properties()
-            properties.load(FileInputStream(propertiesFile))
-
-            // produce rest values available to the library
-            resValue("string", keyClientId, properties.getProperty(keyClientId))
-            resValue("string", keyClientSecret, properties.getProperty(keyClientSecret))
         }
     }
     compileOptions {
@@ -149,11 +102,6 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
         "outputs/managed_device_code_coverage/pixel2api30/coverage.ec"
     ))})
-}
-
-tasks.preBuild {
-    // produce the config file before assemble
-    dependsOn(tasks.produce)
 }
 
 tasks.register("prepareGeneratingFreshGolden") {

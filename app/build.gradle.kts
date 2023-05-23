@@ -52,50 +52,6 @@ android {
     }
 }
 
-tasks.register("createEmptyConfigFile") {
-    doLast {
-        val configFileName = "trustbadge-config.json"
-        File("${rootDir}/$configFileName").apply {
-            if (!exists()) {
-                createNewFile()
-                writeText("""
-                    {
-                      "client_id": "",
-                      "client_secret": ""
-                    }
-                """.trimIndent())
-                println("empty config file created")
-            } else {
-                println("config file already exists")
-            }
-        }
-    }
-}
-
-tasks.register("generateTrustbadgeConfigFile") {
-    doLast {
-        val configFileName = "trustbadge-config.json"
-        File("${rootDir}/$configFileName").apply {
-            createNewFile()
-            val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG")
-            writeText(configContent)
-            println("config file created")
-        }
-    }
-}
-
-tasks.register("generateTrustbadgeConfigFileTest") {
-    doLast {
-        val configFileName = "trustbadge-config.json"
-        File("${rootDir}/$configFileName").apply {
-            createNewFile()
-            val configContent = System.getenv("APP_DIST_TRUSTBADGE_CONFIG_TEST")
-            writeText(configContent)
-            println("config file created for test stage")
-        }
-    }
-}
-
 tasks.register("generateAppDistKey") {
     doLast {
         val jsonFileName = "app-dist-key.json"
