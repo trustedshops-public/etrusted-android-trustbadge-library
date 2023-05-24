@@ -39,7 +39,7 @@ import com.etrusted.android.trustbadge.library.domain.IGetProductGradeUseCase
 import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
 import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
 import com.etrusted.android.trustbadge.library.model.ChannelInfo
-import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating
+import com.etrusted.android.trustbadge.library.model.AggregateRating
 import com.etrusted.android.trustbadge.library.model.ProductData
 import com.etrusted.android.trustbadge.library.model.ProductGrade
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
@@ -147,15 +147,15 @@ internal fun getFakeChannelInfo(fakeRating: Float = 3.51f): ChannelInfo {
 internal fun getFakeProductGrade(fakeRating: Float = 3.51f): ProductGrade {
     val fakeDate = Date()
     return ProductGrade(
-        year = ProductGrade.AggregateRating(
+        year = AggregateRating(
             count = 5, rating = fakeRating, distribution = null,
-            period = ProductGrade.AggregateRating.AggregateRatingPeriod(
+            period = AggregateRating.AggregateRatingPeriod(
                 start = fakeDate,
                 end = fakeDate,
                 firstConsideredReviewSubmission = fakeDate,
                 lastConsideredReviewSubmission = fakeDate,
                 calculatedAt = fakeDate,
-                ratingTrend = ProductGrade.AggregateRating.AggregateRatingPeriod.RatingTrend.POSITIVE
+                ratingTrend = AggregateRating.AggregateRatingPeriod.RatingTrend.POSITIVE
             )
         ),
     )

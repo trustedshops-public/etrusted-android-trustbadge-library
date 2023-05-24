@@ -26,7 +26,7 @@
 package com.etrusted.android.trustbadge.library.model
 
 import com.etrusted.android.trustbadge.library.common.internal.ServerResponses
-import com.etrusted.android.trustbadge.library.model.ChannelInfo.AggregateRating.AggregateRatingPeriod.RatingTrend
+import com.etrusted.android.trustbadge.library.model.AggregateRating.AggregateRatingPeriod.RatingTrend
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
