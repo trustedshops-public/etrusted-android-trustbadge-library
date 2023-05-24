@@ -34,10 +34,12 @@ class UrlsTest {
     fun testAuthenticationUrlReturnsCorrectRawValueForEachEnvironment() {
 
         val urlReleaseRaw = Urls.authenticationUrl(env = EnvironmentKey.RELEASE)
+        val urlTestRaw = Urls.authenticationUrl(env = EnvironmentKey.TEST)
         val urlDebugRaw = Urls.authenticationUrl(env = EnvironmentKey.DEBUG)
         val urlUnknownRaw = Urls.authenticationUrl(env = EnvironmentKey.UNKNOWN)
 
         assertThat(urlReleaseRaw).isEqualTo(prodAuthUrl)
+        assertThat(urlTestRaw).isEqualTo(testAuthUrl)
         assertThat(urlDebugRaw).isEqualTo(devAuthUrl)
         assertThat(urlUnknownRaw).isEqualTo(prodAuthUrl)
     }
@@ -46,10 +48,12 @@ class UrlsTest {
     fun testTrustbadgeJsonUrlReturnsCorrectRawValueForEachEnvironment() {
 
         val urlReleaseRaw = Urls.trustbadgeJsonUrl(env = EnvironmentKey.RELEASE)
+        val urlTestRaw = Urls.trustbadgeJsonUrl(env = EnvironmentKey.TEST)
         val urlDebugRaw = Urls.trustbadgeJsonUrl(env = EnvironmentKey.DEBUG)
         val urlUnknownRaw = Urls.trustbadgeJsonUrl(env = EnvironmentKey.UNKNOWN)
 
         assertThat(urlReleaseRaw).isEqualTo(prodTrustbadgeDataUrl)
+        assertThat(urlTestRaw).isEqualTo(testTrustbadgeDataUrl)
         assertThat(urlDebugRaw).isEqualTo(devTrustbadgeDataUrl)
         assertThat(urlUnknownRaw).isEqualTo(prodTrustbadgeDataUrl)
     }
@@ -58,11 +62,27 @@ class UrlsTest {
     fun testChannelAggregateRatingUrlReturnsCorrectRawValueForEachEnvironment() {
 
         val urlReleaseRaw = Urls.channelAggregateRatingUrl(env = EnvironmentKey.RELEASE)
+        val urlTestRaw = Urls.channelAggregateRatingUrl(env = EnvironmentKey.TEST)
         val urlDebugRaw = Urls.channelAggregateRatingUrl(env = EnvironmentKey.DEBUG)
         val urlUnknownRaw = Urls.channelAggregateRatingUrl(env = EnvironmentKey.UNKNOWN)
 
         assertThat(urlReleaseRaw).isEqualTo(prodChannelsUrl)
+        assertThat(urlTestRaw).isEqualTo(testChannelsUrl)
         assertThat(urlDebugRaw).isEqualTo(devChannelsUrl)
         assertThat(urlUnknownRaw).isEqualTo(prodChannelsUrl)
+    }
+
+    @Test
+    fun testProductGradeJsonUrlReturnsCorrectRawValueForEachEnvironment() {
+
+        val urlReleaseRaw = Urls.productDataJsonUrl(env = EnvironmentKey.RELEASE)
+        val urlTestRaw = Urls.productDataJsonUrl(env = EnvironmentKey.TEST)
+        val urlDebugRaw = Urls.productDataJsonUrl(env = EnvironmentKey.DEBUG)
+        val urlUnknownRaw = Urls.productDataJsonUrl(env = EnvironmentKey.UNKNOWN)
+
+        assertThat(urlReleaseRaw).isEqualTo(prodProductDataUrl)
+        assertThat(urlTestRaw).isEqualTo(testProductDataUrl)
+        assertThat(urlDebugRaw).isEqualTo(devProductDataUrl)
+        assertThat(urlUnknownRaw).isEqualTo(prodProductDataUrl)
     }
 }

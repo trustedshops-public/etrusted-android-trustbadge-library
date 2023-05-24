@@ -20,7 +20,6 @@ platform :android do
   lane :test do
     gradle(tasks: [
         "clean --build-cache",
-        "createEmptyConfigFile --build-cache",
         "pixel2api30DebugAndroidTest --build-cache",
         "testDebugUnitTest --build-cache",
         "jacocoTestReport --build-cache"])
@@ -31,13 +30,24 @@ platform :android do
     gradle(task: "sonar --build-cache")
   end
 
-  desc "Deploy to Firebase AppTester channel"
+  desc "Deploy to Firebase AppTester DEV channel"
   lane :distDev do
-    gradle(task: "clean generateAppDistKey generateTrustbadgeConfigFile assembleDebug")
+    gradle(task: "clean generateAppDistKey assembleDebug")
     firebase_app_distribution(
         service_credentials_file: ENV['APP_DIST_SERVICE_ACCOUNT_PATH'],
         app: "1:849831422549:android:238ca47c17a75a8b5a02dc",
-        groups: "admins",
+        groups: "dev",
+        release_notes: "",
+    )
+  end
+
+  desc "Deploy to Firebase AppTester TEST channel"
+  lane :distTest do
+    gradle(task: "clean generateAppDistKey assembleDebugTestStage")
+    firebase_app_distribution(
+        service_credentials_file: ENV['APP_DIST_SERVICE_ACCOUNT_PATH'],
+        app: "1:849831422549:android:f5631aa35a79fb9e5a02dc",
+        groups: "dev, test",
         release_notes: "",
     )
   end

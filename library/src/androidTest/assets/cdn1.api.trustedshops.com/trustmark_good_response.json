@@ -14,7 +14,7 @@
           "validTo": "fakeString"
         },
         "guarantee": {
-          "mainProtectionCurrency":"fakeString",
+          "mainProtectionCurrency":"EUR",
           "maxProtectionAmount":"fakeString",
           "maxProtectionDuration":"fakeString"
         }

@@ -7,7 +7,6 @@ version = "0.0.${System.getenv("CIRCLE_BUILD_NUM") ?: "1"}-SNAPSHOT"
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    id("de.trustedshops.gradle.trustbadge.config.produce") version "0.0.03"
     id("jacoco")
     `maven-publish`
     signing
@@ -30,51 +29,20 @@ android {
 
     buildTypes {
 
-        val propFileName = "trustbadge.properties"
-        val keyClientId = "client_id"
-        val keyClientSecret = "client_secret"
-
-        /**
-         * Create an empty properties file if non provided
-         * to avoid failing builds
-         */
-        fun createEmptyPropFileIfNoneProvided() {
-            File("${project.projectDir}/$propFileName").apply {
-                if (!exists()) {
-                    createNewFile()
-                    writeText("$keyClientId=\n$keyClientSecret=")
-                }
-            }
-        }
-
         named("release") {
-            createEmptyPropFileIfNoneProvided()
 
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+        }
+        create("debugTestStage") {
 
-            // load properties
-            val propertiesFile = project.file(propFileName)
-            val properties = Properties()
-            properties.load(FileInputStream(propertiesFile))
-
-            // produce rest values available to the library
-            resValue("string", keyClientId, properties.getProperty(keyClientId))
-            resValue("string", keyClientSecret, properties.getProperty(keyClientSecret))
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
         named("debug") {
-            createEmptyPropFileIfNoneProvided()
+
             enableUnitTestCoverage = true
             enableAndroidTestCoverage = true
-
-            // load properties
-            val propertiesFile = project.file(propFileName)
-            val properties = Properties()
-            properties.load(FileInputStream(propertiesFile))
-
-            // produce rest values available to the library
-            resValue("string", keyClientId, properties.getProperty(keyClientId))
-            resValue("string", keyClientSecret, properties.getProperty(keyClientSecret))
         }
     }
     compileOptions {
@@ -134,11 +102,6 @@ tasks.register<JacocoReport>("jacocoTestReport") {
         "outputs/unit_test_code_coverage/debugUnitTest/testDebugUnitTest.exec",
         "outputs/managed_device_code_coverage/pixel2api30/coverage.ec"
     ))})
-}
-
-tasks.preBuild {
-    // produce the config file before assemble
-    dependsOn(tasks.produce)
 }
 
 tasks.register("prepareGeneratingFreshGolden") {
@@ -223,6 +186,7 @@ internal val androidTestJunitVersion: String by project
 internal val androidTestEspressoVersion: String by project
 internal val okhttpVersion: String by project
 internal val kotlinCoroutinesVersion: String by project
+internal val coilVersion: String by project
 
 dependencies {
 
@@ -235,6 +199,7 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.ui:ui")
+    implementation("io.coil-kt:coil-compose:$coilVersion")
 
     // test dependencies
     testImplementation("junit:junit:$testJunitVersion")
@@ -246,6 +211,7 @@ dependencies {
     androidTestImplementation("com.squareup.okhttp3:okhttp-tls:$okhttpVersion")
     // ui tests
     androidTestImplementation("androidx.compose.ui:ui-test-junit4:$composeVersion")
+    androidTestImplementation("io.coil-kt:coil-test:$coilVersion")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
     debugImplementation("androidx.compose.ui:ui-tooling")
 }

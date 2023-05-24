@@ -29,4 +29,5 @@ internal sealed class TestTags(val raw: String) {
     object Trustbadge: TestTags("tag_trustbadge")
     object TrustbadgeDefault: TestTags("tag_trustbadge_default")
     object TrustbadgeRounded: TestTags("tag_trustbadge_rounded")
+    object ImageGenericRounded: TestTags("tag_image_generic_rounded")
 }

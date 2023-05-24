@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
-  codecov: codecov/codecov@3.2.4
-  ruby: circleci/ruby@2.0.0
+  codecov: codecov/codecov@3.2.5
+  ruby: circleci/ruby@2.0.1
 
 commands:
   restore_gradle_cache:
@@ -40,7 +40,7 @@ executors:
       image: android:2022.12.1
   android-docker:
     docker:
-      - image: cimg/android:2023.04
+      - image: cimg/android:2023.05
 
 jobs:
   android-test:
@@ -81,7 +81,6 @@ jobs:
       - run:
           name: Prepare for release
           command: |
-            ./gradlew createEmptyConfigFile
             ./gradlew generatePomFileForReleasePublication
       - run:
           name: Import GPG key
@@ -93,7 +92,7 @@ jobs:
           command: |
             ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
 
-  distribute:
+  distribute-dev:
     executor: android-docker
     steps:
       - checkout
@@ -102,13 +101,29 @@ jobs:
           name: Prepare Fastlane
           command: |
             sudo bundle update
-            ./gradlew generateTrustbadgeConfigFile
             ./gradlew assembleDebug
       - run:
           name: Distribute to Firebase AppTester
           command: bundle exec fastlane distDev
       - store_artifacts:
           path: /home/circleci/project/app/build/outputs/apk/debug/app-debug.apk
+          destination: fastlane-output-debug
+
+  distribute-test:
+    executor: android-docker
+    steps:
+      - checkout
+      - restore_gradle_cache
+      - run:
+          name: Prepare Fastlane
+          command: |
+            sudo bundle update
+            ./gradlew assembleDebug
+      - run:
+          name: Distribute to Firebase AppTester
+          command: bundle exec fastlane distTest
+      - store_artifacts:
+          path: /home/circleci/project/app/build/outputs/apk/debugTestStage/app-debug.apk
           destination: fastlane-output-debug
 
 workflows:
@@ -126,7 +141,7 @@ workflows:
             branches:
               ignore:
                 - main
-      - distribute:
+      - distribute-dev:
           name: distribute-dev
           requires:
             - android-test
@@ -134,3 +149,11 @@ workflows:
             branches:
               ignore:
                 - main
+                - develop
+      - distribute-test:
+          name: distribute-test
+          requires:
+            - android-test
+          filters:
+            branches:
+              only: develop

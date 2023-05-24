@@ -1,0 +1,28 @@
+{
+  "id": "prt-fake",
+  "name": "fake name",
+  "url": "fake url",
+  "channelId": "fake channel",
+  "accountId": "fake account",
+  "sku": "fake sku",
+  "gtin": "fake gtin",
+  "mpn": "fake mpn",
+  "brand": "fake brand",
+  "image": {
+    "original": {
+      "url": "original url",
+      "width": 0,
+      "height": 0
+    },
+    "productReviewQuestionnaire": {
+      "url": "productReviewQuestionnaire url",
+      "width": 600,
+      "height": 600
+    },
+    "hubPage": {
+      "url": "hubPage url",
+      "width": 240,
+      "height": 240
+    }
+  }
+}

@@ -1,6 +1,5 @@
 # etrusted-android-trustbadge-library
 
-[![trustedshops-public](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library.svg?style=shield)](https://circleci.com/gh/trustedshops-public/etrusted-android-trustbadge-library)
 [![GitHub License](https://img.shields.io/badge/license-MIT-lightgrey.svg)](https://github.com/trustedshops-public/etrusted-android-trustbadge-library/blob/main/LICENSE)
 [![codecov](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library/branch/develop/graph/badge.svg?token=CnT4ETYgkH)](https://codecov.io/gh/trustedshops-public/etrusted-android-trustbadge-library)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/trustedshops-public/etrusted-android-trustbadge-library/tree/develop.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/trustedshops-public/etrusted-android-trustbadge-library/tree/develop)
@@ -20,14 +19,19 @@ In case of an expired certificate, the Trustmark widgets is presented like the f
 
 <img src="docs/img/screenshot-trustbadge-uncertified-default.png" height="90">
 
-The `ShopGrade` widget expands to show shop rating and status with a nice animation effect. Currently, the widget shows the aggregate rating and the shop status.
-In the future, the widget will also show the the shop reviews.
+The `ShopGrade` widget expands to show shop rating and status with a simple animation. Currently, the widget shows the aggregate rating and the shop status.
+In the future, the widget will also show the shop reviews.
 
-<img src="docs/img/screenshot-trustbadge-uncertified-expanded.png" height="100">
+<img src="docs/img/shop_grade.gif" height="100">
+
+The `ProductGrade` widget expands to show product rating with a simple animation. Currently, the widget shows the single product rating for a given `SKU` (See the step: **Implement the dependency**).
+In the future, the widget will also show the product reviews.
+
+<img src="docs/img/product_grade.gif" height="100">
 
 The `BuyerProtection` widget shows the amount of protection for the consumers' purchase. It can be shown in the checkout screen for that purpose.
 
-<img src="docs/img/screenshot-trustbadge-uncertified-expanded-buyer-protection.png" height="100">
+<img src="docs/img/guarantee.gif" height="100">
 
 
 ## Usage
@@ -36,34 +40,12 @@ The `BuyerProtection` widget shows the amount of protection for the consumers' p
 - Your `channelId` and `TSID`
   For more info about how to get `channelId` and `TSID` read the [Getting the `channelId` and `TSID`]() sections (last section in this document).
 
-You can add the Trustbadge widget to your Android project in 5 steps:
+You can add the Trustbadge widget to your Android project in 2 steps:
 
-1. [📝 Get your `client_id` and `client_secret`](#1-📝-get-your-client_id-and-client_secret)
-2. [🛠️ Copy the configuration file](#2-🛠️-copy-the-configuration-file)
-3. [🐘 Implement the dependency](#3-🐘-implement-the-dependency)
-4. [⚙️ Configure the library](#4-⚙️-configure-the-library)
-5. [🚀 Show the widget](#5-🚀-show-the-widget)
+1. [🐘 Implement the dependency](#1-🐘-implement-the-dependency)
+2. [🚀 Show the widget](#2-🚀-show-the-widget)
 
-### 1. 📝 Get your `client_id` and `client_secret`
-- Navigate to [eTrustd Control Center](https://app.etrusted.com) on your browser
-- Navigate to `Settings > SSO Clients MAnagement`
-- Click on `Create new client` and follow the steps to get a set of `client_id` and `client_secret`.
-- Note them down as you will need it in the next step.
-
-### 2. 🛠️ Copy the configuration file
-- Create an empty file named `trustbadge-config.json` under root directory of your android project.
-- Add the following json template inside the file:
-```
-{
-  "client_id": "(Your client id)",
-  "client_secret": "(Your client secret)"
-}
-```
-- Replace `(Your client id)` with your client id from the eTrusted control center
-- Replace `(Your client secret)` with your client secret from the eTrusted control center
-- Save the file.
-
-### 3. 🐘 Implement the dependency
+### 1. 🐘 Implement the dependency
 - In your `app` module's `build.gradle` file, add the following line in your dependencies block:
 ```
 dependencies {
@@ -73,24 +55,107 @@ dependencies {
 - replace (version) with the latest version of the library. (See the releases page).
 - Sync the project and make sure it is successful. If it is not, please make sure that the configuration file is placed under project root directory (e.g. not inside the `app` module's directory)
 
-### 4. ⚙️ Configure the library
-- Once the dependency is added and the gradle sync is successful, add the following line in the launcher activity (e.g. MainActivity). It needs to be called once during the app startup before using the Trustbage library's widgets.
-- Now your project is ready to use the widget!
-
-### 5. 🚀 Show the widget:
+### 2. 🚀 Show the widget:
 We recommend using Jetpack Compose to show the widget in your app.
 
 ---
 #### Jetpack Compose Sample (Fastest):
 
-Simple use the Trustbadge Compose function anywhere in your composables. You can also use a Compose `modifier` to modify the widget.
+<br />
+
+Use the Trustbadge Compose function anywhere in your composables:
+Example of showing the `ShopGrade` widget:
 ```
 Trustbadge(
-    badgeContext = TrustbadgeContext.SHOP_GRADE,
+    badgeContext = TrustbadgeContext.ShopGrade,
     tsid = "X330A2E7D449E31E467D2F53A55DDD070",
     channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
 )
 ```
+<img src="docs/img/shop_grade.gif" height="100">
+
+<br />
+
+For `ProductGrade`, it is required to provide the product `sku` as well, that way the widget shows the rating for a product with given `sku`:
+```
+Trustbadge(
+    badgeContext = TrustbadgeContext.ProductGrade(sku = "1234-Ti-Bl"),
+    tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+    channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
+)
+```
+<img src="docs/img/product_grade.gif" height="100">
+
+<br />
+
+Showing `BuyerProtection` widget, is also similar to the `ShopGrade`:
+```
+Trustbadge(
+    badgeContext = TrustbadgeContext.BuyerProtection,
+    tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+    channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
+)
+```
+<img src="docs/img/guarantee.gif" height="100">
+
+<br />
+
+Align the badge anywhere in its parent using a standard `Modifier`. For example:
+```
+Trustbadge(
+    modifier = Modifier.align(Alignment.BottomStart),
+    badgeContext = TrustbadgeContext.ShopGrade,
+    tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+    channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
+)
+```
+
+<br />
+
+Control hiding or showing the badge using the `TrustbadgeState`:
+```
+val badgeState = rememberTrustbadgeState()
+
+Trustbadge(
+    state = badgeState,
+    badgeContext = TrustbadgeContext.ShopGrade,
+    tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+    channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
+)
+
+// then badgeState can be used in desired events
+LaunchedEffect(null) {
+    
+    // show the badge
+    badgeState.show()
+
+    // hide the badge
+    badgeState.hide()
+}
+```
+
+For example, hide the badge when the user scrolls using the badge state and scroll state of a column:
+```
+@Composable
+internal fun HideBadgeOnScroll(
+    scrollState: ScrollState,
+    badgeState: TrustbadgeState
+) {
+    if (scrollState.value == 0) {
+        badgeState.show()
+    } else {
+        LaunchedEffect(null) {
+            delay(1000)
+            badgeState.hide()
+        }
+    }
+}
+```
+<img src="docs/img/hide_on_scroll.gif" height="100">
+
+For full example of hiding the badge when the user scrolls, see [`HomeScreen.kt`](app/src/main/java/com/etrusted/android/trustbadgeexample/ui/home/HomeScreen.kt) in the example app.
+
+<br />
 
 ---
 #### Legacy XML Sample (Requires more configuration):
@@ -104,12 +169,6 @@ First, add a `ComposeView` tag in your layout's XML file, for example:
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
-    <TextView
-        android:id="@+id/hello_world"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Hello Android!" />
 
     <androidx.compose.ui.platform.ComposeView
         android:id="@+id/compose_view"
@@ -136,7 +195,7 @@ override fun onCreateView(
             setContent {
                 // In Compose world
                 Trustbadge(
-                    badgeContext = TrustbadgeContext.SHOP_GRADE,
+                    badgeContext = TrustbadgeContext.ShopGrade,
                     tsid = "X330A2E7D449E31E467D2F53A55DDD070",
                     channelId = "chl-b309535d-baa0-40df-a977-0b375379a3cc"
                 )
@@ -153,15 +212,19 @@ Please read the section [Getting `channelId` and `TSID`]() for more information 
 
 The `Trustbadge` function requires a `badgeContext` to determine either showing the `TrustMark`, the `ShopGrade`, or the `BuyerProtection` widget.
 You can simply pass either of the following options to set your desired `badgeContext`:
-<code>
-- TrustbadgeContext.**TrustMark**
-- TrustbadgeContext.**ShopGrade**
-- TrustbadgeContext.**BuyerProtection**
-  </code>
+
+```
+- TrustbadgeContext.TrustMark
+- TrustbadgeContext.ShopGrade
+- TrustbadgeContext.ProductGrade
+- TrustbadgeContext.BuyerProtection
+```
 
 ## Getting `channelId` and `TSID`
 - You can find your `channelId` by navigating to your desired channel on [eTrustd Control Center](https://app.etrusted.com) in your browser. You can simply copy the `channelId` from the address bar (starts with `chl-`) for your desired channel as shown in the example image:
-  <img width="500" src="https://user-images.githubusercontent.com/27926337/215760110-6d00a5ec-3b0c-4458-a867-acf75d6afa8b.png">
+
+<img width="500" src="https://user-images.githubusercontent.com/27926337/215760110-6d00a5ec-3b0c-4458-a867-acf75d6afa8b.png">
+
 - If you don't have a `TSID` (usually shared during the onboarding process with Trusted Shops), You can get your `TSID` by contacting Trsuted Shop via email: members@trustedshops.com
 
 ## Support

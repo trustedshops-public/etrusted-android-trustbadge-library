@@ -48,31 +48,10 @@ internal fun RowScope.ExpandedView(
     badgeContext: TrustbadgeContext,
     rating: Float?,
     guaranteeAmount: String,
+    productRating: Float?,
 ) {
 
-    val excellentShopRevs = buildAnnotatedString {
-        withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle()) {
-            append(stringResource(id = R.string.tbadge_t_score_excellent))
-        }
-        append(' ')
-        withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle().copy(
-            fontWeight = FontWeight.Normal
-        )) {
-            append(stringResource(id = R.string.tbadge_t_score_trail_shop_reviews))
-        }
-    }
-    val excellentProductRevs = buildAnnotatedString {
-        withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle()) {
-            append(stringResource(id = R.string.tbadge_t_score_excellent))
-        }
-        append(' ')
-        withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle().copy(
-            fontWeight = FontWeight.Normal
-        )) {
-            append(stringResource(id = R.string.tbadge_t_score_trail_product_reviews))
-        }
-    }
-    val startPadding = if (badgeContext == TrustbadgeContext.BuyerProtection) 16.dp else 0.dp
+    val startPadding = 16.dp
     AnimatedVisibility (
         modifier = modifier.align(Alignment.CenterVertically),
         visible = state.currentState == TrustbadgeStateValue.EXPANDED
@@ -86,25 +65,19 @@ internal fun RowScope.ExpandedView(
 
             when (badgeContext) {
 
-                TrustbadgeContext.ShopGrade, TrustbadgeContext.ProductGrade -> {
-                    val starTitle =
-                        if (badgeContext == TrustbadgeContext.ShopGrade) excellentShopRevs
-                        else excellentProductRevs
-                    Text(modifier = Modifier.align(Alignment.CenterHorizontally),
-                        text = starTitle)
-                    Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
-                        RatingBar(rating = rating ?: 0f)
-                        Text(text = buildAnnotatedString {
-                            withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle()
-                                .copy(color = MaterialTheme.colorScheme.TsNeutralsGrey800)) {
-                                append(rating?.toString() ?: "..." )
-                            }
-                            withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle()
-                                .copy(color = MaterialTheme.colorScheme.TsNeutralsGrey600)) {
-                                append("/5.00")
-                            }
-                        })
-                    }
+                TrustbadgeContext.ShopGrade -> {
+                    GradeView(
+                        modifier = Modifier.padding(start = startPadding),
+                        badgeContext = badgeContext,
+                        rating = rating
+                    )
+                }
+                is TrustbadgeContext.ProductGrade -> {
+                    GradeView(
+                        modifier = Modifier.padding(start = startPadding),
+                        badgeContext = badgeContext,
+                        rating = productRating
+                    )
                 }
                 TrustbadgeContext.BuyerProtection -> {
                     Text(text = stringResource(
@@ -125,6 +98,58 @@ internal fun RowScope.ExpandedView(
                 }
                 TrustbadgeContext.TrustMark -> { /* no expanded view*/ }
             }
+        }
+    }
+}
+
+@Composable
+internal fun GradeView(
+    modifier: Modifier = Modifier,
+    badgeContext: TrustbadgeContext,
+    rating: Float?,
+) {
+    val excellentShopRevs = buildAnnotatedString {
+        withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle()) {
+            append(stringResource(id = R.string.tbadge_t_score_excellent))
+        }
+        append(' ')
+        withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle().copy(
+            fontWeight = FontWeight.Normal
+        )) {
+            append(stringResource(id = R.string.tbadge_t_score_trail_shop_reviews))
+        }
+    }
+
+    val excellentProductRevs = buildAnnotatedString {
+        withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle()) {
+            append(stringResource(id = R.string.tbadge_t_score_excellent))
+        }
+        append(' ')
+        withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle().copy(
+            fontWeight = FontWeight.Normal
+        )) {
+            append(stringResource(id = R.string.tbadge_t_score_trail_product_reviews))
+        }
+    }
+
+    Column(modifier = modifier) {
+        val starTitle =
+            if (badgeContext == TrustbadgeContext.ShopGrade) excellentShopRevs
+            else excellentProductRevs
+        Text(modifier = Modifier.align(Alignment.CenterHorizontally),
+            text = starTitle)
+        Row(modifier = Modifier.align(Alignment.CenterHorizontally)) {
+            RatingBar(rating = rating ?: 0f)
+            Text(text = buildAnnotatedString {
+                withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle()
+                    .copy(color = MaterialTheme.colorScheme.TsNeutralsGrey800)) {
+                    append(rating?.toString() ?: "..." )
+                }
+                withStyle(style = MaterialTheme.typography.mobileBase.toSpanStyle()
+                    .copy(color = MaterialTheme.colorScheme.TsNeutralsGrey600)) {
+                    append("/5.00")
+                }
+            })
         }
     }
 }

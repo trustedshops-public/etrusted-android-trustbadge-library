@@ -26,6 +26,8 @@
 package com.etrusted.android.trustbadge.library.ui.badge
 
 import com.etrusted.android.trustbadge.library.common.internal.getFakeGuaranteeUseCase
+import com.etrusted.android.trustbadge.library.common.internal.getFakeProductDataUseCase
+import com.etrusted.android.trustbadge.library.common.internal.getFakeProductGradeUseCase
 import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeDataUseCase
 import com.google.common.truth.Truth.assertThat
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -123,5 +125,157 @@ class TrustbadgeViewModelAndroidTest {
 
         // assert
         assertThat(sut.guarantee.value).isNull()
+    }
+
+    @Test
+    fun testFetchProductGradeSucceeds() = runTest {
+
+        // arrange
+        val testDispatcher = StandardTestDispatcher(testScheduler)
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
+        val fakeProductGradeUseCase = getFakeProductGradeUseCase()
+        val sut = TrustbadgeViewModel(
+            coroutineScope = this,
+            dispatcherMain = testDispatcher,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
+            getProductGradeUseCase = fakeProductGradeUseCase,
+        )
+
+        // act
+        sut.fetchProductGrade("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(sut.productGrade.value).isNotNull()
+    }
+
+    @Test
+    fun testFetchProductGradeFails() = runTest {
+
+        // arrange
+        val testDispatcher = StandardTestDispatcher(testScheduler)
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
+        val fakeProductGradeUseCase = getFakeProductGradeUseCase(
+            result = Result.failure(Throwable("failed")))
+        val sut = TrustbadgeViewModel(
+            coroutineScope = this,
+            dispatcherMain = testDispatcher,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
+            getProductGradeUseCase = fakeProductGradeUseCase,
+        )
+
+        // act
+        sut.fetchProductGrade("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(sut.productGrade.value).isNull()
+    }
+
+    @Test
+    fun testFetchProductGradeFailsWhenUseCaseThrows() = runTest {
+
+        // arrange
+        val testDispatcher = StandardTestDispatcher(testScheduler)
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
+        val fakeProductGradeUseCase = getFakeProductGradeUseCase(throwable = Exception("failed"))
+        val sut = TrustbadgeViewModel(
+            coroutineScope = this,
+            dispatcherMain = testDispatcher,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
+            getProductGradeUseCase = fakeProductGradeUseCase,
+        )
+
+        // act
+        sut.fetchProductGrade("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(sut.productGrade.value).isNull()
+    }
+
+    @Test
+    fun testFetchProductDataSucceeds() = runTest {
+
+        // arrange
+        val testDispatcher = StandardTestDispatcher(testScheduler)
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
+        val fakeProductGradeUseCase = getFakeProductGradeUseCase()
+        val fakeProductDataUseCase = getFakeProductDataUseCase()
+        val sut = TrustbadgeViewModel(
+            coroutineScope = this,
+            dispatcherMain = testDispatcher,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
+            getProductGradeUseCase = fakeProductGradeUseCase,
+            getProductDataUseCase = fakeProductDataUseCase,
+        )
+
+        // act
+        sut.fetchProductDetail("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(sut.productData.value).isNotNull()
+    }
+
+    @Test
+    fun testFetchProductDataFails() = runTest {
+
+        // arrange
+        val testDispatcher = StandardTestDispatcher(testScheduler)
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
+        val fakeProductGradeUseCase = getFakeProductGradeUseCase()
+        val fakeProductDataUseCase = getFakeProductDataUseCase(
+            result = Result.failure(Throwable("failed")))
+        val sut = TrustbadgeViewModel(
+            coroutineScope = this,
+            dispatcherMain = testDispatcher,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
+            getProductGradeUseCase = fakeProductGradeUseCase,
+            getProductDataUseCase = fakeProductDataUseCase,
+        )
+
+        // act
+        sut.fetchProductDetail("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(sut.productData.value).isNull()
+    }
+
+    @Test
+    fun testFetchProductDataFailsWhenUseCaseThrows() = runTest {
+
+        // arrange
+        val testDispatcher = StandardTestDispatcher(testScheduler)
+        val fakeTrustbadgeDataUseCase = getFakeTrustbadgeDataUseCase()
+        val fakeGuaranteeUseCase = getFakeGuaranteeUseCase()
+        val fakeProductGradeUseCase = getFakeProductGradeUseCase()
+        val fakeProductDataUseCase = getFakeProductDataUseCase(throwable = Exception("failed"))
+        val sut = TrustbadgeViewModel(
+            coroutineScope = this,
+            dispatcherMain = testDispatcher,
+            getTrustbadgeDataUseCase = fakeTrustbadgeDataUseCase,
+            getGuaranteeUseCase = fakeGuaranteeUseCase,
+            getProductGradeUseCase = fakeProductGradeUseCase,
+            getProductDataUseCase = fakeProductDataUseCase,
+        )
+
+        // act
+        sut.fetchProductDetail("fakeString", "fakeString")
+        advanceUntilIdle()
+
+        // assert
+        assertThat(sut.productData.value).isNull()
     }
 }

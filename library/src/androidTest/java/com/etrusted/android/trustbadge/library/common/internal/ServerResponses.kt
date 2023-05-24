@@ -33,16 +33,16 @@ internal sealed class ServerResponses {
 
     object ChannelInfoGoodResponse: ServerResponses() {
         override val path: String
-            get() = "api.etrusted.com" +
-                "/channels/channelid/service-reviews/aggregate-rating/good_response.json"
+            get() = "integrations.etrusted.com" +
+                "/feeds/grades/v1/channels/channelId/touchpoints/all/feedjson/good_response.json"
         override val content: String
             get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }
 
     object ChannelInfoBadResponse: ServerResponses() {
         override val path: String
-            get() = "api.etrusted.com" +
-                    "/channels/channelid/service-reviews/aggregate-rating/bad_response.json"
+            get() = "integrations.etrusted.com" +
+                    "/feeds/grades/v1/channels/channelId/touchpoints/all/feedjson/bad_response.json"
         override val content: String
             get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }
@@ -85,6 +85,38 @@ internal sealed class ServerResponses {
     object TrustbadgeDataBadResponse: ServerResponses() {
         override val path: String
             get() = "cdn1.api.trustedshops.com/trustmark_bad_response.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
+    }
+
+    object ProductGradeGoodResponse: ServerResponses() {
+        override val path: String
+            get() = "integrations.etrusted.com" +
+                    "/feeds/grades/v1/channels/channelId/products/sku/hexsku/good_response.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
+    }
+
+    object ProductGradeBadResponse: ServerResponses() {
+        override val path: String
+            get() = "integrations.etrusted.com" +
+                    "/feeds/grades/v1/channels/channelId/products/sku/hexsku/bad_response.json"
+
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
+    }
+    object ProductDataGoodResponse: ServerResponses() {
+        override val path: String
+            get() = "integrations.etrusted.com" +
+                    "/feeds/products/v1/channels/channelid/sku/hexsku/good_response.json"
+        override val content: String
+            get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
+    }
+
+    object ProductDataBadResponse: ServerResponses() {
+        override val path: String
+            get() = "integrations.etrusted.com" +
+                    "/feeds/products/v1/channels/channelid/sku/hexsku/bad_response.json"
         override val content: String
             get() = InstrumentationRegistry.getInstrumentation().context.readJsonFile(path)
     }
