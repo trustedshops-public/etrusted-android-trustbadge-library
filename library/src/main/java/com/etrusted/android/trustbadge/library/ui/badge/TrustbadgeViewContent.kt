@@ -34,7 +34,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
-import kotlinx.coroutines.delay
 
 
 /**
@@ -81,13 +80,8 @@ internal fun TrustbadgeContent(
             viewModel.fetchProductDetail(channelId, badgeContext.sku)
         }
 
-        // automatically show the expanded state only if the context is not set to TRUSTMARK
-        // The TRUSTMARK state only shows the badge in circle form
-        if (badgeContext.isExpandable) {
-            delay(1000)
-            state.expand()
-            delay(3000)
-            state.retract()
-        }
+        // show the expanded state automatically for the context.
+        // if the context is not set to TRUSTMARK, expand the badge
+        state.present(badgeContext)
     }
 }

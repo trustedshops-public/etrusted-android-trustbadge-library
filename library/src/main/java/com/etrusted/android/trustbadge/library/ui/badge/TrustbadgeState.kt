@@ -137,3 +137,18 @@ class TrustbadgeState(
         )
     }
 }
+
+/**
+ * show the expanded state automatically, only if the context is not set to TRUSTMARK
+ * When the badge is in circular form, only the TRUSTMARK state is present.
+ *
+ * @param badgeContext The current badge context to check if the badge is Expandable
+ */
+internal suspend fun TrustbadgeState.present(badgeContext: TrustbadgeContext) {
+    if (badgeContext.isExpandable) {
+        delay(1000)
+        this.expand()
+        delay(3000)
+        this.retract()
+    }
+}
