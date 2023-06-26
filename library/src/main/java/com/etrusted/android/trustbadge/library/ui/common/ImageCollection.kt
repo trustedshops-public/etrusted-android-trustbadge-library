@@ -83,7 +83,7 @@ fun ImageCircleShopIcon(
 ) {
     ImageCircleGeneric(
         modifier = modifier,
-        drawableId = R.drawable.ic_store,
+        drawableId = R.drawable.ts_pineapple,
         contentDescription = stringResource(id = R.string.tbadge_ic_store_description)
     )
 }
