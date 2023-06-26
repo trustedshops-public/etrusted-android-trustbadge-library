@@ -44,6 +44,7 @@ import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
 import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import kotlinx.coroutines.flow.MutableStateFlow
+import org.junit.Ignore
 import org.junit.Test
 
 internal class TrustbadgeUncertifiedDarkAndroidTest: TrustbadgeAndroidTest() {
@@ -101,6 +102,7 @@ internal class TrustbadgeUncertifiedDarkAndroidTest: TrustbadgeAndroidTest() {
         }
     }
 
+    @Ignore("activate to generate fresh screenshots")
     @Test
     override fun generateScreenshot() {
         // arrange

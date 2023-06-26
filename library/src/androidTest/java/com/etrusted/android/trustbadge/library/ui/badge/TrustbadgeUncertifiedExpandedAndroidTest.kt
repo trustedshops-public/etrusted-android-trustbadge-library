@@ -113,6 +113,7 @@ internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest()
         composeTestRule.mainClock.advanceTimeBy(10000) // wait to finish expand animation
         composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw).performClick()
+        composeTestRule.waitForIdle()
 
         // assert
         sut.assertExists()
