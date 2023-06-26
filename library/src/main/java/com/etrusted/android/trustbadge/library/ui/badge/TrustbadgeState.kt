@@ -26,12 +26,17 @@
 package com.etrusted.android.trustbadge.library.ui.badge
 
 import android.content.Context
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.ui.res.integerResource
+import androidx.compose.runtime.setValue
 import com.etrusted.android.trustbadge.library.R
-import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.*
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.DEFAULT
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.EXPANDED
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.EXPANDED_AS_POPUP
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.INVISIBLE
 import kotlinx.coroutines.delay
 
 enum class TrustbadgeStateValue {
