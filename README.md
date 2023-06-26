@@ -206,6 +206,18 @@ override fun onCreateView(
 ```
 For more information about Compose interoperability with the legacy system, please refer to [Android official docs for Interoperability APIs](https://developer.android.com/jetpack/compose/interop/interop-apis).
 
+<br />
+
+### Dark Mode
+The Trustbadge Widget now supports Dark Mode on Android.
+By default, the widget will follow the system theme, however, you can override that by changing the `isSystemInDarkTheme()` in your theme.
+
+<img src="docs/img/screenshot-trustbadge-uncertified-dark.png" height="400">
+
+For more information about Dark Mode, please refer to [Android official docs for Force Dark](https://developer.android.com/develop/ui/views/theming/darktheme#force-dark).
+
+<br />
+
 ---
 Your eTrusted `account` might contain more than one `channel`. The `Trustbadge` function requires a `channelId` to determine which channel it should choose to load the information from your `account`.
 Please read the section [Getting `channelId` and `TSID`]() for more information about how to get that information.
