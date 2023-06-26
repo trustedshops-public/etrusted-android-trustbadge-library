@@ -31,6 +31,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
@@ -48,6 +49,8 @@ internal fun TrustbadgeContent(
     tsid: String,
     channelId: String
 ) {
+    val context = LocalContext.current
+
     val trustbadgeData by viewModel.trustbadgeData.collectAsState()
     val guarantee by viewModel.guarantee.collectAsState()
     val productGrade by viewModel.productGrade.collectAsState()
@@ -82,6 +85,6 @@ internal fun TrustbadgeContent(
 
         // show the expanded state automatically for the context.
         // if the context is not set to TRUSTMARK, expand the badge
-        state.present(badgeContext)
+        state.present(context = context, badgeContext = badgeContext)
     }
 }

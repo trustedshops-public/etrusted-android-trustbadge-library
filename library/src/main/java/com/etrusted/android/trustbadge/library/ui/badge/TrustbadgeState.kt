@@ -25,9 +25,12 @@
 
 package com.etrusted.android.trustbadge.library.ui.badge
 
+import android.content.Context
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.Saver
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.res.integerResource
+import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.*
 import kotlinx.coroutines.delay
 
@@ -142,13 +145,17 @@ class TrustbadgeState(
  * show the expanded state automatically, only if the context is not set to TRUSTMARK
  * When the badge is in circular form, only the TRUSTMARK state is present.
  *
+ * @param context The current activity context to access resources for reading delay time
  * @param badgeContext The current badge context to check if the badge is Expandable
  */
-internal suspend fun TrustbadgeState.present(badgeContext: TrustbadgeContext) {
+internal suspend fun TrustbadgeState.present(
+    context: Context,
+    badgeContext: TrustbadgeContext
+) {
     if (badgeContext.isExpandable) {
-        delay(1000)
+        delay(context.resources.getInteger(R.integer.tbadge_auto_present_delay).toLong())
         this.expand()
-        delay(3000)
+        delay(context.resources.getInteger(R.integer.tbadge_auto_hide_delay).toLong())
         this.retract()
     }
 }

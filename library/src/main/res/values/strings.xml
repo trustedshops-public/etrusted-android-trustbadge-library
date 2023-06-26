@@ -14,4 +14,7 @@
     <string name="tbadge_t_buyer_protection_your_purchase">Your purchase is protected up to</string>
     <string name="tbadge_t_buyer_protection_your_purchase_amount_2500">€</string>
 
+    <!-- non-translatable strings -->
+    <integer name="tbadge_auto_present_delay">1000</integer>
+    <integer name="tbadge_auto_hide_delay">3000</integer>
 </resources>
