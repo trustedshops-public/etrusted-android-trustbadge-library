@@ -47,7 +47,7 @@ You can add the Trustbadge widget to your Android project in 2 steps:
 
 ### 1. 🐘 Implement the dependency
 - In your `app` module's `build.gradle` file, add the following line in your dependencies block:
-```
+```kotlin
 dependencies {
     implementation("com.etrusted.android.trustbadge.library:(version))")
 }
@@ -65,7 +65,7 @@ We recommend using Jetpack Compose to show the widget in your app.
 
 Use the Trustbadge Compose function anywhere in your composables:
 Example of showing the `ShopGrade` widget:
-```
+```kotlin
 Trustbadge(
     badgeContext = TrustbadgeContext.ShopGrade,
     tsid = "X330A2E7D449E31E467D2F53A55DDD070",
@@ -77,7 +77,7 @@ Trustbadge(
 <br />
 
 For `ProductGrade`, it is required to provide the product `sku` as well, that way the widget shows the rating for a product with given `sku`:
-```
+```kotlin
 Trustbadge(
     badgeContext = TrustbadgeContext.ProductGrade(sku = "1234-Ti-Bl"),
     tsid = "X330A2E7D449E31E467D2F53A55DDD070",
@@ -89,7 +89,7 @@ Trustbadge(
 <br />
 
 Showing `BuyerProtection` widget, is also similar to the `ShopGrade`:
-```
+```kotlin
 Trustbadge(
     badgeContext = TrustbadgeContext.BuyerProtection,
     tsid = "X330A2E7D449E31E467D2F53A55DDD070",
@@ -101,7 +101,7 @@ Trustbadge(
 <br />
 
 Align the badge anywhere in its parent using a standard `Modifier`. For example:
-```
+```kotlin
 Trustbadge(
     modifier = Modifier.align(Alignment.BottomStart),
     badgeContext = TrustbadgeContext.ShopGrade,
@@ -113,7 +113,7 @@ Trustbadge(
 <br />
 
 Control hiding or showing the badge using the `TrustbadgeState`:
-```
+```kotlin
 val badgeState = rememberTrustbadgeState()
 
 Trustbadge(
@@ -135,7 +135,7 @@ LaunchedEffect(null) {
 ```
 
 For example, hide the badge when the user scrolls using the badge state and scroll state of a column:
-```
+```kotlin
 @Composable
 internal fun HideBadgeOnScroll(
     scrollState: ScrollState,
@@ -162,7 +162,7 @@ For full example of hiding the badge when the user scrolls, see [`HomeScreen.kt`
 Using the Legacy UI system requires more steps to show the widget:
 
 First, add a `ComposeView` tag in your layout's XML file, for example:
-```
+```xml
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
@@ -180,7 +180,7 @@ First, add a `ComposeView` tag in your layout's XML file, for example:
 
 Then in your source file, inflate the layout and get the `ComposeView` using the XML ID, set a composition strategy that works best for you and call the `setContent()` to use Compose.
 Example of loading the Trustbadge in a fragment:
-```
+```kotlin
 override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -205,6 +205,27 @@ override fun onCreateView(
     }
 ```
 For more information about Compose interoperability with the legacy system, please refer to [Android official docs for Interoperability APIs](https://developer.android.com/jetpack/compose/interop/interop-apis).
+
+<br />
+
+### Dark Mode
+The Trustbadge Widget now supports Dark Mode on Android.
+By default, the widget will follow the system theme.
+
+<img src="docs/img/screenshot-trustbadge-uncertified-dark.png" height="400" />
+
+To override the system theme, you can force the widget to use Dark Mode by wrapping the `Trustbadge` composable in a `TrustbadgeTheme` and setting the `darkTheme` parameter to `true` in the `TrustbadgeTheme`.
+
+Example of overriding the system theme to Dark Mode:
+```kotlin
+TrustbadgeTheme(darkTheme = true) {
+    Trustbadge(...)
+}
+```
+
+For more information about forcing Dark Mode, please refer to [Android official docs for Force Dark](https://developer.android.com/develop/ui/views/theming/darktheme#force-dark).
+
+<br />
 
 ---
 Your eTrusted `account` might contain more than one `channel`. The `Trustbadge` function requires a `channelId` to determine which channel it should choose to load the information from your `account`.

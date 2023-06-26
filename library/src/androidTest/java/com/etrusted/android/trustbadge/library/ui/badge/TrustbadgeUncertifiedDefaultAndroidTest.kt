@@ -85,9 +85,11 @@ internal class TrustbadgeUncertifiedDefaultAndroidTest: TrustbadgeAndroidTest() 
 
         // arrange
         showContent()
+        composeTestRule.waitForIdle()
 
         // act
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
+        composeTestRule.waitForIdle()
 
         // assert
         sut.assertExists()
@@ -101,7 +103,10 @@ internal class TrustbadgeUncertifiedDefaultAndroidTest: TrustbadgeAndroidTest() 
         showContent()
 
         // act
+        composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw).performClick()
+        composeTestRule.mainClock.advanceTimeBy(10000) // wait to finish click animation
+        composeTestRule.waitForIdle()
 
         // assert
         sut.assertExists()

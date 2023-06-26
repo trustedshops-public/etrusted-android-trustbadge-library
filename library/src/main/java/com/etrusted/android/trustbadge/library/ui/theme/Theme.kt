@@ -51,18 +51,18 @@ private val LightColorScheme = lightColorScheme(
  * To force dark mode, use false
  * To force light mode, use true
  */
-@Suppress("unused")
-val ColorScheme.isLightCustom: Boolean
-    @Composable
-    get() = !isSystemInDarkTheme()
+
+private var isLightCustom: Boolean = false
+
 
 @Composable
-fun TrustbadgeTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
-    val customIsLight = MaterialTheme.colorScheme.isLightCustom
-    val colorScheme = if (darkTheme && !customIsLight) {
-        DarkColorScheme
-    } else {
+fun TrustbadgeTheme(darkTheme: Boolean? = null, content: @Composable () -> Unit) {
+    isLightCustom = if (darkTheme == null) !isSystemInDarkTheme() else !darkTheme
+
+    val colorScheme = if (isLightCustom) {
         LightColorScheme
+    } else {
+        DarkColorScheme
     }
 
     MaterialTheme(
@@ -83,12 +83,12 @@ val ColorScheme.TsBlueAction: Color
 
 val ColorScheme.TsPineapple: Color
     @Composable
-    get() = if (this.isLightCustom) TsPineappleDay
+    get() = if (isLightCustom) TsPineappleDay
     else TsPineappleNight
 
 val ColorScheme.TsBadgeBg: Color
     @Composable
-    get() = if (this.isLightCustom) TsBadgeBgDay
+    get() = if (isLightCustom) TsBadgeBgDay
     else TsBadgeBgNight
 
 val ColorScheme.TsNeutralsGrey50: Color
@@ -98,7 +98,7 @@ val ColorScheme.TsNeutralsGrey50: Color
 
 val ColorScheme.TsNeutralsGrey100: Color
     @Composable
-    get() = if (this.isLightCustom) TsNeutralsGrey100Day
+    get() = if (isLightCustom) TsNeutralsGrey100Day
     else TsNeutralsGrey100Night
 
 val ColorScheme.TsNeutralsGrey600: Color

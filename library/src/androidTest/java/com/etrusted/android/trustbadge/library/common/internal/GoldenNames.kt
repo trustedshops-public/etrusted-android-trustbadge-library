@@ -41,6 +41,8 @@ internal sealed class GoldenNames(val raw: String) {
     object GoldenTrustbadgeUncertifiedExpandedProductGrade: GoldenNames("screenshot-trustbadge-uncertified-expanded-product-grade")
     object GoldenTrustbadgeUncertifiedExpandedProductGradeIntegration: GoldenNames("screenshot-trustbadge-uncertified-expanded-product-grade-integration")
 
+    object GoldenTrustbadgeUncertifiedDark: GoldenNames("screenshot-trustbadge-uncertified-dark")
+
     object GoldenTrustbadgeViewRounded: GoldenNames("screenshot-trustbadge-view-rounded")
 
     // image collection
