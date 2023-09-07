@@ -35,7 +35,7 @@ import androidx.compose.runtime.setValue
 import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.DEFAULT
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.EXPANDED
-import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.EXPANDED_AS_POPUP
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.EXPANDED_AS_CARD
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue.INVISIBLE
 import kotlinx.coroutines.delay
 
@@ -43,7 +43,7 @@ enum class TrustbadgeStateValue {
     INVISIBLE,
     DEFAULT,
     EXPANDED,
-    EXPANDED_AS_POPUP,
+    EXPANDED_AS_CARD,
 }
 
 @Composable
@@ -79,7 +79,7 @@ class TrustbadgeState(
             INVISIBLE -> DEFAULT
             DEFAULT -> EXPANDED
             EXPANDED -> EXPANDED
-            EXPANDED_AS_POPUP -> EXPANDED
+            EXPANDED_AS_CARD -> EXPANDED
         }
     }
 
@@ -88,7 +88,7 @@ class TrustbadgeState(
             INVISIBLE -> INVISIBLE
             DEFAULT -> INVISIBLE
             EXPANDED -> DEFAULT
-            EXPANDED_AS_POPUP -> EXPANDED
+            EXPANDED_AS_CARD -> EXPANDED
         }
     }
 
@@ -121,7 +121,7 @@ class TrustbadgeState(
                 delay(300)
                 currentState = INVISIBLE
             }
-            EXPANDED_AS_POPUP -> {
+            EXPANDED_AS_CARD -> {
                 currentState = EXPANDED
                 delay(300)
                 currentState = DEFAULT
