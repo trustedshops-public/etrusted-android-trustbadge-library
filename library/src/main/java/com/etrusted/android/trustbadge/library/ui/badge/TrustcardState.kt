@@ -26,7 +26,6 @@
 package com.etrusted.android.trustbadge.library.ui.badge
 
 enum class TrustcardStateValue {
-    DEFAULT,
     CLASSIC_PROTECTION,
     PLUS_PROTECTION,
     PROTECTION_CONFIRMATION,
