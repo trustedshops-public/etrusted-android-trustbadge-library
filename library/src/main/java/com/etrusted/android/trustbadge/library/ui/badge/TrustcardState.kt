@@ -1,6 +1,6 @@
 /*
- * Created by Ali Kabiri on 28.11.2022.
- * Copyright (c) 2022 Trusted Shops AG
+ * Created by Ali Kabiri on 6.9.2023.
+ * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
  *
@@ -25,14 +25,7 @@
 
 package com.etrusted.android.trustbadge.library.ui.badge
 
-sealed class TrustbadgeContext(
-    val isExpandable: Boolean = false,
-    val sku: String = "",
-    val trustcardState: TrustcardStateValue? = null,
-) {
-    object TrustMark: TrustbadgeContext()
-    object ShopGrade: TrustbadgeContext(isExpandable = true)
-    class ProductGrade(sku: String): TrustbadgeContext(isExpandable = true, sku = sku)
-    class BuyerProtection(trustcardState: TrustcardStateValue? = null):
-        TrustbadgeContext(isExpandable = true, trustcardState = trustcardState)
+enum class TrustcardStateValue {
+    CLASSIC_PROTECTION,
+    PROTECTION_CONFIRMATION,
 }

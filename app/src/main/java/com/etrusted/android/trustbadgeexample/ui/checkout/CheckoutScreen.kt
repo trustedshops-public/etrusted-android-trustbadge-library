@@ -65,7 +65,7 @@ internal fun CheckoutScreen(
                 Trustbadge(
                     modifier = Modifier.align(Alignment.BottomStart),
                     state = badgeState,
-                    badgeContext = TrustbadgeContext.BuyerProtection,
+                    badgeContext = TrustbadgeContext.BuyerProtection(),
                     tsid = "X2AB6FF7BFF70A04D1D323E039D676EDB",
                     channelId = "chl-7e52920a-2722-4881-9908-ecec98c716e4"
                 )
@@ -74,7 +74,7 @@ internal fun CheckoutScreen(
                 Trustbadge(
                     modifier = Modifier.align(Alignment.BottomStart),
                     state = badgeState,
-                    badgeContext = TrustbadgeContext.BuyerProtection,
+                    badgeContext = TrustbadgeContext.BuyerProtection(),
                     tsid = "X079198F3BC11FA13F8980EB6879E2677",
                     channelId = "chl-b38b62ee-1e62-4a9f-9381-0ece0909b038"
                 )
