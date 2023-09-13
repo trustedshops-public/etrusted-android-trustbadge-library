@@ -27,8 +27,5 @@ package com.etrusted.android.trustbadge.library.ui.badge
 
 enum class TrustcardStateValue {
     CLASSIC_PROTECTION,
-    PLUS_PROTECTION,
     PROTECTION_CONFIRMATION,
-    UPGRADE_TO_PLUS_PROTECTION,
-    REVIEW_INVITATION_FORM,
 }
