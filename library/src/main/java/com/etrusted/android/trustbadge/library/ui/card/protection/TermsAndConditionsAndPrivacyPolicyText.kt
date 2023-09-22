@@ -25,8 +25,6 @@
 
 package com.etrusted.android.trustbadge.library.ui.card.protection
 
-import android.content.Intent
-import android.net.Uri
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +38,7 @@ import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
+import com.etrusted.android.trustbadge.library.ui.common.openLinkInExternalBrowser
 import com.etrusted.android.trustbadge.library.ui.theme.TsBlueAction
 import com.etrusted.android.trustbadge.library.ui.theme.mobileBodySmall
 
@@ -51,9 +50,10 @@ fun TermsAndConditionsAndPrivacyPolicyText() {
     val termsAndConditionsAndPrivacyLink = stringResource(
         id = R.string.tcard_link_terms_and_conditions_and_privacy_policy)
     val onClickTermsAndConditionsAndPrivacyPolicyLink: () -> Unit = {
-        val openURL = Intent(Intent.ACTION_VIEW)
-        openURL.data = Uri.parse(termsAndConditionsAndPrivacyLink)
-        context.startActivity(openURL)
+        openLinkInExternalBrowser(
+            context = context,
+            link = termsAndConditionsAndPrivacyLink
+        )
     }
 
     val hintString = buildAnnotatedString {
