@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
+import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedExpandedBuyerProtection
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
@@ -40,38 +41,23 @@ import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContent
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
 import com.etrusted.android.trustbadge.library.ui.badge.TrustcardStateValue
 import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
+import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtection
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import org.junit.Ignore
 import org.junit.Test
 
 internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
 
-    override val goldenName = GoldenTrustbadgeUncertifiedExpandedBuyerProtection.raw + if (isCI) "-ci" else ""
+    override val goldenName = GoldenNames.GoldenTrustcardClassicProtection.raw +
+            if (isCI) "-ci" else ""
 
     override fun showContent() {
         composeTestRule.setContent {
-
-            val state = rememberTrustbadgeState()
-            val cardState = TrustcardStateValue.CLASSIC_PROTECTION
-            val fakeViewModel = getFakeTrustbadgeViewModel()
-
             TrustbadgeTheme {
                 Column {
-                    TrustbadgeContent(
-                        modifier = Modifier,
-                        viewModel = fakeViewModel,
-                        state = state,
-                        badgeContext = TrustbadgeContext.BuyerProtection(
-                            trustcardState = cardState
-                        ),
-                        tsid = "X330A2E7D449E31E467D2F53A55DDD070",
-                        channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
-                    )
+                    TrustcardProtection(orderAmount = "€ 1000")
                 }
             }
-
-            // expand the widget
-            state.expand()
         }
     }
 
@@ -85,7 +71,7 @@ internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
         // act
         composeTestRule.mainClock.advanceTimeBy(5000)
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtection.raw)
         val bmp = sut.captureToImage().asAndroidBitmap()
         saveScreenshot(goldenName, bmp)
 
@@ -103,7 +89,7 @@ internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
         // act
         composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtection.raw)
 
         // assert
         sut.assertExists()

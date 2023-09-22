@@ -40,11 +40,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
+import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.card.TrustcardContainer
 import com.etrusted.android.trustbadge.library.ui.common.ActionButton
 import com.etrusted.android.trustbadge.library.ui.common.openLinkInExternalBrowser
@@ -73,7 +75,8 @@ fun TrustcardProtection(
     }
 
     TrustcardContainer(
-        modifier = modifier,
+        modifier = modifier
+            .testTag(TestTags.TrustcardProtection.raw),
         headingText = stringResource(id = R.string.tcard_t_protect_your_purchase),
         content = {
 

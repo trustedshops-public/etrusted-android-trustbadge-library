@@ -55,7 +55,7 @@ import com.etrusted.android.trustbadge.library.ui.theme.mobileHeadline
 
 
 @Composable
-fun TrustcardContainer(
+internal fun TrustcardContainer(
     modifier: Modifier = Modifier,
     headingText: String,
     content: @Composable () -> Unit = {},
