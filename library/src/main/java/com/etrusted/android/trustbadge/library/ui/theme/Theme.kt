@@ -106,7 +106,17 @@ val ColorScheme.TsNeutralsGrey600: Color
     get() = if (isLightCustom) TsNeutralsGrey600Day
     else TsNeutralsGrey600Night
 
+val ColorScheme.TsNeutralsGrey700: Color
+    @Composable
+    get() = if (isLightCustom) TsNeutralsGrey700Day
+    else TsNeutralsGrey700Night
+
 val ColorScheme.TsNeutralsGrey800: Color
     @Composable
     get() = if (isLightCustom) TsNeutralsGrey800Day
     else TsNeutralsGrey800Night
+
+val ColorScheme.TsOnAction: Color
+    @Composable
+    get() = if (isLightCustom) White
+    else White
