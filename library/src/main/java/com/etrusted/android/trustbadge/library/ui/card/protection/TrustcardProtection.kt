@@ -23,7 +23,7 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.ui.card
+package com.etrusted.android.trustbadge.library.ui.card.protection
 
 import android.content.res.Configuration
 import androidx.compose.foundation.clickable
@@ -45,8 +45,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
-import com.etrusted.android.trustbadge.library.ui.card.protection.ActiveProductListText
-import com.etrusted.android.trustbadge.library.ui.card.protection.TermsAndConditionsAndPrivacyPolicyText
+import com.etrusted.android.trustbadge.library.ui.card.TrustcardContainer
 import com.etrusted.android.trustbadge.library.ui.common.ActionButton
 import com.etrusted.android.trustbadge.library.ui.common.openLinkInExternalBrowser
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
