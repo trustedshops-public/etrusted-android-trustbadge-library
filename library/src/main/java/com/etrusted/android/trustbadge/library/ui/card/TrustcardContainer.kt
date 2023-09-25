@@ -40,10 +40,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
+import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.theme.TsPineapple
 import com.etrusted.android.trustbadge.library.ui.theme.TsTextBase
 import com.etrusted.android.trustbadge.library.ui.theme.mobileHeadline
@@ -57,7 +59,8 @@ internal fun TrustcardContainer(
     footer: @Composable () -> Unit = {},
     onClickDismiss: () -> Unit,
 ) {
-    Box(modifier = modifier) {
+    Box(modifier = modifier
+        .testTag(TestTags.TrustcardContainer.raw)) {
 
         // Rounded yellow border
         Box(modifier = Modifier
@@ -86,7 +89,8 @@ internal fun TrustcardContainer(
                     )
                     IconButton(
                         modifier = Modifier
-                            .align(Alignment.CenterEnd),
+                            .align(Alignment.CenterEnd)
+                            .testTag(TestTags.TrustcardContainerButtonDismiss.raw),
                         onClick = onClickDismiss) {
                         Image(
                             painter = painterResource(id = R.drawable.ic_dismiss),
