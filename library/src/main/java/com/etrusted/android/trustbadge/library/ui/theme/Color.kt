@@ -58,6 +58,9 @@ val TsNeutralsGrey100Night = White
 val TsNeutralsGrey600Day = TsGrey600
 val TsNeutralsGrey600Night = White
 
+val TsNeutralsGrey700Day = TsGrey700
+val TsNeutralsGrey700Night = White
+
 val TsNeutralsGrey800Day = TsGrey800
 val TsNeutralsGrey800Night = White
 

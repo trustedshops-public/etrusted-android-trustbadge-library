@@ -87,3 +87,33 @@ val Typography.mobileCaptionExtraNarrow: TextStyle
         letterSpacing = (0.03).sp,
         textAlign = TextAlign.Center,
     )
+
+val Typography.mobileHeadline: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight(700),
+        fontSize = 16.sp,
+        lineHeight = 16.sp,
+        color = MaterialTheme.colorScheme.TsTextBase,
+    )
+
+val Typography.mobileTermsAndConditions: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight(400),
+        fontSize = 11.sp,
+        lineHeight = 13.sp,
+        color = MaterialTheme.colorScheme.TsNeutralsGrey700,
+    )
+
+val Typography.mobileBody: TextStyle
+    @Composable
+    get() = TextStyle(
+        fontFamily = FontFamily.Default,
+        fontWeight = FontWeight(400),
+        fontSize = 13.sp,
+        lineHeight = 19.sp,
+        color = MaterialTheme.colorScheme.TsNeutralsGrey700,
+    )

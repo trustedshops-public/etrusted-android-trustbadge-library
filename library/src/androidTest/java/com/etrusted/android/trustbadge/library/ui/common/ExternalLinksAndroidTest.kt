@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 26.2.2023.
+ * Created by Ali Kabiri on 25.9.2023.
  * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
@@ -23,16 +23,27 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.common.internal
+package com.etrusted.android.trustbadge.library.ui.common
 
-internal sealed class TestTags(val raw: String) {
-    object Trustbadge: TestTags("tag_trustbadge")
-    object TrustbadgeDefault: TestTags("tag_trustbadge_default")
-    object TrustbadgeRounded: TestTags("tag_trustbadge_rounded")
-    object ImageGenericRounded: TestTags("tag_image_generic_rounded")
-    object TrustcardContainer: TestTags("tag_trustcard_container")
-    object TrustcardContainerButtonDismiss: TestTags("tag_trustcard_container_button_dismiss")
-    object TrustcardProtection: TestTags("tag_trustcard_protection")
-    object ButtonAction: TestTags("tag_button_action")
-    object TextTermsAndConditionsAndPrivacyPolicy: TestTags("tag_text_terms_and_conditions_and_privacy_policy")
+import androidx.test.platform.app.InstrumentationRegistry
+import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
+import com.google.common.truth.Truth.assertThat
+import org.junit.Test
+
+internal class ExternalLinksAndroidTest {
+
+    @Test
+    fun openLinkInExternalBrowserStartsAnActivityToOpenTheLinkInExternalBrowser() {
+
+        // arrange
+        val baseContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val testContext = TestContextWrapper(baseContext)
+        val sut = ::openLinkInExternalBrowser
+
+        // act
+        sut(testContext, "https://www.etrusted.com")
+
+        // assert
+        assertThat(testContext.isStartActivityCalled).isTrue()
+    }
 }

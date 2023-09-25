@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 26.2.2023.
+ * Created by Ali Kabiri on 25.9.2023.
  * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
@@ -23,16 +23,17 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.common.internal
+package com.etrusted.android.trustbadge.library.ui.common
 
-internal sealed class TestTags(val raw: String) {
-    object Trustbadge: TestTags("tag_trustbadge")
-    object TrustbadgeDefault: TestTags("tag_trustbadge_default")
-    object TrustbadgeRounded: TestTags("tag_trustbadge_rounded")
-    object ImageGenericRounded: TestTags("tag_image_generic_rounded")
-    object TrustcardContainer: TestTags("tag_trustcard_container")
-    object TrustcardContainerButtonDismiss: TestTags("tag_trustcard_container_button_dismiss")
-    object TrustcardProtection: TestTags("tag_trustcard_protection")
-    object ButtonAction: TestTags("tag_button_action")
-    object TextTermsAndConditionsAndPrivacyPolicy: TestTags("tag_text_terms_and_conditions_and_privacy_policy")
+import android.content.Context
+import android.content.Intent
+import android.net.Uri
+
+fun openLinkInExternalBrowser(
+    context: Context,
+    link: String,
+) {
+    val openURL = Intent(Intent.ACTION_VIEW)
+    openURL.data = Uri.parse(link)
+    context.startActivity(openURL)
 }
