@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 22.9.2023.
+ * Created by Ali Kabiri on 25.09.2023.
  * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
@@ -25,36 +25,50 @@
 
 package com.etrusted.android.trustbadge.library.ui.common
 
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
-import com.etrusted.android.trustbadge.library.ui.theme.TsBlueAction
-import com.etrusted.android.trustbadge.library.ui.theme.TsOnAction
+import com.google.common.truth.Truth.assertThat
+import org.junit.Before
+import org.junit.Rule
+import org.junit.Test
 
-@Composable
-fun ActionButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-    content: @Composable () -> Unit,
-) {
-    Button(
-        modifier = modifier
-            .padding(start = 32.dp, end = 32.dp)
-            .testTag(TestTags.ButtonAction.raw),
-        shape = RoundedCornerShape(6.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.TsBlueAction,
-            contentColor = MaterialTheme.colorScheme.TsOnAction,
-        ),
-        onClick = onClick,
-    ) {
-        content()
+internal class ActionButtonAndroidTest {
+
+    @get:Rule
+    val composeTestRule = createComposeRule()
+
+    private var isClicked = false
+
+    @Before
+    fun setup() {
+        isClicked = false
+    }
+
+    fun showContent() {
+        composeTestRule.setContent {
+            ActionButton(
+                onClick = {
+                    isClicked = true
+                },
+                content = {},
+            )
+        }
+    }
+
+    @Test
+    fun testScreenshotMatchesGolden() {
+
+        // arrange
+        showContent()
+
+        // act
+        val sut = composeTestRule.onNodeWithTag(TestTags.ButtonAction.raw)
+        sut.performClick()
+
+        // assert
+        sut.assertExists()
+        assertThat(isClicked).isTrue()
     }
 }

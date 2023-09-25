@@ -25,7 +25,6 @@
 
 package com.etrusted.android.trustbadge.library.ui.card.protection
 
-import android.content.res.Configuration
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,15 +41,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
-import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.card.TrustcardContainer
 import com.etrusted.android.trustbadge.library.ui.common.ActionButton
 import com.etrusted.android.trustbadge.library.ui.common.openLinkInExternalBrowser
-import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import com.etrusted.android.trustbadge.library.ui.theme.TsTextBase
 import com.etrusted.android.trustbadge.library.ui.theme.mobileBody
 import com.etrusted.android.trustbadge.library.ui.theme.mobileCaption

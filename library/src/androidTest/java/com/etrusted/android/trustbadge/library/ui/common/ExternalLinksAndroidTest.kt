@@ -26,14 +26,34 @@
 package com.etrusted.android.trustbadge.library.ui.common
 
 import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
-import android.net.Uri
+import androidx.test.platform.app.InstrumentationRegistry
+import com.google.common.truth.Truth.assertThat
+import org.junit.Test
 
-fun openLinkInExternalBrowser(
-    context: Context,
-    link: String,
-) {
-    val openURL = Intent(Intent.ACTION_VIEW)
-    openURL.data = Uri.parse(link)
-    context.startActivity(openURL)
+private class TestContextWrapper(base: Context) : ContextWrapper(base) {
+    var isStartActivityCalled: Boolean = false
+        private set
+
+    override fun startActivity(intent: Intent?) {
+        isStartActivityCalled = true
+    }
+}
+internal class ExternalLinksAndroidTest {
+
+    @Test
+    fun openLinkInExternalBrowserStartsAnActivityToOpenTheLinkInExternalBrowser() {
+
+        // arrange
+        val baseContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val testContext = TestContextWrapper(baseContext)
+        val sut = ::openLinkInExternalBrowser
+
+        // act
+        sut(testContext, "https://www.etrusted.com")
+
+        // assert
+        assertThat(testContext.isStartActivityCalled).isTrue()
+    }
 }
