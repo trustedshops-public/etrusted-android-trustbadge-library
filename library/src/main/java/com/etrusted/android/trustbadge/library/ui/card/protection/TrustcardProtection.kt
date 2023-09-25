@@ -25,6 +25,7 @@
 
 package com.etrusted.android.trustbadge.library.ui.card.protection
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -58,9 +59,9 @@ fun TrustcardProtection(
     orderAmount: String,
     onClickProtectPurchase: () -> Unit = {},
     onClickDismiss: () -> Unit = {},
+    context: Context = LocalContext.current
 ) {
 
-    val context = LocalContext.current
     val imprintLink = stringResource(id = R.string.tcard_link_imprint)
 
     val onClickImprint = {

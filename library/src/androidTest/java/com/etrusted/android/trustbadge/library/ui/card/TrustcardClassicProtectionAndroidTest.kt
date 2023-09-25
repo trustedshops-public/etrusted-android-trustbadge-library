@@ -26,23 +26,21 @@
 package com.etrusted.android.trustbadge.library.ui.card
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
-import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedExpandedBuyerProtection
+import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
-import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeViewModel
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
-import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContent
-import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
-import com.etrusted.android.trustbadge.library.ui.badge.TrustcardStateValue
-import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtection
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
+import com.google.common.truth.Truth
 import org.junit.Ignore
 import org.junit.Test
 
@@ -94,5 +92,32 @@ internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
         // assert
         sut.assertExists()
         assertScreenshotMatchesGolden(goldenName, sut)
+    }
+
+    @Test
+    internal fun testClickOnImprintCallsStartActivityOnContext() {
+
+        // arrange
+        val baseContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val testContext = TestContextWrapper(baseContext)
+        composeTestRule.setContent {
+            TrustbadgeTheme(darkTheme = true) {
+                Column {
+                    TrustcardProtection(
+                        orderAmount = "€ 1000",
+                        context = testContext,
+                    )
+                }
+            }
+        }
+
+        // act
+        composeTestRule.waitForIdle()
+        val sut = composeTestRule.onNodeWithText("Imprint", ignoreCase = true)
+        sut.performClick()
+        composeTestRule.waitForIdle()
+
+        // assert
+        Truth.assertThat(testContext.isStartActivityCalled).isTrue()
     }
 }
