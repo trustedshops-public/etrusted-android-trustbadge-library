@@ -139,25 +139,3 @@ fun TrustcardProtection(
         onClickDismiss = onClickDismiss,
     )
 }
-
-@ExcludeFromJacocoGeneratedReport
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_NO)
-@Composable
-fun TrustcardProtectionPreview() {
-    TrustbadgeTheme {
-        TrustcardProtection(
-            orderAmount = "€ 100",
-        )
-    }
-}
-
-@ExcludeFromJacocoGeneratedReport
-@Preview(uiMode = Configuration.UI_MODE_NIGHT_YES)
-@Composable
-fun TrustcardProtectionPreviewNight() {
-    TrustbadgeTheme {
-        TrustcardProtection(
-            orderAmount = "€ 100",
-        )
-    }
-}

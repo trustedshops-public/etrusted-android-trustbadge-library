@@ -25,8 +25,6 @@
 
 package com.etrusted.android.trustbadge.library.ui.card
 
-import android.content.res.Configuration.UI_MODE_NIGHT_NO
-import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -44,11 +42,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
-import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
-import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import com.etrusted.android.trustbadge.library.ui.theme.TsPineapple
 import com.etrusted.android.trustbadge.library.ui.theme.TsTextBase
 import com.etrusted.android.trustbadge.library.ui.theme.mobileHeadline
@@ -125,29 +120,5 @@ internal fun TrustcardContainer(
                 }
             }
         }
-    }
-}
-
-@ExcludeFromJacocoGeneratedReport
-@Preview(uiMode = UI_MODE_NIGHT_NO)
-@Composable
-fun TrustcardContainerPreview() {
-    TrustbadgeTheme {
-        TrustcardContainer(
-            headingText = "Test Trustcard",
-            onClickDismiss = {},
-        )
-    }
-}
-
-@ExcludeFromJacocoGeneratedReport
-@Preview(uiMode = UI_MODE_NIGHT_YES)
-@Composable
-fun TrustcardContainerPreviewNight() {
-    TrustbadgeTheme {
-        TrustcardContainer(
-            headingText = "Test Trustcard",
-            onClickDismiss = {},
-        )
     }
 }
