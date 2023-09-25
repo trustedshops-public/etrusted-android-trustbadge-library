@@ -55,12 +55,14 @@ internal class ActionButtonAndroidTest {
 
         // arrange
         composeTestRule.setContent {
-            ActionButton(
-                onClick = {
-                    isClicked = true
-                },
-                content = {},
-            )
+            TrustbadgeTheme(darkTheme = false) {
+                ActionButton(
+                    onClick = {
+                        isClicked = true
+                    },
+                    content = {},
+                )
+            }
         }
 
         // act
