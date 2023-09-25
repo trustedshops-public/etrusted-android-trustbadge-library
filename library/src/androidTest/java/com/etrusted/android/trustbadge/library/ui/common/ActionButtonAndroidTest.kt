@@ -26,11 +26,13 @@
 package com.etrusted.android.trustbadge.library.ui.common
 
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.Text
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
+import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Rule
@@ -75,13 +77,17 @@ internal class ActionButtonAndroidTest {
 
         // arrange
         composeTestRule.setContent {
-            ActionButton(
-                modifier = Modifier.fillMaxWidth(),
-                onClick = {
-                    isClicked = true
-                },
-                content = {},
-            )
+            TrustbadgeTheme(darkTheme = true) {
+                ActionButton(
+                    modifier = Modifier.fillMaxWidth(),
+                    onClick = {
+                        isClicked = true
+                    },
+                    content = {
+                        Text(text = "Test")
+                    },
+                )
+            }
         }
 
         // act
