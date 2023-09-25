@@ -25,12 +25,13 @@
 
 package com.etrusted.android.trustbadge.library.ui.card.protection
 
+import android.content.Context
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.ExperimentalTextApi
 import androidx.compose.ui.text.buildAnnotatedString
@@ -38,15 +39,16 @@ import androidx.compose.ui.text.withAnnotation
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
+import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.common.openLinkInExternalBrowser
 import com.etrusted.android.trustbadge.library.ui.theme.TsBlueAction
 import com.etrusted.android.trustbadge.library.ui.theme.mobileBodySmall
 
 @OptIn(ExperimentalTextApi::class)
 @Composable
-fun TermsAndConditionsAndPrivacyPolicyText() {
-
-    val context = LocalContext.current
+fun TermsAndConditionsAndPrivacyPolicyText(
+    context: Context
+) {
     val termsAndConditionsAndPrivacyLink = stringResource(
         id = R.string.tcard_link_terms_and_conditions_and_privacy_policy)
     val onClickTermsAndConditionsAndPrivacyPolicyLink: () -> Unit = {
@@ -84,7 +86,9 @@ fun TermsAndConditionsAndPrivacyPolicyText() {
 
     ClickableText(
         text = hintString,
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier
+            .padding(16.dp)
+            .testTag(TestTags.TextTermsAndConditionsAndPrivacyPolicy.raw)
     ) { offset ->
         hintString.getStringAnnotations(tag = "tandc", start = offset, end = offset)
             .firstOrNull()

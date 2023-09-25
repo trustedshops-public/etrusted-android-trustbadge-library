@@ -25,21 +25,11 @@
 
 package com.etrusted.android.trustbadge.library.ui.common
 
-import android.content.Context
-import android.content.ContextWrapper
-import android.content.Intent
 import androidx.test.platform.app.InstrumentationRegistry
+import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
 import com.google.common.truth.Truth.assertThat
 import org.junit.Test
 
-private class TestContextWrapper(base: Context) : ContextWrapper(base) {
-    var isStartActivityCalled: Boolean = false
-        private set
-
-    override fun startActivity(intent: Intent?) {
-        isStartActivityCalled = true
-    }
-}
 internal class ExternalLinksAndroidTest {
 
     @Test

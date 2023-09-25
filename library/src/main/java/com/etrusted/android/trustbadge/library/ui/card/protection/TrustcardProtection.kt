@@ -112,7 +112,9 @@ fun TrustcardProtection(
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                TermsAndConditionsAndPrivacyPolicyText()
+                TermsAndConditionsAndPrivacyPolicyText(
+                    context = context,
+                )
             }
 
             // 3. protect your purchase button
