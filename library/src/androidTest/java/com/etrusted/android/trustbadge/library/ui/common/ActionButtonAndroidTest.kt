@@ -25,6 +25,8 @@
 
 package com.etrusted.android.trustbadge.library.ui.common
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.performClick
@@ -46,7 +48,10 @@ internal class ActionButtonAndroidTest {
         isClicked = false
     }
 
-    fun showContent() {
+    @Test
+    fun testClickOnButtonWorks() {
+
+        // arrange
         composeTestRule.setContent {
             ActionButton(
                 onClick = {
@@ -55,13 +60,29 @@ internal class ActionButtonAndroidTest {
                 content = {},
             )
         }
+
+        // act
+        val sut = composeTestRule.onNodeWithTag(TestTags.ButtonAction.raw)
+        sut.performClick()
+
+        // assert
+        sut.assertExists()
+        assertThat(isClicked).isTrue()
     }
 
     @Test
-    fun testScreenshotMatchesGolden() {
+    fun testClickOnButtonWorksWithoutDefaultModifier() {
 
         // arrange
-        showContent()
+        composeTestRule.setContent {
+            ActionButton(
+                modifier = Modifier.fillMaxWidth(),
+                onClick = {
+                    isClicked = true
+                },
+                content = {},
+            )
+        }
 
         // act
         val sut = composeTestRule.onNodeWithTag(TestTags.ButtonAction.raw)
