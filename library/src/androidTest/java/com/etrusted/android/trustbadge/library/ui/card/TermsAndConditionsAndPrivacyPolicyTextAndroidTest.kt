@@ -25,14 +25,15 @@
 
 package com.etrusted.android.trustbadge.library.ui.card
 
+import androidx.compose.ui.test.click
 import androidx.compose.ui.test.junit4.createComposeRule
-import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performTouchInput
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
-import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.card.protection.TermsAndConditionsAndPrivacyPolicyText
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
+import com.google.common.truth.Truth.assertThat
 import org.junit.Rule
 import org.junit.Test
 
@@ -55,10 +56,13 @@ internal class TermsAndConditionsAndPrivacyPolicyTextAndroidTest {
 
         // act
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.TextTermsAndConditionsAndPrivacyPolicy.raw)
+        val sut = composeTestRule.onNodeWithText("Terms and Conditions", substring = true)
+        composeTestRule.waitForIdle()
+        sut.performTouchInput { click(percentOffset(.6f, .8f)) }
 
         // assert
         sut.assertExists()
+        assertThat(testContext.isStartActivityCalled).isTrue()
     }
 
     @Test
@@ -75,9 +79,12 @@ internal class TermsAndConditionsAndPrivacyPolicyTextAndroidTest {
 
         // act
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithText(text = "Privacy", substring = true)
+        val sut = composeTestRule.onNodeWithText("Privacy Policy", substring = true)
+        composeTestRule.waitForIdle()
+        sut.performTouchInput { click(percentOffset(.7f, .8f)) }
 
         // assert
         sut.assertExists()
+        assertThat(testContext.isStartActivityCalled).isTrue()
     }
 }
