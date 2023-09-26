@@ -36,13 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.ui.card.TrustcardContainer
 import com.etrusted.android.trustbadge.library.ui.common.openLinkInExternalBrowser
-import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import com.etrusted.android.trustbadge.library.ui.theme.TsTextBase
 import com.etrusted.android.trustbadge.library.ui.theme.mobileCaption
 import com.etrusted.android.trustbadge.library.ui.theme.mobileTermsAndConditions
@@ -110,47 +108,4 @@ fun TrustcardProtectionConfirmation(
         },
         onClickDismiss = onClickDismiss
     )
-}
-
-@Composable
-@Preview
-fun TrustcardProtectionPreviewNight() {
-    TrustbadgeTheme(darkTheme = true) {
-        TrustcardProtection(
-            orderAmount = "1000€",
-            onClickProtectPurchase = {}
-        )
-    }
-}
-
-@Composable
-@Preview
-fun TrustcardProtectionPreview() {
-    TrustbadgeTheme {
-        TrustcardProtection(
-            orderAmount = "1000€",
-            onClickProtectPurchase = {}
-        )
-    }
-}
-@Composable
-@Preview
-fun TrustcardProtectionConfirmationPreviewNight() {
-    TrustbadgeTheme(darkTheme = true) {
-        TrustcardProtectionConfirmation(
-            orderAmount = "1000€",
-            onClickDismiss = {}
-        )
-    }
-}
-
-@Composable
-@Preview
-fun TrustcardProtectionConfirmationPreview() {
-    TrustbadgeTheme(darkTheme = false) {
-        TrustcardProtectionConfirmation(
-            orderAmount = "1000€",
-            onClickDismiss = {}
-        )
-    }
 }
