@@ -25,17 +25,18 @@
 
 package com.etrusted.android.trustbadge.library.ui.card
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.compose.ui.unit.dp
 import androidx.test.platform.app.InstrumentationRegistry
+import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
 import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
@@ -175,6 +176,56 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
         val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtectionConfirmation.raw)
 
         // assert
+        sut.assertExists()
+    }
+
+    @Test
+    fun testDefaultOnClickDismissIsCalled() {
+
+        // arrange
+        var isClicked = false
+        val fakeOnClickToDismiss = {
+            isClicked = true
+        }
+        composeTestRule.setContent {
+            TrustbadgeTheme {
+                TrustcardProtectionConfirmation(
+                    orderAmount = "1000€",
+                    onClickDismiss = fakeOnClickToDismiss,
+                )
+            }
+        }
+
+        // act
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag(TestTags.TrustcardContainerButtonDismiss.raw).performClick()
+        composeTestRule.waitForIdle()
+
+        // assert
+        assertThat(isClicked).isTrue()
+    }
+
+    @Test
+    fun testHeadingTextWithDifferentOrderAmount() {
+        // arrange
+        val orderAmount = "2000￡"
+        var expectedText = ""
+        composeTestRule.setContent {
+            expectedText = stringResource(id = R.string.tcard_t_heading_protection_confirmation) +
+                    " " + orderAmount + " " +
+                    stringResource(id = R.string.tcard_t_heading_exclamation_mark)
+            TrustbadgeTheme {
+                TrustcardProtectionConfirmation(
+                    orderAmount = orderAmount
+                )
+            }
+        }
+
+        // act
+        val sut = composeTestRule.onNodeWithText(expectedText)
+
+        // assert
+        assertThat(expectedText).isNotEmpty()
         sut.assertExists()
     }
 }
