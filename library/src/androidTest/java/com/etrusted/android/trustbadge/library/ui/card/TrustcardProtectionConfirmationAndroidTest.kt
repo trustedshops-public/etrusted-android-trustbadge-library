@@ -26,6 +26,7 @@
 package com.etrusted.android.trustbadge.library.ui.card
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
@@ -132,6 +133,7 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
             TrustbadgeTheme(darkTheme = false) {
                 Column {
                     TrustcardProtectionConfirmation(
+                        modifier = Modifier,
                         orderAmount = "1000€",
                         context = testContext,
                     )
