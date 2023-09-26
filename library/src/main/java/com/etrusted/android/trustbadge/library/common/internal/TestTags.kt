@@ -35,4 +35,5 @@ internal sealed class TestTags(val raw: String) {
     object TrustcardProtection: TestTags("tag_trustcard_protection")
     object ButtonAction: TestTags("tag_button_action")
     object TextTermsAndConditionsAndPrivacyPolicy: TestTags("tag_text_terms_and_conditions_and_privacy_policy")
+    object TrustcardProtectionConfirmation: TestTags("tag_trustcard_protection_confirmation")
 }
