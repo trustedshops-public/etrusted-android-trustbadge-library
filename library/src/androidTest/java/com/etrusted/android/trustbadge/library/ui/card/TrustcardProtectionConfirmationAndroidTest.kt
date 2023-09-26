@@ -25,13 +25,16 @@
 
 package com.etrusted.android.trustbadge.library.ui.card
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.unit.dp
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
 import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
@@ -150,5 +153,28 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
 
         // assert
         assertThat(testContext.isStartActivityCalled).isTrue()
+    }
+
+    @Test
+    fun testCustomModifierIsApplied() {
+        // arrange
+        val customModifier = Modifier
+            .padding(10.dp)
+
+        composeTestRule.setContent {
+            TrustbadgeTheme {
+                TrustcardProtectionConfirmation(
+                    modifier = customModifier,
+                    orderAmount = "1000€"
+                )
+            }
+        }
+
+        // act
+        composeTestRule.waitForIdle()
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtectionConfirmation.raw)
+
+        // assert
+        sut.assertExists()
     }
 }
