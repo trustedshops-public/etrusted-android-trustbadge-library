@@ -34,6 +34,7 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
+import androidx.compose.ui.test.performMultiModalInput
 import androidx.compose.ui.unit.dp
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.R
@@ -180,7 +181,7 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
     }
 
     @Test
-    fun testDefaultOnClickDismissIsCalled() {
+    fun testOnClickDismissIsCalled() {
 
         // arrange
         var isClicked = false
@@ -206,6 +207,25 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
     }
 
     @Test
+    fun testDefaultDismissButton() {
+
+        // arrange
+        composeTestRule.setContent {
+            TrustbadgeTheme {
+                TrustcardProtectionConfirmation(orderAmount = "1000€")
+            }
+        }
+
+        // act
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag(TestTags.TrustcardContainerButtonDismiss.raw).performClick()
+
+        // assert
+        // default dismiss button should do nothing
+        composeTestRule.onNodeWithTag(TestTags.TrustcardProtectionConfirmation.raw).assertExists()
+    }
+
+    @Test
     fun testHeadingTextWithDifferentOrderAmount() {
         // arrange
         val orderAmount = "2000￡"
@@ -226,6 +246,19 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
 
         // assert
         assertThat(expectedText).isNotEmpty()
+        sut.assertExists()
+    }
+
+    @Test
+    fun testUsingDefaultArguments() {
+        composeTestRule.setContent {
+            TrustbadgeTheme {
+                TrustcardProtectionConfirmation(orderAmount = "1000€")
+            }
+        }
+
+        composeTestRule.waitForIdle()
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtectionConfirmation.raw)
         sut.assertExists()
     }
 }
