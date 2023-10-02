@@ -44,7 +44,9 @@ internal class TrustcardProtectionConfirmationNightAndroidTest: TrustbadgeAndroi
 
     override fun showContent() {
         composeTestRule.setContent {
-            TrustbadgeTheme {
+            TrustbadgeTheme(
+                darkTheme = true,
+            ) {
                 TrustcardProtectionConfirmation(
                     orderAmount = "1000€",
                     onClickDismiss = {},

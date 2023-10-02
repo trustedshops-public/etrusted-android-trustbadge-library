@@ -58,7 +58,9 @@ internal class TrustcardContainerNightAndroidTest: TrustbadgeAndroidTest() {
 
     override fun showContent() {
         composeTestRule.setContent {
-            TrustbadgeTheme {
+            TrustbadgeTheme(
+                darkTheme = true,
+            ) {
                 Column {
                     TrustcardContainer(
                         headingText = fakeHeadingText,
