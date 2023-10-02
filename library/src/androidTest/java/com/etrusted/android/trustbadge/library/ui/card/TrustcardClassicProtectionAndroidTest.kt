@@ -59,6 +59,7 @@ internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
         }
     }
 
+    @Ignore("activate to generate fresh screenshots")
     @Test
     override fun generateScreenshot() {
 
