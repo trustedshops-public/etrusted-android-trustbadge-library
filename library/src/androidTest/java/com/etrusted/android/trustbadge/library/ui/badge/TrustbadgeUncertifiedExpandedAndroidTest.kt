@@ -38,7 +38,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Ignore
 import org.junit.Test
 
-@Ignore
 internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest() {
 
     override val goldenName = GoldenTrustbadgeUncertifiedExpanded.raw + if (isCI) "-ci" else ""
