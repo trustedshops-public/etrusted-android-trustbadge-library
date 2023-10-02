@@ -26,52 +26,42 @@
 package com.etrusted.android.trustbadge.library.ui.card
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.padding
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
-import com.etrusted.android.trustbadge.library.common.internal.GoldenNames.GoldenTrustbadgeUncertifiedExpandedBuyerProtection
+import androidx.compose.ui.test.onNodeWithText
+import androidx.compose.ui.test.performClick
+import androidx.compose.ui.unit.dp
+import androidx.test.platform.app.InstrumentationRegistry
+import com.etrusted.android.trustbadge.library.R
+import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
+import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
-import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeViewModel
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
-import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContent
-import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
-import com.etrusted.android.trustbadge.library.ui.badge.TrustcardStateValue
-import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
+import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtectionConfirmation
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
+import com.google.common.truth.Truth.assertThat
 import org.junit.Ignore
 import org.junit.Test
 
 internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest() {
 
-    override val goldenName = GoldenTrustbadgeUncertifiedExpandedBuyerProtection.raw + if (isCI) "-ci" else ""
+    override val goldenName = GoldenNames.GoldenTrustcardClassicProtectionConfirmation.raw +
+            if (isCI) "-ci" else ""
 
     override fun showContent() {
         composeTestRule.setContent {
-
-            val state = rememberTrustbadgeState()
-            val cardState = TrustcardStateValue.PROTECTION_CONFIRMATION
-            val fakeViewModel = getFakeTrustbadgeViewModel()
-
             TrustbadgeTheme {
-                Column {
-                    TrustbadgeContent(
-                        modifier = Modifier,
-                        viewModel = fakeViewModel,
-                        state = state,
-                        badgeContext = TrustbadgeContext.BuyerProtection(
-                            trustcardState = cardState
-                        ),
-                        tsid = "X330A2E7D449E31E467D2F53A55DDD070",
-                        channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
-                    )
-                }
+                TrustcardProtectionConfirmation(
+                    orderAmount = "1000€",
+                    onClickDismiss = {},
+                )
             }
-
-            // expand the widget
-            state.expand()
         }
     }
 
@@ -85,7 +75,7 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
         // act
         composeTestRule.mainClock.advanceTimeBy(5000)
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtectionConfirmation.raw)
         val bmp = sut.captureToImage().asAndroidBitmap()
         saveScreenshot(goldenName, bmp)
 
@@ -103,10 +93,187 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
         // act
         composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtectionConfirmation.raw)
 
         // assert
         sut.assertExists()
         assertScreenshotMatchesGolden(goldenName, sut)
+    }
+
+    @Test
+    internal fun testClickOnImprintAndDataProtectionCallsStartActivityOnContext() {
+
+        // arrange
+        val baseContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val testContext = TestContextWrapper(baseContext)
+        composeTestRule.setContent {
+            TrustbadgeTheme(darkTheme = true) {
+                Column {
+                    TrustcardProtectionConfirmation(
+                        orderAmount = "1000€",
+                        context = testContext,
+                        onClickDismiss = {},
+                    )
+                }
+            }
+        }
+
+        // act
+        composeTestRule.waitForIdle()
+        val sut = composeTestRule
+            .onNodeWithText("Imprint", ignoreCase = true, substring = true)
+        sut.performClick()
+        composeTestRule.waitForIdle()
+
+        // assert
+        assertThat(testContext.isStartActivityCalled).isTrue()
+    }
+
+    @Test
+    internal fun testClickOnTermsAndConditionsCallsStartActivityOnContext() {
+
+        // arrange
+        val baseContext = InstrumentationRegistry.getInstrumentation().targetContext
+        val testContext = TestContextWrapper(baseContext)
+        composeTestRule.setContent {
+            TrustbadgeTheme(darkTheme = false) {
+                Column {
+                    TrustcardProtectionConfirmation(
+                        modifier = Modifier,
+                        orderAmount = "1000€",
+                        context = testContext,
+                        onClickDismiss = {},
+                    )
+                }
+            }
+        }
+
+        // act
+        composeTestRule.waitForIdle()
+        val sut = composeTestRule
+            .onNodeWithText("Terms", ignoreCase = true, substring = true)
+        sut.performClick()
+        composeTestRule.waitForIdle()
+
+        // assert
+        assertThat(testContext.isStartActivityCalled).isTrue()
+    }
+
+    @Test
+    fun testCustomModifierIsApplied() {
+        // arrange
+        val customModifier = Modifier
+            .padding(10.dp)
+
+        composeTestRule.setContent {
+            TrustbadgeTheme {
+                TrustcardProtectionConfirmation(
+                    modifier = customModifier,
+                    orderAmount = "1000€",
+                    onClickDismiss = {},
+                )
+            }
+        }
+
+        // act
+        composeTestRule.waitForIdle()
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtectionConfirmation.raw)
+
+        // assert
+        sut.assertExists()
+    }
+
+    @Test
+    fun testOnClickDismissIsCalled() {
+
+        // arrange
+        var isClicked = false
+        val fakeOnClickToDismiss = {
+            isClicked = true
+        }
+        composeTestRule.setContent {
+            TrustbadgeTheme {
+                TrustcardProtectionConfirmation(
+                    orderAmount = "1000€",
+                    onClickDismiss = fakeOnClickToDismiss,
+                )
+            }
+        }
+
+        // act
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag(TestTags.TrustcardContainerButtonDismiss.raw).performClick()
+        composeTestRule.waitForIdle()
+
+        // assert
+        assertThat(isClicked).isTrue()
+    }
+
+    @Test
+    fun testDefaultDismissButton() {
+
+        // arrange
+        composeTestRule.setContent {
+            TrustbadgeTheme {
+                TrustcardProtectionConfirmation(
+                    orderAmount = "1000€",
+                    onClickDismiss = {},
+                )
+            }
+        }
+
+        // act
+        composeTestRule.waitForIdle()
+        composeTestRule.onNodeWithTag(TestTags.TrustcardContainerButtonDismiss.raw).performClick()
+
+        // assert
+        // default dismiss button should do nothing
+        composeTestRule.onNodeWithTag(TestTags.TrustcardProtectionConfirmation.raw).assertExists()
+    }
+
+    @Test
+    fun testHeadingTextWithDifferentOrderAmount() {
+        // arrange
+        val orderAmount = "2000￡"
+        var expectedText = ""
+        composeTestRule.setContent {
+            expectedText = stringResource(id = R.string.tcard_t_heading_protection_confirmation) +
+                    " " + orderAmount + " " +
+                    stringResource(id = R.string.tcard_t_heading_exclamation_mark)
+            TrustbadgeTheme {
+                TrustcardProtectionConfirmation(
+                    orderAmount = orderAmount,
+                    onClickDismiss = {},
+                )
+            }
+        }
+
+        // act
+        val sut = composeTestRule.onNodeWithText(expectedText)
+
+        // assert
+        assertThat(expectedText).isNotEmpty()
+        sut.assertExists()
+    }
+
+    @Test
+    fun testUsingDefaultArguments() {
+
+        // arrange
+        composeTestRule.setContent {
+            TrustbadgeTheme {
+                TrustcardProtectionConfirmation(
+                    orderAmount = "1000€",
+                    onClickDismiss = {},
+                )
+            }
+        }
+
+        // act
+        composeTestRule.waitForIdle()
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtectionConfirmation.raw)
+
+        // assert
+        sut.assertExists()
     }
 }

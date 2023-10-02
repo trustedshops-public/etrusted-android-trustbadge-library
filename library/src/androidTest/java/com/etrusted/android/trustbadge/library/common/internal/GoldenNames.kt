@@ -48,6 +48,7 @@ internal sealed class GoldenNames(val raw: String) {
     // Trustcard
     object GoldenTrustcardContainer: GoldenNames("screenshot-trustcard-container")
     object GoldenTrustcardClassicProtection: GoldenNames("screenshot-trustcard-classic-protection")
+    object GoldenTrustcardClassicProtectionConfirmation: GoldenNames("screenshot-trustcard-classic-protection-confirmation")
 
     // image collection
     object GoldenImageCircleGeneric: GoldenNames("screenshot-image-circle-generic")
