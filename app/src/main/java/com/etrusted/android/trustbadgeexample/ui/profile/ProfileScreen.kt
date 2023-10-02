@@ -25,12 +25,19 @@
 
 package com.etrusted.android.trustbadgeexample.ui.profile
 
+import androidx.compose.foundation.layout.Column
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtection
+import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtectionConfirmation
 
 @Composable
 internal fun ProfileScreen() {
-    Text(text = "Profile Screen")
+    Column {
+        Text(text = "Trustcard Preview")
+        TrustcardProtection(orderAmount = "1000 EUR")
+        TrustcardProtectionConfirmation(orderAmount = "1000 EUR", onClickDismiss = {})
+    }
 }
 
 @Composable

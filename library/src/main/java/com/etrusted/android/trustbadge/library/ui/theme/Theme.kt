@@ -23,6 +23,8 @@
  * SOFTWARE.
  */
 
+@file:Suppress("UnusedReceiverParameter")
+
 package com.etrusted.android.trustbadge.library.ui.theme
 
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -30,15 +32,15 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val DarkColorScheme = darkColorScheme(
+private val darkColorScheme = darkColorScheme(
     primary = TsPineappleNight,
     secondary = TsNeutralsGrey100Night,
     background = TsBgNight,
     surface = TsBgNight,
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = TsPineappleDay,
+private val lightColorScheme = lightColorScheme(
+    primary = TsPineapplePrimaryDay,
     secondary = TsNeutralsGrey100Day,
     background = TsBgDay,
     surface = TsBgDay,
@@ -60,9 +62,9 @@ fun TrustbadgeTheme(darkTheme: Boolean? = null, content: @Composable () -> Unit)
     isLightCustom = if (darkTheme == null) !isSystemInDarkTheme() else !darkTheme
 
     val colorScheme = if (isLightCustom) {
-        LightColorScheme
+        lightColorScheme
     } else {
-        DarkColorScheme
+        darkColorScheme
     }
 
     MaterialTheme(
@@ -85,6 +87,11 @@ val ColorScheme.TsPineapple: Color
     @Composable
     get() = if (isLightCustom) TsPineappleDay
     else TsPineappleNight
+
+val ColorScheme.TsPineapplePrimary: Color
+    @Composable
+    get() = if (isLightCustom) TsPineapplePrimaryDay
+    else TsPineapplePrimaryNight
 
 val ColorScheme.TsBadgeBg: Color
     @Composable
@@ -119,4 +126,4 @@ val ColorScheme.TsNeutralsGrey800: Color
 val ColorScheme.TsOnAction: Color
     @Composable
     get() = if (isLightCustom) White
-    else White
+    else Black

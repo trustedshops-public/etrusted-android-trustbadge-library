@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 
 val White = Color(0xFFFFFFFF)
 val Black = Color(0xFF000000)
+val TsBlue150 = Color(0xFF7FBDF0)
 val TsBlue700 = Color(0xFF005AA0)
 val TsGrey50 = Color(0xFFEFEFEF)
 val TsGrey100 = Color(0xFFE5E5E5)
@@ -46,8 +47,13 @@ val TsBgNight = Color(0xFF1F1A24)
 val TsBadgeBgDay = White
 val TsBadgeBgNight = TsGrey800
 
+// used for the stars
 val TsPineappleDay = TsPineapple500
 val TsPineappleNight = TsPineapple500
+
+// used for anything else that requires primary color
+val TsPineapplePrimaryDay = TsPineapple500
+val TsPineapplePrimaryNight = Black
 
 val TsNeutralsGrey50Day = TsGrey50
 val TsNeutralsGrey50Night = TsGrey700
@@ -65,4 +71,4 @@ val TsNeutralsGrey800Day = TsGrey800
 val TsNeutralsGrey800Night = White
 
 val TsBlueActionDay = TsBlue700
-val TsBlueActionNight = TsBlue700
+val TsBlueActionNight = TsBlue150
