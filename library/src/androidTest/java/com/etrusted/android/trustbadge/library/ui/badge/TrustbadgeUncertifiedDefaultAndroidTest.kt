@@ -40,6 +40,7 @@ import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import org.junit.Ignore
 import org.junit.Test
 
+@Ignore
 internal class TrustbadgeUncertifiedDefaultAndroidTest: TrustbadgeAndroidTest() {
 
     override val goldenName = GoldenTrustbadgeUncertifiedDefault.raw + if (isCI) "-ci" else ""

@@ -34,7 +34,6 @@ import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
-import androidx.compose.ui.test.performMultiModalInput
 import androidx.compose.ui.unit.dp
 import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.R
@@ -60,6 +59,7 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
             TrustbadgeTheme {
                 TrustcardProtectionConfirmation(
                     orderAmount = "1000€",
+                    onClickDismiss = {},
                 )
             }
         }
@@ -112,6 +112,7 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
                     TrustcardProtectionConfirmation(
                         orderAmount = "1000€",
                         context = testContext,
+                        onClickDismiss = {},
                     )
                 }
             }
@@ -141,6 +142,7 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
                         modifier = Modifier,
                         orderAmount = "1000€",
                         context = testContext,
+                        onClickDismiss = {},
                     )
                 }
             }
@@ -167,7 +169,8 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
             TrustbadgeTheme {
                 TrustcardProtectionConfirmation(
                     modifier = customModifier,
-                    orderAmount = "1000€"
+                    orderAmount = "1000€",
+                    onClickDismiss = {},
                 )
             }
         }
@@ -212,7 +215,10 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
         // arrange
         composeTestRule.setContent {
             TrustbadgeTheme {
-                TrustcardProtectionConfirmation(orderAmount = "1000€")
+                TrustcardProtectionConfirmation(
+                    orderAmount = "1000€",
+                    onClickDismiss = {},
+                )
             }
         }
 
@@ -236,7 +242,8 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
                     stringResource(id = R.string.tcard_t_heading_exclamation_mark)
             TrustbadgeTheme {
                 TrustcardProtectionConfirmation(
-                    orderAmount = orderAmount
+                    orderAmount = orderAmount,
+                    onClickDismiss = {},
                 )
             }
         }
@@ -251,14 +258,22 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
 
     @Test
     fun testUsingDefaultArguments() {
+
+        // arrange
         composeTestRule.setContent {
             TrustbadgeTheme {
-                TrustcardProtectionConfirmation(orderAmount = "1000€")
+                TrustcardProtectionConfirmation(
+                    orderAmount = "1000€",
+                    onClickDismiss = {},
+                )
             }
         }
 
+        // act
         composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtectionConfirmation.raw)
+
+        // assert
         sut.assertExists()
     }
 }

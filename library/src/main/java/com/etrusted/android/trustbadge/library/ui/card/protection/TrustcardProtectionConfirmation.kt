@@ -49,7 +49,7 @@ import com.etrusted.android.trustbadge.library.ui.theme.mobileTermsAndConditions
 fun TrustcardProtectionConfirmation(
     modifier: Modifier = Modifier,
     orderAmount: String,
-    onClickDismiss: () -> Unit = {},
+    onClickDismiss: () -> Unit,
     context: Context = LocalContext.current,
 ) {
 
