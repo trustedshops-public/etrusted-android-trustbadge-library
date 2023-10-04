@@ -103,6 +103,21 @@ class TrustbadgeState(
     }
 
     /**
+     * Expand the Card
+     * Only available for Buyer Protection context
+     */
+    fun showAsCard() {
+        currentState = EXPANDED_AS_CARD
+    }
+
+    /**
+     * Hide the Expanded Card
+     */
+    fun hideCard() {
+        currentState = DEFAULT
+    }
+
+    /**
      * Change the badge state from current state to INVISIBLE
      * if the current state is EXPANDED, retract it first.
      */
@@ -122,8 +137,6 @@ class TrustbadgeState(
                 currentState = INVISIBLE
             }
             EXPANDED_AS_CARD -> {
-                currentState = EXPANDED
-                delay(300)
                 currentState = DEFAULT
                 delay(300)
                 currentState = INVISIBLE
@@ -161,6 +174,8 @@ internal suspend fun TrustbadgeState.present(
         delay(context.resources.getInteger(R.integer.tbadge_auto_present_delay).toLong())
         this.expand()
         delay(context.resources.getInteger(R.integer.tbadge_auto_hide_delay).toLong())
-        this.retract()
+        if (currentState != EXPANDED_AS_CARD) {
+            this.retract()
+        }
     }
 }

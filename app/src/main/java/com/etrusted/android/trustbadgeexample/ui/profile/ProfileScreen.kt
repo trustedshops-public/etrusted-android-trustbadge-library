@@ -25,22 +25,71 @@
 
 package com.etrusted.android.trustbadgeexample.ui.profile
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtection
-import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtectionConfirmation
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey
+import com.etrusted.android.trustbadge.library.ui.badge.Trustbadge
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
+import com.etrusted.android.trustbadge.library.ui.card.TrustcardStateValue
+import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 
 @Composable
-internal fun ProfileScreen() {
-    Column {
-        Text(text = "Trustcard Preview")
-        TrustcardProtection(orderAmount = "1000 EUR")
-        TrustcardProtectionConfirmation(orderAmount = "1000 EUR", onClickDismiss = {})
+internal fun ProfileScreen(
+    env: EnvironmentKey,
+) {
+
+    val scrollState = rememberScrollState()
+    val badgeState = rememberTrustbadgeState()
+
+    Box(modifier = Modifier.fillMaxSize()) {
+
+        Column(
+            Modifier
+                .verticalScroll(scrollState)
+                .fillMaxWidth()
+        ) {
+            Button(onClick = {
+                badgeState.showAsCard()
+            }) {
+                Text(text = "Show Trustcard")
+            }
+        }
+
+        when(env) {
+            EnvironmentKey.DEBUG -> {
+                Trustbadge(
+                    modifier = Modifier.align(Alignment.BottomStart),
+                    state = badgeState,
+                    badgeContext = TrustbadgeContext.BuyerProtection(
+                        orderAmount = "1000 EUR",
+                    ),
+                    tsid = "X2AB6FF7BFF70A04D1D323E039D676EDB",
+                    channelId = "chl-7e52920a-2722-4881-9908-ecec98c716e4"
+                )
+            }
+            else -> {
+                Trustbadge(
+                    modifier = Modifier.align(Alignment.BottomStart),
+                    state = badgeState,
+                    badgeContext = TrustbadgeContext.BuyerProtection(),
+                    tsid = "X079198F3BC11FA13F8980EB6879E2677",
+                    channelId = "chl-b38b62ee-1e62-4a9f-9381-0ece0909b038"
+                )
+            }
+        }
     }
 }
 
 @Composable
 internal fun PreviewProfileScreen() {
-    ProfileScreen()
+    ProfileScreen(EnvironmentKey.DEBUG)
 }
