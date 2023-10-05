@@ -39,7 +39,6 @@ import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
 import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
-import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
@@ -75,7 +74,7 @@ internal class TrustcardNightAndroidTest: TrustbadgeAndroidTest() {
         }
     }
 
-//    @Ignore("activate to generate fresh screenshots")
+    @Ignore("activate to generate fresh screenshots")
     @Test
     override fun generateScreenshot() {
 
