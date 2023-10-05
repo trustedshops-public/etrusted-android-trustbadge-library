@@ -36,6 +36,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey
 import com.etrusted.android.trustbadge.library.model.CurrencyCode
 import com.etrusted.android.trustbadge.library.model.OrderDetails
@@ -73,7 +74,7 @@ internal fun ProfileScreen(
                     badgeContext = TrustbadgeContext.BuyerProtection(
                         orderDetails = OrderDetails(
                             number = "123456789",
-                            amount = "100.0",
+                            amount = "129.00",
                             currency = CurrencyCode.EUR,
                             paymentType = "PayPal",
                             estimatedDeliveryDate = "2022-11-30",
@@ -98,6 +99,7 @@ internal fun ProfileScreen(
 }
 
 @Composable
+@Preview
 internal fun PreviewProfileScreen() {
     ProfileScreen(EnvironmentKey.DEBUG)
 }

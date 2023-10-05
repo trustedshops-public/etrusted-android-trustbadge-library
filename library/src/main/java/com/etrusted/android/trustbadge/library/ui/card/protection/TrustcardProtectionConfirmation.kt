@@ -36,9 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
+import com.etrusted.android.trustbadge.library.model.OrderDetails
 import com.etrusted.android.trustbadge.library.ui.card.TrustcardContainer
 import com.etrusted.android.trustbadge.library.ui.common.openLinkInExternalBrowser
 import com.etrusted.android.trustbadge.library.ui.theme.TsTextBase
@@ -48,7 +50,8 @@ import com.etrusted.android.trustbadge.library.ui.theme.mobileTermsAndConditions
 @Composable
 fun TrustcardProtectionConfirmation(
     modifier: Modifier = Modifier,
-    orderAmount: String,
+    orderDetails: OrderDetails,
+    guaranteeAmount: String,
     onClickDismiss: () -> Unit,
     context: Context = LocalContext.current,
 ) {
@@ -72,9 +75,14 @@ fun TrustcardProtectionConfirmation(
         )
     }
 
-    val headingText = stringResource(id = R.string.tcard_t_heading_protection_confirmation) +
-            " " + orderAmount + " " +
-            stringResource(id = R.string.tcard_t_heading_exclamation_mark)
+    val headingText = buildAnnotatedString {
+        append(stringResource(id = R.string.tcard_t_heading_protection_confirmation))
+        append(" ")
+        append(orderDetails.currency.symbol)
+        append(" ")
+        append(guaranteeAmount)
+        append(stringResource(id = R.string.tcard_t_heading_exclamation_mark))
+    }.text
 
 
     TrustcardContainer(

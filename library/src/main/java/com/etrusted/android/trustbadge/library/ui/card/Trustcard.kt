@@ -34,6 +34,7 @@ import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacoco
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.model.CurrencyCode
 import com.etrusted.android.trustbadge.library.model.OrderDetails
+import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue
@@ -47,6 +48,7 @@ fun Trustcard(
     badgeState: TrustbadgeState,
     cardState: TrustcardState = rememberTrustcardState(),
     badgeContext: TrustbadgeContext,
+    guarantee: TrustbadgeData.Shop.Guarantee?,
     onClickDismiss: () -> Unit,
 ) {
 
@@ -71,7 +73,8 @@ fun Trustcard(
                 TrustcardStateValue.PROTECTION_CONFIRMATION -> {
 
                     TrustcardProtectionConfirmation(
-                        orderAmount = badgeContext.orderDetails.amount,
+                        orderDetails = badgeContext.orderDetails,
+                        guaranteeAmount = guarantee?.maxProtectionAmount ?: "0",
                         onClickDismiss = onClickDismiss
                     )
                 }
@@ -100,6 +103,7 @@ fun TrustcardPreview() {
         Trustcard(
             badgeState = badgeState,
             badgeContext = cardContext,
+            guarantee = null,
             onClickDismiss = {
                 badgeState.hideCard()
             }

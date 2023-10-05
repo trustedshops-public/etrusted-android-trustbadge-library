@@ -30,7 +30,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
@@ -57,7 +56,6 @@ internal fun TrustbadgeContent(
     val guarantee by viewModel.guarantee.collectAsState()
     val productGrade by viewModel.productGrade.collectAsState()
     val productData by viewModel.productData.collectAsState()
-    val scope = rememberCoroutineScope()
 
     AnimatedVisibility(
         modifier = modifier.testTag(TestTags.Trustbadge.raw),
@@ -79,6 +77,7 @@ internal fun TrustbadgeContent(
         Trustcard(
             badgeState = state,
             badgeContext = badgeContext,
+            guarantee = guarantee,
             onClickDismiss = {
                 state.hideCard()
             }
