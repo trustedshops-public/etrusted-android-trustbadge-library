@@ -37,9 +37,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.etrusted.android.trustbadge.library.common.internal.EnvironmentKey
+import com.etrusted.android.trustbadge.library.model.CurrencyCode
+import com.etrusted.android.trustbadge.library.model.OrderDetails
 import com.etrusted.android.trustbadge.library.ui.badge.Trustbadge
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
-import com.etrusted.android.trustbadge.library.ui.card.TrustcardStateValue
 import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 
 @Composable
@@ -70,7 +71,14 @@ internal fun ProfileScreen(
                     modifier = Modifier.align(Alignment.BottomStart),
                     state = badgeState,
                     badgeContext = TrustbadgeContext.BuyerProtection(
-                        orderAmount = "1000 EUR",
+                        orderDetails = OrderDetails(
+                            number = "123456789",
+                            amount = "100.0",
+                            currency = CurrencyCode.EUR,
+                            paymentType = "PayPal",
+                            estimatedDeliveryDate = "2022-11-30",
+                            buyerEmail = "john@gmx.de"
+                        ),
                     ),
                     tsid = "X2AB6FF7BFF70A04D1D323E039D676EDB",
                     channelId = "chl-7e52920a-2722-4881-9908-ecec98c716e4"

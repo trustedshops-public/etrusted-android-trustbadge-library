@@ -45,6 +45,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
+import com.etrusted.android.trustbadge.library.model.OrderDetails
 import com.etrusted.android.trustbadge.library.ui.card.TrustcardContainer
 import com.etrusted.android.trustbadge.library.ui.common.ActionButton
 import com.etrusted.android.trustbadge.library.ui.common.openLinkInExternalBrowser
@@ -56,7 +57,7 @@ import com.etrusted.android.trustbadge.library.ui.theme.mobileTermsAndConditions
 @Composable
 fun TrustcardProtection(
     modifier: Modifier = Modifier,
-    orderAmount: String,
+    orderDetails: OrderDetails,
     onClickProtectPurchase: () -> Unit = {},
     onClickDismiss: () -> Unit = {},
     context: Context = LocalContext.current
@@ -100,7 +101,7 @@ fun TrustcardProtection(
                         Text(
                             style = MaterialTheme.typography.mobileBody,
                             color = MaterialTheme.colorScheme.TsTextBase,
-                            text = orderAmount)
+                            text = orderDetails.currency.symbol + " " + orderDetails.amount)
                     }
                 }
             }

@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 11.5.2023.
+ * Created by Ali Kabiri on 5.10.2023.
  * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
@@ -25,19 +25,11 @@
 
 package com.etrusted.android.trustbadge.library.model
 
-enum class CurrencyCode(val rawValue: String, val symbol: String) {
-
-    CHF(rawValue = "CHF", symbol = "CHF"),
-    EUR(rawValue = "EUR", symbol = "€"),
-    GBP(rawValue = "GBP", symbol = "£"),
-    PLN(rawValue = "PLN", symbol = "zł"),
-    NOK(rawValue = "NOK", symbol = "kr"),
-    SEK(rawValue = "SEK", symbol = "kr"),
-    DKK(rawValue = "DKK", symbol = "kr"),
-    RON(rawValue = "RON", symbol = "L"),
-    CZK(rawValue = "CZK", symbol = "Kč");
-
-    companion object {
-        fun forRaw(raw: String): CurrencyCode? = values().firstOrNull { it.rawValue == raw }
-    }
-}
+data class OrderDetails(
+    val number: String,
+    val amount: String,
+    val currency: CurrencyCode,
+    val paymentType: String,
+    val estimatedDeliveryDate: String,
+    val buyerEmail: String,
+)

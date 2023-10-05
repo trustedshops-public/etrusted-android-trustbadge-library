@@ -32,6 +32,8 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
+import com.etrusted.android.trustbadge.library.model.CurrencyCode
+import com.etrusted.android.trustbadge.library.model.OrderDetails
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue
@@ -50,7 +52,7 @@ fun Trustcard(
 
     if (
         badgeContext is TrustbadgeContext.BuyerProtection &&
-        badgeContext.orderAmount != null) {
+        badgeContext.orderDetails != null) {
 
         AnimatedVisibility(
             modifier = Modifier.testTag(TestTags.Trustbadge.raw),
@@ -59,7 +61,7 @@ fun Trustcard(
             when (cardState.currentState) {
                 TrustcardStateValue.CLASSIC_PROTECTION -> {
                     TrustcardProtection(
-                        orderAmount = badgeContext.orderAmount,
+                        orderDetails = badgeContext.orderDetails,
                         onClickDismiss = onClickDismiss,
                         onClickProtectPurchase = {
                             cardState.showConfirmation()
@@ -69,7 +71,7 @@ fun Trustcard(
                 TrustcardStateValue.PROTECTION_CONFIRMATION -> {
 
                     TrustcardProtectionConfirmation(
-                        orderAmount = badgeContext.orderAmount,
+                        orderAmount = badgeContext.orderDetails.amount,
                         onClickDismiss = onClickDismiss
                     )
                 }
@@ -85,7 +87,14 @@ fun TrustcardPreview() {
     val badgeState = rememberTrustbadgeState()
     badgeState.showAsCard()
     val cardContext = TrustbadgeContext.BuyerProtection(
-        orderAmount = "1000 EUR",
+        orderDetails = OrderDetails(
+            number = "123456789",
+            amount = "100.0",
+            currency = CurrencyCode.EUR,
+            paymentType = "PayPal",
+            estimatedDeliveryDate = "2022-11-30",
+            buyerEmail = "john@gmx.de"
+        )
     )
     TrustbadgeTheme {
         Trustcard(

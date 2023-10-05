@@ -25,19 +25,21 @@
 
 package com.etrusted.android.trustbadge.library.ui.badge
 
+import com.etrusted.android.trustbadge.library.model.OrderDetails
+
 sealed class TrustbadgeContext(
     val isExpandable: Boolean = false,
     val sku: String = "",
-    val orderAmount: String? = null,
+    val orderDetails: OrderDetails? = null,
 ) {
     object TrustMark: TrustbadgeContext()
     object ShopGrade: TrustbadgeContext(isExpandable = true)
     class ProductGrade(sku: String): TrustbadgeContext(isExpandable = true, sku = sku)
     class BuyerProtection(
-        orderAmount: String? = null,
+        orderDetails: OrderDetails? = null,
     ):
         TrustbadgeContext(
             isExpandable = true,
-            orderAmount = orderAmount,
+            orderDetails = orderDetails,
         )
 }
