@@ -36,6 +36,7 @@ import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
 import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
+import com.etrusted.android.trustbadge.library.common.internal.getFakeOrderDetails
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
 import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtection
@@ -53,7 +54,7 @@ internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
         composeTestRule.setContent {
             TrustbadgeTheme {
                 Column {
-                    TrustcardProtection(orderAmount = "€ 1000")
+                    TrustcardProtection(orderDetails = getFakeOrderDetails())
                 }
             }
         }
@@ -104,7 +105,7 @@ internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
             TrustbadgeTheme(darkTheme = true) {
                 Column {
                     TrustcardProtection(
-                        orderAmount = "€ 1000",
+                        orderDetails = getFakeOrderDetails(),
                         context = testContext,
                     )
                 }

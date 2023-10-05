@@ -31,6 +31,7 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
+import com.etrusted.android.trustbadge.library.common.internal.getFakeOrderDetails
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
 import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtectionConfirmation
@@ -49,7 +50,8 @@ internal class TrustcardProtectionConfirmationNightAndroidTest: TrustbadgeAndroi
                 darkTheme = true,
             ) {
                 TrustcardProtectionConfirmation(
-                    orderAmount = "1000€",
+                    orderDetails = getFakeOrderDetails(),
+                    guaranteeAmount = "1000",
                     onClickDismiss = {},
                 )
             }

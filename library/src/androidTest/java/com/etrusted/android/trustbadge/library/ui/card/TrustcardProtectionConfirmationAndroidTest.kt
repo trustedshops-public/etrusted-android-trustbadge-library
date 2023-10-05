@@ -41,7 +41,9 @@ import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
 import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
+import com.etrusted.android.trustbadge.library.common.internal.getFakeOrderDetails
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
+import com.etrusted.android.trustbadge.library.model.CurrencyCode
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
 import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtectionConfirmation
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
@@ -58,7 +60,8 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
         composeTestRule.setContent {
             TrustbadgeTheme {
                 TrustcardProtectionConfirmation(
-                    orderAmount = "1000€",
+                    orderDetails = getFakeOrderDetails(),
+                    guaranteeAmount = "1000",
                     onClickDismiss = {},
                 )
             }
@@ -110,7 +113,8 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
             TrustbadgeTheme(darkTheme = true) {
                 Column {
                     TrustcardProtectionConfirmation(
-                        orderAmount = "1000€",
+                        orderDetails = getFakeOrderDetails(),
+                        guaranteeAmount = "1000",
                         context = testContext,
                         onClickDismiss = {},
                     )
@@ -140,7 +144,8 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
                 Column {
                     TrustcardProtectionConfirmation(
                         modifier = Modifier,
-                        orderAmount = "1000€",
+                        orderDetails = getFakeOrderDetails(),
+                        guaranteeAmount = "1000",
                         context = testContext,
                         onClickDismiss = {},
                     )
@@ -169,7 +174,8 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
             TrustbadgeTheme {
                 TrustcardProtectionConfirmation(
                     modifier = customModifier,
-                    orderAmount = "1000€",
+                    orderDetails = getFakeOrderDetails(),
+                    guaranteeAmount = "1000 €",
                     onClickDismiss = {},
                 )
             }
@@ -194,7 +200,8 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
         composeTestRule.setContent {
             TrustbadgeTheme {
                 TrustcardProtectionConfirmation(
-                    orderAmount = "1000€",
+                    orderDetails = getFakeOrderDetails(),
+                    guaranteeAmount = "1000",
                     onClickDismiss = fakeOnClickToDismiss,
                 )
             }
@@ -216,7 +223,8 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
         composeTestRule.setContent {
             TrustbadgeTheme {
                 TrustcardProtectionConfirmation(
-                    orderAmount = "1000€",
+                    orderDetails = getFakeOrderDetails(),
+                    guaranteeAmount = "1000",
                     onClickDismiss = {},
                 )
             }
@@ -234,15 +242,20 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
     @Test
     fun testHeadingTextWithDifferentOrderAmount() {
         // arrange
-        val orderAmount = "2000￡"
+        val guaranteeAmount = "100"
+        val guaranteeCurrency = CurrencyCode.GBP
         var expectedText = ""
         composeTestRule.setContent {
             expectedText = stringResource(id = R.string.tcard_t_heading_protection_confirmation) +
-                    " " + orderAmount + " " +
+                    " " + guaranteeCurrency.symbol +
+                    " " + guaranteeAmount +
                     stringResource(id = R.string.tcard_t_heading_exclamation_mark)
             TrustbadgeTheme {
                 TrustcardProtectionConfirmation(
-                    orderAmount = orderAmount,
+                    orderDetails = getFakeOrderDetails().copy(
+                        currency = guaranteeCurrency,
+                    ),
+                    guaranteeAmount = guaranteeAmount,
                     onClickDismiss = {},
                 )
             }
@@ -263,7 +276,8 @@ internal class TrustcardProtectionConfirmationAndroidTest: TrustbadgeAndroidTest
         composeTestRule.setContent {
             TrustbadgeTheme {
                 TrustcardProtectionConfirmation(
-                    orderAmount = "1000€",
+                    orderDetails = getFakeOrderDetails(),
+                    guaranteeAmount = "1000 €",
                     onClickDismiss = {},
                 )
             }
