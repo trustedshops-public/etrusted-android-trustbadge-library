@@ -45,6 +45,7 @@ import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 
 @Composable
 fun Trustcard(
+    modifier: Modifier = Modifier,
     badgeState: TrustbadgeState,
     cardState: TrustcardState = rememberTrustcardState(),
     badgeContext: TrustbadgeContext,
@@ -57,11 +58,13 @@ fun Trustcard(
         badgeContext.orderDetails != null) {
 
         AnimatedVisibility(
-            modifier = Modifier.testTag(TestTags.Trustbadge.raw),
+            modifier = modifier
+                .testTag(TestTags.Trustcard.raw),
             visible = badgeState.currentState == TrustbadgeStateValue.EXPANDED_AS_CARD) {
 
             when (cardState.currentState) {
                 TrustcardStateValue.CLASSIC_PROTECTION -> {
+
                     TrustcardProtection(
                         orderDetails = badgeContext.orderDetails,
                         onClickDismiss = onClickDismiss,
@@ -80,33 +83,5 @@ fun Trustcard(
                 }
             }
         }
-    }
-}
-
-@Composable
-@Preview
-@ExcludeFromJacocoGeneratedReport
-fun TrustcardPreview() {
-    val badgeState = rememberTrustbadgeState()
-    badgeState.showAsCard()
-    val cardContext = TrustbadgeContext.BuyerProtection(
-        orderDetails = OrderDetails(
-            number = "123456789",
-            amount = "100.0",
-            currency = CurrencyCode.EUR,
-            paymentType = "PayPal",
-            estimatedDeliveryDate = "2022-11-30",
-            buyerEmail = "john@gmx.de"
-        )
-    )
-    TrustbadgeTheme {
-        Trustcard(
-            badgeState = badgeState,
-            badgeContext = cardContext,
-            guarantee = null,
-            onClickDismiss = {
-                badgeState.hideCard()
-            }
-        )
     }
 }

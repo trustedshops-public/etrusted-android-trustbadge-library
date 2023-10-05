@@ -68,7 +68,7 @@ internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest()
         }
     }
 
-    @Ignore("activate to generate fresh screenshots")
+//    @Ignore("activate to generate fresh screenshots")
     @Test
     override fun generateScreenshot() {
 

@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 11.9.2023.
+ * Created by Ali Kabiri on 5.10.2023.
  * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
@@ -32,46 +32,50 @@ import androidx.compose.ui.test.onNodeWithTag
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
+import com.etrusted.android.trustbadge.library.common.internal.getFakeGuarantee
+import com.etrusted.android.trustbadge.library.common.internal.getFakeOrderDetails
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
+import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
-internal class TrustcardContainerNightAndroidTest: TrustbadgeAndroidTest() {
+internal class TrustcardNightAndroidTest: TrustbadgeAndroidTest() {
 
-    override val goldenName = GoldenNames.GoldenTrustcardContainerNight.raw +
+    override val goldenName = GoldenNames.GoldenTrustcardNight.raw +
             if (isCI) "-ci" else ""
 
-    private val fakeHeadingText = "test heading text"
-
-    private var isClicked = false
-    private val fakeOnClickDismiss = {
-        isClicked = true
-    }
-
-    @Before
-    fun setup() {
-        isClicked = false
-    }
+    private val fakeOrderDetails = getFakeOrderDetails()
+    private val fakeGuarantee = getFakeGuarantee()
 
     override fun showContent() {
         composeTestRule.setContent {
-            TrustbadgeTheme(
-                darkTheme = true,
-            ) {
+
+            val badgeState = rememberTrustbadgeState().apply {
+                showAsCard()
+            }
+            val cardState = rememberTrustcardState()
+
+            TrustbadgeTheme(darkTheme = true) {
                 Column {
-                    TrustcardContainer(
-                        headingText = fakeHeadingText,
-                        onClickDismiss = fakeOnClickDismiss,
+                    Trustcard(
+                        badgeState = badgeState,
+                        cardState = cardState,
+                        badgeContext = TrustbadgeContext.BuyerProtection(
+                            orderDetails = fakeOrderDetails
+                        ),
+                        guarantee = fakeGuarantee,
+                        onClickDismiss = {},
                     )
                 }
             }
         }
     }
 
-    @Ignore("activate to generate fresh screenshots")
+//    @Ignore("activate to generate fresh screenshots")
     @Test
     override fun generateScreenshot() {
 
@@ -81,7 +85,7 @@ internal class TrustcardContainerNightAndroidTest: TrustbadgeAndroidTest() {
         // act
         composeTestRule.mainClock.advanceTimeBy(5000)
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardContainer.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.Trustcard.raw)
         val bmp = sut.captureToImage().asAndroidBitmap()
         saveScreenshot(goldenName, bmp)
 
@@ -99,7 +103,7 @@ internal class TrustcardContainerNightAndroidTest: TrustbadgeAndroidTest() {
         // act
         composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardContainer.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.Trustcard.raw)
 
         // assert
         sut.assertExists()

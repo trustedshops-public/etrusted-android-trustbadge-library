@@ -46,6 +46,8 @@ internal sealed class GoldenNames(val raw: String) {
     object GoldenTrustbadgeViewRounded: GoldenNames("screenshot-trustbadge-view-rounded")
 
     // Trustcard
+    object GoldenTrustcard: GoldenNames("screenshot-trustcard")
+    object GoldenTrustcardNight: GoldenNames("screenshot-trustcard-night")
     object GoldenTrustcardContainer: GoldenNames("screenshot-trustcard-container")
     object GoldenTrustcardContainerNight: GoldenNames("screenshot-trustcard-container-night")
     object GoldenTrustcardClassicProtection: GoldenNames("screenshot-trustcard-classic-protection")

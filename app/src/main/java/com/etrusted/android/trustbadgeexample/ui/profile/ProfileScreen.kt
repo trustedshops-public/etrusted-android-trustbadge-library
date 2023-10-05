@@ -56,8 +56,7 @@ internal fun ProfileScreen(
 
         Column(
             Modifier
-                .verticalScroll(scrollState)
-                .fillMaxWidth()
+                .align(Alignment.Center)
         ) {
             Button(onClick = {
                 badgeState.showAsCard()

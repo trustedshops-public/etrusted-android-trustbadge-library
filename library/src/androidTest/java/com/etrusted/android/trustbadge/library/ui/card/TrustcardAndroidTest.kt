@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 11.9.2023.
+ * Created by Ali Kabiri on 5.10.2023.
  * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
@@ -29,22 +29,29 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
+import androidx.compose.ui.test.performClick
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
+import com.etrusted.android.trustbadge.library.common.internal.getFakeGuarantee
+import com.etrusted.android.trustbadge.library.common.internal.getFakeOrderDetails
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
+import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
+import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
+import com.google.common.truth.Truth.assertThat
 import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
-internal class TrustcardContainerNightAndroidTest: TrustbadgeAndroidTest() {
+internal class TrustcardAndroidTest: TrustbadgeAndroidTest() {
 
-    override val goldenName = GoldenNames.GoldenTrustcardContainerNight.raw +
+    override val goldenName = GoldenNames.GoldenTrustcard.raw +
             if (isCI) "-ci" else ""
 
-    private val fakeHeadingText = "test heading text"
+    private val fakeOrderDetails = getFakeOrderDetails()
+    private val fakeGuarantee = getFakeGuarantee()
 
     private var isClicked = false
     private val fakeOnClickDismiss = {
@@ -58,12 +65,21 @@ internal class TrustcardContainerNightAndroidTest: TrustbadgeAndroidTest() {
 
     override fun showContent() {
         composeTestRule.setContent {
-            TrustbadgeTheme(
-                darkTheme = true,
-            ) {
+
+            val badgeState = rememberTrustbadgeState().apply {
+                showAsCard()
+            }
+            val cardState = rememberTrustcardState()
+
+            TrustbadgeTheme {
                 Column {
-                    TrustcardContainer(
-                        headingText = fakeHeadingText,
+                    Trustcard(
+                        badgeState = badgeState,
+                        cardState = cardState,
+                        badgeContext = TrustbadgeContext.BuyerProtection(
+                            orderDetails = fakeOrderDetails
+                        ),
+                        guarantee = fakeGuarantee,
                         onClickDismiss = fakeOnClickDismiss,
                     )
                 }
@@ -81,7 +97,7 @@ internal class TrustcardContainerNightAndroidTest: TrustbadgeAndroidTest() {
         // act
         composeTestRule.mainClock.advanceTimeBy(5000)
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardContainer.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.Trustcard.raw)
         val bmp = sut.captureToImage().asAndroidBitmap()
         saveScreenshot(goldenName, bmp)
 
@@ -99,10 +115,24 @@ internal class TrustcardContainerNightAndroidTest: TrustbadgeAndroidTest() {
         // act
         composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardContainer.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.Trustcard.raw)
 
         // assert
         sut.assertExists()
         assertScreenshotMatchesGolden(goldenName, sut)
+    }
+
+    @Test
+    fun onClickWorks() {
+
+        // arrange
+        showContent()
+
+        // act
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardContainerButtonDismiss.raw)
+        sut.performClick()
+
+        // assert
+        assertThat(isClicked).isTrue()
     }
 }
