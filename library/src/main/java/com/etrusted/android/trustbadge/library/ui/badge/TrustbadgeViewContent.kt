@@ -35,6 +35,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.testTag
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
+import com.etrusted.android.trustbadge.library.ui.card.Trustcard
 
 
 /**
@@ -72,6 +73,14 @@ internal fun TrustbadgeContent(
             state = state,
             badgeContext = badgeContext,
             productData = productData,
+        )
+        Trustcard(
+            badgeState = state,
+            badgeContext = badgeContext,
+            guarantee = guarantee,
+            onClickDismiss = {
+                state.hideCard()
+            }
         )
     }
 

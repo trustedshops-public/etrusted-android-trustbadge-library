@@ -46,7 +46,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.etrusted.android.trustbadge.library.R
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
-import com.etrusted.android.trustbadge.library.ui.theme.TsPineapple
+import com.etrusted.android.trustbadge.library.ui.theme.TsPineapplePrimary
 import com.etrusted.android.trustbadge.library.ui.theme.TsTextBase
 import com.etrusted.android.trustbadge.library.ui.theme.mobileHeadline
 
@@ -67,7 +67,7 @@ internal fun TrustcardContainer(
             .border(
                 width = 6.dp,
                 shape = RoundedCornerShape(6.dp),
-                color = MaterialTheme.colorScheme.TsPineapple,
+                color = MaterialTheme.colorScheme.TsPineapplePrimary,
             )
             .background(
                 color = MaterialTheme.colorScheme.background,

@@ -29,32 +29,43 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
-import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
-import com.etrusted.android.trustbadge.library.common.internal.getFakeOrderDetails
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
-import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtection
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
-import com.google.common.truth.Truth
+import org.junit.Before
 import org.junit.Ignore
 import org.junit.Test
 
-internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
+internal class TrustcardContainerNightAndroidTest: TrustbadgeAndroidTest() {
 
-    override val goldenName = GoldenNames.GoldenTrustcardClassicProtection.raw +
+    override val goldenName = GoldenNames.GoldenTrustcardContainerNight.raw +
             if (isCI) "-ci" else ""
+
+    private val fakeHeadingText = "test heading text"
+
+    private var isClicked = false
+    private val fakeOnClickDismiss = {
+        isClicked = true
+    }
+
+    @Before
+    fun setup() {
+        isClicked = false
+    }
 
     override fun showContent() {
         composeTestRule.setContent {
-            TrustbadgeTheme {
+            TrustbadgeTheme(
+                darkTheme = true,
+            ) {
                 Column {
-                    TrustcardProtection(orderDetails = getFakeOrderDetails())
+                    TrustcardContainer(
+                        headingText = fakeHeadingText,
+                        onClickDismiss = fakeOnClickDismiss,
+                    )
                 }
             }
         }
@@ -70,7 +81,7 @@ internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
         // act
         composeTestRule.mainClock.advanceTimeBy(5000)
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtection.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardContainer.raw)
         val bmp = sut.captureToImage().asAndroidBitmap()
         saveScreenshot(goldenName, bmp)
 
@@ -88,37 +99,10 @@ internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
         // act
         composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
         composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtection.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardContainer.raw)
 
         // assert
         sut.assertExists()
         assertScreenshotMatchesGolden(goldenName, sut)
-    }
-
-    @Test
-    internal fun testClickOnImprintCallsStartActivityOnContext() {
-
-        // arrange
-        val baseContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val testContext = TestContextWrapper(baseContext)
-        composeTestRule.setContent {
-            TrustbadgeTheme(darkTheme = true) {
-                Column {
-                    TrustcardProtection(
-                        orderDetails = getFakeOrderDetails(),
-                        context = testContext,
-                    )
-                }
-            }
-        }
-
-        // act
-        composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithText("Imprint", ignoreCase = true)
-        sut.performClick()
-        composeTestRule.waitForIdle()
-
-        // assert
-        Truth.assertThat(testContext.isStartActivityCalled).isTrue()
     }
 }

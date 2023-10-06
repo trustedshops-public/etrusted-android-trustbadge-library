@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 11.9.2023.
+ * Created by Ali Kabiri on 25.2.2023.
  * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
@@ -23,60 +23,75 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.ui.card
+package com.etrusted.android.trustbadge.library.ui.badge
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.asAndroidBitmap
 import androidx.compose.ui.test.captureToImage
 import androidx.compose.ui.test.onNodeWithTag
-import androidx.compose.ui.test.onNodeWithText
-import androidx.compose.ui.test.performClick
-import androidx.test.platform.app.InstrumentationRegistry
 import com.etrusted.android.trustbadge.library.common.internal.GoldenNames
-import com.etrusted.android.trustbadge.library.common.internal.TestContextWrapper
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
 import com.etrusted.android.trustbadge.library.common.internal.assertScreenshotMatchesGolden
-import com.etrusted.android.trustbadge.library.common.internal.getFakeOrderDetails
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeData
+import com.etrusted.android.trustbadge.library.common.internal.getFakeTrustbadgeViewModel
 import com.etrusted.android.trustbadge.library.common.internal.saveScreenshot
-import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeAndroidTest
-import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtection
 import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
-import com.google.common.truth.Truth
+import kotlinx.coroutines.flow.MutableStateFlow
 import org.junit.Ignore
 import org.junit.Test
 
-internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
+/**
+ * Start the test in expanded state.
+ * Make sure calling hide() on the state retracts the widget to hide it.
+ */
+internal class TrustbadgeStateNonDefaultAndroidTest: TrustbadgeAndroidTest() {
 
-    override val goldenName = GoldenNames.GoldenTrustcardClassicProtection.raw +
+    override val goldenName = GoldenNames.GoldenTrustbadgeUncertifiedExpandedNonDefaultState.raw +
             if (isCI) "-ci" else ""
 
+    private val initialState = TrustbadgeStateValue.EXPANDED
+
     override fun showContent() {
+
         composeTestRule.setContent {
+
+            val fakeViewModel = getFakeTrustbadgeViewModel(
+                trustbadgeData = MutableStateFlow(getFakeTrustbadgeData(rating = 4.5f))
+            )
+            val state = rememberTrustbadgeState(
+                initialState = initialState,
+            )
+
             TrustbadgeTheme {
                 Column {
-                    TrustcardProtection(orderDetails = getFakeOrderDetails())
+                    TrustbadgeContent(
+                        modifier = Modifier,
+                        viewModel = fakeViewModel,
+                        state = state,
+                        badgeContext = TrustbadgeContext.ShopGrade,
+                        tsid = "X330A2E7D449E31E467D2F53A55DDD070",
+                        channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
+                    )
                 }
             }
         }
     }
 
-    @Ignore("activate to generate fresh screenshots")
+//    @Ignore("activate to generate fresh screenshots")
     @Test
     override fun generateScreenshot() {
 
         // arrange
-        showContent() // wait to finish expand animation
+        showContent()
 
         // act
-        composeTestRule.mainClock.advanceTimeBy(5000)
-        composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtection.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
         val bmp = sut.captureToImage().asAndroidBitmap()
         saveScreenshot(goldenName, bmp)
 
         // assert
         sut.assertExists()
-
     }
 
     @Test
@@ -86,39 +101,10 @@ internal class TrustcardClassicProtectionAndroidTest: TrustbadgeAndroidTest() {
         showContent()
 
         // act
-        composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
-        composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithTag(TestTags.TrustcardProtection.raw)
+        val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
 
         // assert
         sut.assertExists()
         assertScreenshotMatchesGolden(goldenName, sut)
-    }
-
-    @Test
-    internal fun testClickOnImprintCallsStartActivityOnContext() {
-
-        // arrange
-        val baseContext = InstrumentationRegistry.getInstrumentation().targetContext
-        val testContext = TestContextWrapper(baseContext)
-        composeTestRule.setContent {
-            TrustbadgeTheme(darkTheme = true) {
-                Column {
-                    TrustcardProtection(
-                        orderDetails = getFakeOrderDetails(),
-                        context = testContext,
-                    )
-                }
-            }
-        }
-
-        // act
-        composeTestRule.waitForIdle()
-        val sut = composeTestRule.onNodeWithText("Imprint", ignoreCase = true)
-        sut.performClick()
-        composeTestRule.waitForIdle()
-
-        // assert
-        Truth.assertThat(testContext.isStartActivityCalled).isTrue()
     }
 }

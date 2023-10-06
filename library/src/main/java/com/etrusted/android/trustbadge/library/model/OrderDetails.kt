@@ -1,5 +1,5 @@
 /*
- * Created by Ali Kabiri on 6.9.2023.
+ * Created by Ali Kabiri on 5.10.2023.
  * Copyright (c) 2023 Trusted Shops AG
  *
  * MIT License
@@ -23,9 +23,13 @@
  * SOFTWARE.
  */
 
-package com.etrusted.android.trustbadge.library.ui.badge
+package com.etrusted.android.trustbadge.library.model
 
-enum class TrustcardStateValue {
-    CLASSIC_PROTECTION,
-    PROTECTION_CONFIRMATION,
-}
+data class OrderDetails(
+    val number: String,
+    val amount: String,
+    val currency: CurrencyCode,
+    val paymentType: String,
+    val estimatedDeliveryDate: String,
+    val buyerEmail: String,
+)

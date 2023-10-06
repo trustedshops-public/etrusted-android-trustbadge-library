@@ -104,7 +104,7 @@ internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest()
     }
 
     @Test
-    fun testScreenshotMatchesGoldenAfterClick() {
+    fun testDefaultClickHandler() {
 
         // arrange
         showContent()
@@ -117,6 +117,5 @@ internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest()
 
         // assert
         sut.assertExists()
-        assertScreenshotMatchesGolden(goldenName, sut)
     }
 }

@@ -68,7 +68,7 @@ internal fun ExampleApp() {
                     ProductScreen(env)
                 }
                 composable(Screens.Profile.route) {
-                    ProfileScreen()
+                    ProfileScreen(env)
                 }
             }
         }
