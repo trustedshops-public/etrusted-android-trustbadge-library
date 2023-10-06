@@ -29,19 +29,13 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.testTag
-import androidx.compose.ui.tooling.preview.Preview
-import com.etrusted.android.trustbadge.library.common.internal.ExcludeFromJacocoGeneratedReport
 import com.etrusted.android.trustbadge.library.common.internal.TestTags
-import com.etrusted.android.trustbadge.library.model.CurrencyCode
-import com.etrusted.android.trustbadge.library.model.OrderDetails
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeContext
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.badge.TrustbadgeStateValue
-import com.etrusted.android.trustbadge.library.ui.badge.rememberTrustbadgeState
 import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtection
 import com.etrusted.android.trustbadge.library.ui.card.protection.TrustcardProtectionConfirmation
-import com.etrusted.android.trustbadge.library.ui.theme.TrustbadgeTheme
 
 @Composable
 fun Trustcard(
