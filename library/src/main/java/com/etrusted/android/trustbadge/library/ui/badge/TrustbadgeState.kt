@@ -131,12 +131,7 @@ class TrustbadgeState(
             DEFAULT -> {
                 currentState = INVISIBLE
             }
-            EXPANDED -> {
-                currentState = DEFAULT
-                delay(300)
-                currentState = INVISIBLE
-            }
-            EXPANDED_AS_CARD -> {
+            EXPANDED, EXPANDED_AS_CARD -> {
                 currentState = DEFAULT
                 delay(300)
                 currentState = INVISIBLE

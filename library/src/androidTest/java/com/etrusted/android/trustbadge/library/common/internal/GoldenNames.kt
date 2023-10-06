@@ -40,6 +40,7 @@ internal sealed class GoldenNames(val raw: String) {
     object GoldenTrustbadgeUncertifiedExpandedBuyerProtectionIntegration: GoldenNames("screenshot-trustbadge-uncertified-expanded-buyer-protection-integration")
     object GoldenTrustbadgeUncertifiedExpandedProductGrade: GoldenNames("screenshot-trustbadge-uncertified-expanded-product-grade")
     object GoldenTrustbadgeUncertifiedExpandedProductGradeIntegration: GoldenNames("screenshot-trustbadge-uncertified-expanded-product-grade-integration")
+    object GoldenTrustbadgeUncertifiedExpandedNonDefaultState: GoldenNames("screenshot-trustbadge-uncertified-expanded-non-default-state")
 
     object GoldenTrustbadgeUncertifiedDark: GoldenNames("screenshot-trustbadge-uncertified-dark")
 
@@ -56,6 +57,7 @@ internal sealed class GoldenNames(val raw: String) {
     object GoldenTrustcardClassicProtectionNight: GoldenNames("screenshot-trustcard-classic-protection-night")
     object GoldenTrustcardClassicProtectionConfirmation: GoldenNames("screenshot-trustcard-classic-protection-confirmation")
     object GoldenTrustcardClassicProtectionConfirmationNight: GoldenNames("screenshot-trustcard-classic-protection-confirmation-night")
+    object GoldenTrustcardNonDefaultState: GoldenNames("screenshot-trustcard-non-default-state")
 
     // image collection
     object GoldenImageCircleGeneric: GoldenNames("screenshot-image-circle-generic")
