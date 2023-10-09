@@ -40,6 +40,8 @@ import com.etrusted.android.trustbadge.library.domain.IGuaranteeUseCase
 import com.etrusted.android.trustbadge.library.domain.ITrustbadgeDataUseCase
 import com.etrusted.android.trustbadge.library.model.ChannelInfo
 import com.etrusted.android.trustbadge.library.model.AggregateRating
+import com.etrusted.android.trustbadge.library.model.CurrencyCode
+import com.etrusted.android.trustbadge.library.model.OrderDetails
 import com.etrusted.android.trustbadge.library.model.ProductData
 import com.etrusted.android.trustbadge.library.model.ProductGrade
 import com.etrusted.android.trustbadge.library.model.TrustbadgeData
@@ -189,6 +191,17 @@ internal fun getFakeProductData(): ProductData {
                 height = 240
             )
         )
+    )
+}
+
+internal fun getFakeOrderDetails(): OrderDetails {
+    return OrderDetails(
+        number = "123456789",
+        amount = "129.00",
+        currency = CurrencyCode.EUR,
+        paymentType = "PayPal",
+        estimatedDeliveryDate = "2022-11-30",
+        buyerEmail = "pauline@example.com"
     )
 }
 

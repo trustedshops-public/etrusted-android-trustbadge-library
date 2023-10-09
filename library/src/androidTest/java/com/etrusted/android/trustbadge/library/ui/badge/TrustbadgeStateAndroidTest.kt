@@ -58,7 +58,7 @@ internal class TrustbadgeStateAndroidTest {
                 Column {
                     Trustbadge(
                         state = state,
-                        badgeContext = TrustbadgeContext.BuyerProtection,
+                        badgeContext = TrustbadgeContext.BuyerProtection(),
                         tsid = "X330A2E7D449E31E467D2F53A55DDD070",
                         channelId = "chl-bcd573bb-de56-45d6-966a-b46d63be4a1b"
                     )
@@ -128,7 +128,7 @@ internal class TrustbadgeStateAndroidTest {
     fun testExpandWorksFromExpandedAsPopup() = runTest {
 
         // arrange
-        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED_AS_POPUP)
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED_AS_CARD)
 
         // act
         sut.expand()
@@ -180,7 +180,7 @@ internal class TrustbadgeStateAndroidTest {
     fun testRetractWorksFromExpandedAsPopup() = runTest {
 
         // arrange
-        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED_AS_POPUP)
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED_AS_CARD)
 
         // act
         sut.retract()
@@ -258,7 +258,7 @@ internal class TrustbadgeStateAndroidTest {
     fun testHideWorksFromExpandedAsPopup() = runTest {
 
         // arrange
-        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED_AS_POPUP)
+        val sut = TrustbadgeState(currentState = TrustbadgeStateValue.EXPANDED_AS_CARD)
 
         // act
         sut.hide()

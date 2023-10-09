@@ -68,7 +68,7 @@ internal fun RowScope.RoundedView(
                 is TrustbadgeContext.ProductGrade -> {
                     ImageCircleProductIcon(url = imageUrl)
                 }
-                TrustbadgeContext.BuyerProtection -> {
+                is TrustbadgeContext.BuyerProtection -> {
                     ImageCircleBuyerProtection()
                 }
                 TrustbadgeContext.TrustMark -> {

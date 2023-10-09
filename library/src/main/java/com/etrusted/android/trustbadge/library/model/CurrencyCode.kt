@@ -25,7 +25,7 @@
 
 package com.etrusted.android.trustbadge.library.model
 
-internal enum class CurrencyCode(val rawValue: String, val symbol: String) {
+enum class CurrencyCode(val rawValue: String, val symbol: String) {
 
     CHF(rawValue = "CHF", symbol = "CHF"),
     EUR(rawValue = "EUR", symbol = "€"),

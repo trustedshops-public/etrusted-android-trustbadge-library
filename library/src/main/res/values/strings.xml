@@ -14,4 +14,36 @@
     <string name="tbadge_t_buyer_protection_your_purchase">Your purchase is protected up to</string>
     <string name="tbadge_t_buyer_protection_your_purchase_amount_2500">€</string>
 
+    <!-- trustcard protection strings -->
+    <string name="tcard_t_protect_your_purchase">Protect your purchase!</string>
+    <string name="tcard_t_shop">"shop"</string>
+    <string name="tcard_t_order_amount">Order amount</string>
+    <string name="tcard_t_protection_confirmation_1_automatic_guarantee">Automatic guarantee up to 100 € for all purchases</string>
+    <string name="tcard_t_protection_confirmation_2_available_in_shops">Available in shops with the Trusted Shops trustmark</string>
+    <string name="tcard_t_protection_confirmation_3_all_benefits_of_ts">All benefits of the Trusted Shops services</string>
+    <string name="tcard_t_hint_1_we_may_ask">We may ask for further review information by e-mail to help other online shoppers.</string>
+    <string name="tcard_t_hint_2_terms_and_conditions">Terms and Conditions</string>
+    <string name="tcard_t_hint_3_and">&#160;&amp;&#160;</string>
+    <string name="tcard_t_hint_4_privacy_policy">Privacy Policy</string>
+    <string name="tcard_t_imprint">imprint</string>
+    <string name="tcard_bt_protect_your_purchase">Protect your purchase</string>
+
+    <!-- trustcard protection confirmation strings -->
+    <string name="tcard_t_heading_protection_confirmation">Your purchase is protected up to</string>
+    <string name="tcard_t_heading_exclamation_mark">!</string>
+    <string name="tcard_t_ts_will_send_you_an_email">Trusted Shops will send you an email in order to review your order.</string>
+    <string name="tcard_t_imprint_and_data_protection">Imprint &amp; Data protection</string>
+
+    <string name="tcard_ic_dismiss">Dismiss</string>
+    <string name="tcard_ic_checkmark">Checkmark</string>
+    <string name="tcard_ic_ts_footer">Trusted Shops Logo</string>
+
+    <!-- external links -->
+    <string name="tcard_link_terms_and_conditions_and_privacy_policy">https://www.trustedshops.com/tsdocument/BUYER_AUTO_PROTECTION_TERMS_en.pdf</string>
+    <string name="tcard_link_imprint">https://www.trustedshops.co.uk/imprint/</string>
+    <string name="tcard_link_imprint_and_data_protection">https://www.trustedshops.co.uk/imprint/#user-privacy-policy</string>
+
+    <!-- non-translatable strings -->
+    <integer name="tbadge_auto_present_delay">1000</integer>
+    <integer name="tbadge_auto_hide_delay">3000</integer>
 </resources>

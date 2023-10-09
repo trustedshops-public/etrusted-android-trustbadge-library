@@ -68,7 +68,7 @@ android {
                     .apply {
                         device = "Pixel 2"
                         apiLevel = 30
-                        systemImageSource = "google"
+                        systemImageSource = "google_atd"
                     }
             }
         }

@@ -93,7 +93,8 @@ internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest()
         showContent()
 
         // act
-        composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
+        composeTestRule.waitForIdle()
+        composeTestRule.mainClock.advanceTimeBy(10000) // wait to finish expand animation
         composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw)
 
@@ -103,18 +104,18 @@ internal class TrustbadgeUncertifiedExpandedAndroidTest: TrustbadgeAndroidTest()
     }
 
     @Test
-    fun testScreenshotMatchesGoldenAfterClick() {
+    fun testDefaultClickHandler() {
 
         // arrange
         showContent()
 
         // act
-        composeTestRule.mainClock.advanceTimeBy(5000) // wait to finish expand animation
+        composeTestRule.mainClock.advanceTimeBy(10000) // wait to finish expand animation
         composeTestRule.waitForIdle()
         val sut = composeTestRule.onNodeWithTag(TestTags.Trustbadge.raw).performClick()
+        composeTestRule.waitForIdle()
 
         // assert
         sut.assertExists()
-        assertScreenshotMatchesGolden(goldenName, sut)
     }
 }

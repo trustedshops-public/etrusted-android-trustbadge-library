@@ -79,7 +79,7 @@ internal fun RowScope.ExpandedView(
                         rating = productRating
                     )
                 }
-                TrustbadgeContext.BuyerProtection -> {
+                is TrustbadgeContext.BuyerProtection -> {
                     Text(text = stringResource(
                         id = R.string.tbadge_t_buyer_protection_independent),
                         style = MaterialTheme.typography.mobileBase)
