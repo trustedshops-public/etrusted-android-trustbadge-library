@@ -90,7 +90,8 @@ jobs:
       - run:
           name: Publish Snapshot Release
           command: |
-            DEPLOY_VERSION="1.1.0-SNAPSHOT" && ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
+            export DEPLOY_VERSION="1.1.0-SNAPSHOT"
+            ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
 
   deploy-release:
     executor: android-docker
@@ -109,7 +110,8 @@ jobs:
       - run:
           name: Publish Snapshot Release
           command: |
-            DEPLOY_VERSION="1.0.1" && ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
+            export DEPLOY_VERSION="1.0.1" 
+            ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
 
 
   distribute-dev:
