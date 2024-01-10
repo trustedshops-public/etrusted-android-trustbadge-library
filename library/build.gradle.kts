@@ -128,7 +128,7 @@ publishing {
             //version = "1.1.${System.getenv("CIRCLE_BUILD_NUM") ?: "1"}-SNAPSHOT"
             // Snapshot mechanism does a build versioning for itself, adding a build number
             // will only confuse the Snapshot mechanism.
-            version = System.getenv("DEPLOY_VERSION") ?: "1.0.0-SNAPSHOT"}
+            version = System.getenv("DEPLOY_VERSION") ?: "1.0.0-SNAPSHOT"
 
             afterEvaluate {
                 from(components["release"])

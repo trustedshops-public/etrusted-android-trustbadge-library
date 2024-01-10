@@ -91,7 +91,7 @@ jobs:
           name: Publish Snapshot Release
           command: |
             DEPLOY_VERSION="1.1.0-SNAPSHOT" && ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
-            
+
   deploy-release:
     executor: android-docker
     steps:
