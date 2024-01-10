@@ -2,7 +2,7 @@ import java.io.FileInputStream
 import java.util.*
 
 group = "io.github.trustedshops-public"
-version = "1.0.0-SNAPSHOT"
+version = System.getenv("DEPLOY_VERSION") ?: "1.0.0-SNAPSHOT"
 
 plugins {
     id("com.android.library")
