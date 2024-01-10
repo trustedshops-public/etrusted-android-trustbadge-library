@@ -73,7 +73,7 @@ jobs:
       - store_artifacts:
           path: library/build/mergedReportDir
 
-  deploy:
+  deploy-snapshot:
     executor: android-docker
     steps:
       - checkout
@@ -87,10 +87,30 @@ jobs:
           command: |
             echo -e "$GPG_PRIVATE_KEY" | gpg --import --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback
             echo -e "$GPG_PRIVATE_KEY" | gpg --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
-      - run: 
-          name: Publish release
+      - run:
+          name: Publish Snapshot Release
           command: |
-            ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
+            DEPLOY_VERSION="1.1.0-SNAPSHOT" && ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
+
+  deploy-release:
+    executor: android-docker
+    steps:
+      - checkout
+      - restore_gradle_cache
+      - run:
+          name: Prepare for release
+          command: |
+            ./gradlew generatePomFileForReleasePublication
+      - run:
+          name: Import GPG key
+          command: |
+            echo -e "$GPG_PRIVATE_KEY" | gpg --import --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback
+            echo -e "$GPG_PRIVATE_KEY" | gpg --passphrase "$GPG_PASSPHRASE" --pinentry-mode loopback --keyring secring.gpg --export-secret-keys > ~/.gnupg/secring.gpg
+      - run:
+          name: Publish Snapshot Release
+          command: |
+            DEPLOY_VERSION="1.0.1" && ./gradlew publish -Psigning.secretKeyRingFile=/home/circleci/.gnupg/secring.gpg -Psigning.password="${GPG_PASSPHRASE}" -Psigning.keyId="${GPG_KEY_ID}" -PbuildRelease=true
+
 
   distribute-dev:
     executor: android-docker
@@ -130,7 +150,7 @@ workflows:
   workflow:
     jobs:
       - android-test
-      - deploy:
+      - deploy-snapshot:
           name: deploy-snapshot
           context:
             - gpg
@@ -141,6 +161,16 @@ workflows:
             branches:
               ignore:
                 - main
+      - deploy-release:
+          name: deploy-release
+          context:
+            - gpg
+            - maven-central
+          requires:
+            - android-test
+          filters:
+            branches:
+              only: main
       - distribute-dev:
           name: distribute-dev
           requires:
