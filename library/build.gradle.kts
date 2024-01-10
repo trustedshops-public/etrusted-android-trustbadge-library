@@ -125,7 +125,10 @@ publishing {
         register<MavenPublication>("release") {
             groupId = "io.github.trustedshops-public"
             artifactId = "etrusted-android-trustbadge-library"
-            version = "0.1.${System.getenv("CIRCLE_BUILD_NUM") ?: "1"}-SNAPSHOT"
+            //version = "1.1.${System.getenv("CIRCLE_BUILD_NUM") ?: "1"}-SNAPSHOT"
+            // Snapshot mechanism does a build versioning for itself, adding a build number
+            // will only confuse the Snapshot mechanism.
+            version = "1.1.0-SNAPSHOT"
 
             afterEvaluate {
                 from(components["release"])
@@ -143,9 +146,9 @@ publishing {
                 }
                 developers {
                     developer {
-                        id.set("superus8r")
-                        name.set("Ali Kabiri")
-                        email.set("ali.kabiri@trustedshops.de")
+                        id.set("irockel")
+                        name.set("Ingo Rockel")
+                        email.set("ingo.rockel@trustedshops.de")
                     }
                 }
                 scm {

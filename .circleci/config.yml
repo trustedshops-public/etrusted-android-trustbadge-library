@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
-  codecov: codecov/codecov@3.2.5
-  ruby: circleci/ruby@2.0.1
+  codecov: codecov/codecov@3.3.0
+  ruby: circleci/ruby@2.1.0
 
 commands:
   restore_gradle_cache:
@@ -40,7 +40,7 @@ executors:
       image: android:2022.12.1
   android-docker:
     docker:
-      - image: cimg/android:2023.05
+      - image: cimg/android:2023.12
 
 jobs:
   android-test:
