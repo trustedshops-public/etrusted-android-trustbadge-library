@@ -1,7 +1,7 @@
 version: 2.1
 orbs:
   codecov: codecov/codecov@3.3.0
-  ruby: circleci/ruby@2.1.0
+  ruby: circleci/ruby@2.3.0
 
 commands:
   restore_gradle_cache:
